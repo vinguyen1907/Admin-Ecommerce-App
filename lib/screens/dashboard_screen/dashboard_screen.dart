@@ -1,4 +1,5 @@
 import 'package:admin_ecommerce_app/screens/order_screen/order_screen.dart';
+import 'package:admin_ecommerce_app/screens/product_screen/product_screen.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -8,13 +9,12 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, OrderScreen.routeName);
-      },
-      child: const Center(
-        child: Text("Dashboard"),
-      ),
+    return Center(
+      child: InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, ProductScreen.routeName);
+          },
+          child: Text("Dashboard")),
     );
   }
 }
