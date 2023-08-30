@@ -7,8 +7,9 @@ class ProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return const Scaffold(
+        body: Center(
       child: Text("Product screen"),
-    );
+    ));
   }
 }

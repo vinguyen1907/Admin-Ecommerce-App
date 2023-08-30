@@ -17,4 +17,5 @@ class AppAssets {
   static const String icSms = "$iconPath/ic_sms.svg";
   static const String icSmsBold = "$iconPath/ic_sms_bold.svg";
   static const String icLogout = "$iconPath/ic_logout.svg";
+  static const String icDollar = "$iconPath/ic_dollar.svg";
 }

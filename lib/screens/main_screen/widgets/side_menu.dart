@@ -1,5 +1,6 @@
 import 'package:admin_ecommerce_app/common_widgets/my_icon.dart';
 import 'package:admin_ecommerce_app/constants/app_assets.dart';
+import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/screens/main_screen/widgets/drawer_listtile.dart';
 import 'package:flutter/material.dart';
 
@@ -38,6 +39,7 @@ class SideMenu extends StatelessWidget {
 
     return Builder(builder: (context) {
       return Drawer(
+        surfaceTintColor: AppColors.whiteColor,
         child: Column(
           children: [
             const SizedBox(
