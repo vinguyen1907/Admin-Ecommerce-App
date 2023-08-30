@@ -1,14 +1,21 @@
-import 'package:admin_ecommerce_app/blocs/bloc/navigation_bloc.dart';
+import 'package:admin_ecommerce_app/blocs/dashboard_bloc/dashboard_bloc.dart';
+import 'package:admin_ecommerce_app/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_routes.dart';
+import 'package:admin_ecommerce_app/firebase_options.dart';
 import 'package:admin_ecommerce_app/screens/main_screen/main_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -20,6 +27,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => NavigationBloc()),
+        BlocProvider(create: (_) => DashboardBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

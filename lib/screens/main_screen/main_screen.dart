@@ -1,4 +1,4 @@
-import 'package:admin_ecommerce_app/blocs/bloc/navigation_bloc.dart';
+import 'package:admin_ecommerce_app/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:admin_ecommerce_app/helpers/local_navigator.dart';
 import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/screens/dashboard_screen/dashboard_screen.dart';
