@@ -1,5 +1,6 @@
 import 'package:admin_ecommerce_app/blocs/dashboard_bloc/dashboard_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/navigation_bloc/navigation_bloc.dart';
+import 'package:admin_ecommerce_app/blocs/product_screen_bloc/product_screen_bloc.dart';
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_routes.dart';
 import 'package:admin_ecommerce_app/firebase_options.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => NavigationBloc()),
         BlocProvider(create: (_) => DashboardBloc()),
+        BlocProvider(create: (_) => ProductScreenBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
