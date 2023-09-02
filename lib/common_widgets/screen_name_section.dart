@@ -4,15 +4,28 @@ import 'package:flutter/material.dart';
 class ScreenNameSection extends StatelessWidget {
   final EdgeInsets? margin;
   final String screenName;
-  const ScreenNameSection(this.screenName, {super.key, this.margin});
+  final bool hasBackButton;
+  const ScreenNameSection(this.screenName,
+      {super.key, this.margin, this.hasBackButton = false});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: margin ?? const EdgeInsets.only(top: 10, bottom: 18),
-      child: const Text(
-        "Dashboard",
-        style: AppStyles.displayLarge,
+      child: Row(
+        children: [
+          if (hasBackButton)
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.arrow_back_ios),
+            ),
+          Text(
+            screenName,
+            style: AppStyles.displayLarge,
+          ),
+        ],
       ),
     );
   }
