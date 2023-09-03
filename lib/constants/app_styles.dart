@@ -71,6 +71,7 @@ class AppStyles {
     color: AppColors.greyTextColor,
   );
   static const TextStyle bodyMedium = TextStyle(
+    fontFamily: "Poppins",
     fontSize: 14,
     fontWeight: FontWeight.w400,
     color: AppColors.greyTextColor,

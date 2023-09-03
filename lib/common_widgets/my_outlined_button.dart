@@ -4,19 +4,25 @@ import 'package:flutter/material.dart';
 class MyOutlinedButton extends StatelessWidget {
   const MyOutlinedButton({
     super.key,
-    required this.onPressed,
-    required this.widget,
+    this.onPressed,
+    required this.child,
+    this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
   });
-  final VoidCallback onPressed;
-  final Widget widget;
+
+  final VoidCallback? onPressed;
+  final Widget child;
+  final EdgeInsets? padding;
+
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
         style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: AppColors.greyColor),
-            padding: const EdgeInsets.all(12),
-            minimumSize: Size.zero),
+          padding: padding,
+          side: const BorderSide(color: AppColors.greyTextColor, width: 1),
+          minimumSize: Size.zero,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
         onPressed: onPressed,
-        child: widget);
+        child: child);
   }
 }

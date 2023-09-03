@@ -8,4 +8,6 @@ extension OrderStatusExt on OrderStatus {
 
   String get statusName =>
       orderStatusName[this] ?? orderStatusName[OrderStatus.pending]!;
+
+  String get statusCode => orderStatusToString[this]!;
 }

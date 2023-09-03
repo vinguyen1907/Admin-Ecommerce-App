@@ -1,24 +1,27 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'dashboard_bloc.dart';
 
 sealed class DashboardState extends Equatable {
   const DashboardState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 final class DashboardInitial extends DashboardState {}
 
 final class DashboardLoading extends DashboardState {}
 
-final class DashboardLoaded extends DashboardState {
+class DashboardLoaded extends DashboardState {
   final List<OrderModel> orders;
   final int productCount;
+  final DateTime? lastUpdateTime;
 
-  const DashboardLoaded({required this.orders, required this.productCount});
+  const DashboardLoaded(
+      {required this.orders, required this.productCount, this.lastUpdateTime});
 
   @override
-  List<Object> get props => [orders, productCount];
+  List<Object?> get props => [orders, productCount, lastUpdateTime];
 
   double get totalSales {
     double total = 0;
@@ -29,6 +32,18 @@ final class DashboardLoaded extends DashboardState {
   }
 
   int get totalOrders => orders.length;
+
+  DashboardLoaded copyWith({
+    List<OrderModel>? orders,
+    int? productCount,
+    DateTime? lastUpdateTime,
+  }) {
+    return DashboardLoaded(
+      orders: orders ?? this.orders,
+      productCount: productCount ?? this.productCount,
+      lastUpdateTime: lastUpdateTime ?? this.lastUpdateTime,
+    );
+  }
 }
 
 final class DashboardError extends DashboardState {

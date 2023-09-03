@@ -46,7 +46,7 @@ class ProductItem extends StatelessWidget {
               children: [
                 MyOutlinedButton(
                     onPressed: () {},
-                    widget: Row(
+                    child: Row(
                       children: [
                         const Icon(
                           Icons.edit,
@@ -62,7 +62,7 @@ class ProductItem extends StatelessWidget {
                     )),
                 MyOutlinedButton(
                     onPressed: () {},
-                    widget: Row(
+                    child: Row(
                       children: [
                         const Icon(
                           Icons.delete,

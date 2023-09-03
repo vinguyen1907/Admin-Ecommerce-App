@@ -1,3 +1,5 @@
+import 'package:admin_ecommerce_app/common_widgets/screen_name_section.dart';
+import 'package:admin_ecommerce_app/screens/order_screen/widgets/orders_table_widget.dart';
 import 'package:flutter/material.dart';
 
 class OrderScreen extends StatelessWidget {
@@ -7,13 +9,15 @@ class OrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: const Center(
-        child: Text("Order"),
-      ),
+    return Scaffold(
+      body: SafeArea(
+          child: SingleChildScrollView(
+              child: Column(
+        children: [
+          ScreenNameSection("Orders"),
+          OrdersTableWidget(),
+        ],
+      ))),
     );
   }
 }
