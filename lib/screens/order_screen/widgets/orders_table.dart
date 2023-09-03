@@ -1,4 +1,3 @@
-import 'package:admin_ecommerce_app/common_widgets/primary_background.dart';
 import 'package:admin_ecommerce_app/constants/app_styles.dart';
 import 'package:admin_ecommerce_app/extensions/date_time_extension.dart';
 import 'package:admin_ecommerce_app/extensions/double_extension.dart';
@@ -16,57 +15,48 @@ class OrdersTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PrimaryBackground(
-      margin: const EdgeInsets.symmetric(vertical: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          DataTable(
-            showCheckboxColumn: false,
-            headingTextStyle: AppStyles.tableColumnName,
-            dataTextStyle: AppStyles.tableCell,
-            columns: const <DataColumn>[
-              DataColumn(label: Text("#")),
-              DataColumn(label: Text("Order ID")),
-              DataColumn(
-                  label:
-                      Text("Customer Name", overflow: TextOverflow.ellipsis)),
-              DataColumn(label: Text("Date")),
-              DataColumn(numeric: true, label: Text("Price")),
-              DataColumn(label: Text("Status")),
+    return DataTable(
+      showCheckboxColumn: false,
+      headingTextStyle: AppStyles.tableColumnName,
+      dataTextStyle: AppStyles.tableCell,
+      columns: const <DataColumn>[
+        DataColumn(label: Text("#")),
+        DataColumn(label: Text("Order ID")),
+        DataColumn(
+            label: Text("Customer Name", overflow: TextOverflow.ellipsis)),
+        DataColumn(label: Text("Date")),
+        DataColumn(numeric: true, label: Text("Price")),
+        DataColumn(label: Text("Status")),
+      ],
+      rows: List.generate(orders.length, (index) {
+        final order = orders[index];
+        return DataRow(
+            cells: <DataCell>[
+              DataCell(Text((index + 1).toString())),
+              DataCell(Text(
+                order.id,
+                overflow: TextOverflow.ellipsis,
+              )),
+              DataCell(Text(
+                order.customerName,
+                overflow: TextOverflow.ellipsis,
+              )),
+              DataCell(Text(
+                order.createdAt.toDate().toDateTimeFormat(),
+                overflow: TextOverflow.ellipsis,
+              )),
+              DataCell(Text(
+                order.orderSummary.total.toPriceString(),
+                overflow: TextOverflow.ellipsis,
+              )),
+              DataCell(OrderStatusBadge(order: order)),
             ],
-            rows: List.generate(orders.length, (index) {
-              final order = orders[index];
-              return DataRow(
-                  cells: <DataCell>[
-                    DataCell(Text((index + 1).toString())),
-                    DataCell(Text(
-                      order.id,
-                      overflow: TextOverflow.ellipsis,
-                    )),
-                    DataCell(Text(
-                      order.customerName,
-                      overflow: TextOverflow.ellipsis,
-                    )),
-                    DataCell(Text(
-                      order.createdAt.toDate().toDateTimeFormat(),
-                      overflow: TextOverflow.ellipsis,
-                    )),
-                    DataCell(Text(
-                      order.orderSummary.total.toPriceString(),
-                      overflow: TextOverflow.ellipsis,
-                    )),
-                    DataCell(OrderStatusBadge(order: order)),
-                  ],
-                  onSelectChanged: (isSelected) {
-                    if (isSelected!) {
-                      _onRowSelected(context, order);
-                    }
-                  });
-            }),
-          ),
-        ],
-      ),
+            onSelectChanged: (isSelected) {
+              if (isSelected!) {
+                _onRowSelected(context, order);
+              }
+            });
+      }),
     );
   }
 

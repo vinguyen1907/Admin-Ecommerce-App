@@ -11,6 +11,7 @@ import 'package:admin_ecommerce_app/extensions/order_status_extensions.dart';
 import 'package:admin_ecommerce_app/models/order.dart';
 import 'package:admin_ecommerce_app/models/order_status.dart';
 import 'package:admin_ecommerce_app/models/tracking_status.dart';
+import 'package:admin_ecommerce_app/repositories/order_repository.dart';
 import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/screens/order_detail_screen/widgets/customer_information.dart';
 import 'package:admin_ecommerce_app/screens/order_detail_screen/widgets/order_items_table.dart';
@@ -178,6 +179,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   void _onPrint() async {
-    await PdfUtils().generateInvoice(order: widget.order, orderItems: []);
+    final orderItems = await OrderRepository().fetchOrderItems(widget.order.id);
+    await PdfUtils()
+        .generateInvoice(order: widget.order, orderItems: orderItems);
   }
 }

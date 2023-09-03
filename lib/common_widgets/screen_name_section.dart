@@ -8,7 +8,7 @@ class ScreenNameSection extends StatelessWidget {
   final String screenName;
   final bool hasDefaultBackButton;
   const ScreenNameSection(this.screenName,
-      {super.key, this.margin, this.hasDefaultBackButton = true});
+      {super.key, this.margin, this.hasDefaultBackButton = false});
 
   @override
   Widget build(BuildContext context) {

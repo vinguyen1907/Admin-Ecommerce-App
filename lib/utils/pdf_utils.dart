@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:admin_ecommerce_app/extensions/date_time_extension.dart';
+import 'package:admin_ecommerce_app/extensions/double_extension.dart';
 import 'package:admin_ecommerce_app/models/order.dart';
 import 'package:admin_ecommerce_app/models/order_product_detail.dart';
 import 'package:admin_ecommerce_app/utils/utils.dart';
@@ -79,18 +80,18 @@ class PdfUtils {
         buildHeader(order),
         SizedBox(height: 0.8 * PdfPageFormat.cm),
         buildTitle(order),
-        // buildInvoice(order),
+        buildInvoice(orderItems),
         Divider(),
-        // buildTotal(order),
+        buildTotal(order),
       ],
-      // footer: (context) => buildFooter(order),
+      footer: (context) => buildFooter(order),
     ));
 
     if (kIsWeb) {
-      await saveDocumentOnWeb(name: 'invoice-/${order.id}.pdf', pdf: pdf);
+      await saveDocumentOnWeb(name: 'invoice-${order.id}.pdf', pdf: pdf);
     } else {
       final pdfFile =
-          await saveDocument(name: 'invoice-/${order.id}.pdf', pdf: pdf);
+          await saveDocument(name: 'invoice-${order.id}.pdf', pdf: pdf);
       PdfUtils.openFile(pdfFile);
     }
   }
@@ -102,7 +103,7 @@ class PdfUtils {
         city: order.address.city,
         country: order.address.country);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(height: 1 * PdfPageFormat.cm),
         Row(
@@ -124,14 +125,16 @@ class PdfUtils {
           ],
         ),
         SizedBox(height: 1 * PdfPageFormat.cm),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // buildCustomerAddress(invoice.customer),
-            buildInvoiceInfo(order),
-          ],
-        ),
+        buildInvoiceInfo(order),
+
+        // Row(
+        //   crossAxisAlignment: CrossAxisAlignment.end,
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     // buildCustomerAddress(invoice.customer),
+        //     buildInvoiceInfo(order),
+        //   ],
+        // ),
       ],
     );
   }
@@ -148,7 +151,7 @@ class PdfUtils {
 
   static Widget buildInvoiceInfo(OrderModel order) {
     final titles = <String>[
-      'OrderModel Number:',
+      'Order Number:',
       'Order date:',
       'Date of invoice:',
     ];
@@ -159,12 +162,16 @@ class PdfUtils {
     ];
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: List.generate(titles.length, (index) {
         final title = titles[index];
         final value = data[index];
 
-        return buildText(title: title, value: value, width: 200);
+        return buildText(
+          title: title,
+          value: value,
+          width: 400,
+        );
       }),
     );
   }
@@ -191,123 +198,115 @@ class PdfUtils {
         ],
       );
 
-  // static Widget buildInvoice(OrderModel invoice) {
-  //   final headers = [
-  //     'Description',
-  //     'Date',
-  //     'Quantity',
-  //     'Unit Price',
-  //     'VAT',
-  //     'Total'
-  //   ];
-  //   final data = invoice.items.map((item) {
-  //     final total = item.unitPrice * item.quantity * (1 + item.vat);
+  static Widget buildInvoice(List<OrderProductDetail> orderItems) {
+    final headers = ['#', 'Name', 'Unit Price', 'Quantity', 'Total'];
+    final List<List<String>> data = [];
+    for (int i = 0; i < orderItems.length; i++) {
+      final item = orderItems[i];
+      data.add([
+        '${i + 1}',
+        item.productName,
+        item.productPrice.toPriceString(),
+        '${item.quantity}',
+        item.totalPrice.toPriceString(),
+      ]);
+    }
 
-  //     return [
-  //       item.description,
-  //       Utils.formatDate(item.date),
-  //       '${item.quantity}',
-  //       '\$ ${item.unitPrice}',
-  //       '${item.vat} %',
-  //       '\$ ${total.toStringAsFixed(2)}',
-  //     ];
-  //   }).toList();
+    return TableHelper.fromTextArray(
+      headers: headers,
+      data: data,
+      border: null,
+      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerDecoration: const BoxDecoration(color: PdfColors.grey300),
+      cellHeight: 30,
+      cellAlignments: {
+        0: Alignment.centerLeft,
+        1: Alignment.centerLeft,
+        2: Alignment.centerRight,
+        3: Alignment.centerRight,
+        4: Alignment.centerRight,
+        5: Alignment.centerRight,
+      },
+    );
+  }
 
-  //   return Table.fromTextArray(
-  //     headers: headers,
-  //     data: data,
-  //     border: null,
-  //     headerStyle: TextStyle(fontWeight: FontWeight.bold),
-  //     headerDecoration: BoxDecoration(color: PdfColors.grey300),
-  //     cellHeight: 30,
-  //     cellAlignments: {
-  //       0: Alignment.centerLeft,
-  //       1: Alignment.centerRight,
-  //       2: Alignment.centerRight,
-  //       3: Alignment.centerRight,
-  //       4: Alignment.centerRight,
-  //       5: Alignment.centerRight,
-  //     },
-  //   );
-  // }
+  static Widget buildTotal(OrderModel order) {
+    return Container(
+      alignment: Alignment.centerRight,
+      child: Row(
+        children: [
+          Spacer(flex: 6),
+          Expanded(
+            flex: 4,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildText(
+                  title: 'Amount',
+                  value: order.orderSummary.amount.toPriceString(),
+                  unite: true,
+                ),
+                buildText(
+                  title: 'Shipping',
+                  value: order.orderSummary.shipping.toPriceString(),
+                  unite: true,
+                ),
+                buildText(
+                  title: 'Promotion',
+                  value: order.orderSummary.promotionDiscount.toPriceString(),
+                  unite: true,
+                ),
+                Divider(),
+                buildText(
+                  title: 'Total',
+                  titleStyle: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  value: order.orderSummary.total.toPriceString(),
+                  unite: true,
+                ),
+                SizedBox(height: 2 * PdfPageFormat.mm),
+                Container(height: 1, color: PdfColors.grey400),
+                SizedBox(height: 0.5 * PdfPageFormat.mm),
+                Container(height: 1, color: PdfColors.grey400),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-  // static Widget buildTotal(OrderModel order) {
-  //   final netTotal = order.items
-  //       .map((item) => item.unitPrice * item.quantity)
-  //       .reduce((item1, item2) => item1 + item2);
-  //   final vatPercent = order.items.first.vat;
-  //   final vat = netTotal * vatPercent;
-  //   final total = netTotal + vat;
+  static Widget buildFooter(OrderModel invoice) => Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Divider(),
+          SizedBox(height: 2 * PdfPageFormat.mm),
+          buildSimpleText(title: 'FASHION SHOP', value: ""),
+          SizedBox(height: 1 * PdfPageFormat.mm),
+          buildSimpleText(
+              title: 'Address',
+              value: "Beaverton, One Bowerman Drive, United States"),
+        ],
+      );
 
-  //   return Container(
-  //     alignment: Alignment.centerRight,
-  //     child: Row(
-  //       children: [
-  //         Spacer(flex: 6),
-  //         Expanded(
-  //           flex: 4,
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               buildText(
-  //                 title: 'Net total',
-  //                 value: Utils.formatPrice(netTotal),
-  //                 unite: true,
-  //               ),
-  //               buildText(
-  //                 title: 'Vat ${vatPercent * 100} %',
-  //                 value: Utils.formatPrice(vat),
-  //                 unite: true,
-  //               ),
-  //               Divider(),
-  //               buildText(
-  //                 title: 'Total amount due',
-  //                 titleStyle: TextStyle(
-  //                   fontSize: 14,
-  //                   fontWeight: FontWeight.bold,
-  //                 ),
-  //                 value: Utils.formatPrice(total),
-  //                 unite: true,
-  //               ),
-  //               SizedBox(height: 2 * PdfPageFormat.mm),
-  //               Container(height: 1, color: PdfColors.grey400),
-  //               SizedBox(height: 0.5 * PdfPageFormat.mm),
-  //               Container(height: 1, color: PdfColors.grey400),
-  //             ],
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  static buildSimpleText({
+    required String title,
+    required String value,
+  }) {
+    final style = TextStyle(fontWeight: FontWeight.bold);
 
-  // static Widget buildFooter(OrderModel invoice) => Column(
-  //       crossAxisAlignment: CrossAxisAlignment.center,
-  //       children: [
-  //         Divider(),
-  //         SizedBox(height: 2 * PdfPageFormat.mm),
-  //         buildSimpleText(title: 'Address', value: invoice.supplier.address),
-  //         SizedBox(height: 1 * PdfPageFormat.mm),
-  //         buildSimpleText(title: 'Paypal', value: invoice.supplier.paymentInfo),
-  //       ],
-  //     );
-
-  // static buildSimpleText({
-  //   required String title,
-  //   required String value,
-  // }) {
-  //   final style = TextStyle(fontWeight: FontWeight.bold);
-
-  //   return Row(
-  //     mainAxisSize: MainAxisSize.min,
-  //     crossAxisAlignment: pw.CrossAxisAlignment.end,
-  //     children: [
-  //       Text(title, style: style),
-  //       SizedBox(width: 2 * PdfPageFormat.mm),
-  //       Text(value),
-  //     ],
-  //   );
-  // }
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(title, style: style),
+        SizedBox(width: 2 * PdfPageFormat.mm),
+        Text(value),
+      ],
+    );
+  }
 
   static buildText({
     required String title,
@@ -318,14 +317,14 @@ class PdfUtils {
   }) {
     final style = titleStyle ?? TextStyle(fontWeight: FontWeight.bold);
 
-    return Container(
-      width: width,
-      child: Row(
-        children: [
-          Expanded(child: Text(title, style: style)),
-          Text(value, style: unite ? style : null),
-        ],
-      ),
-    );
+    return SizedBox(
+        width: width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title, style: style),
+            Text(value, style: unite ? style : null),
+          ],
+        ));
   }
 }
