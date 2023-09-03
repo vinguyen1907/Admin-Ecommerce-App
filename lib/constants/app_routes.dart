@@ -1,4 +1,6 @@
+import 'package:admin_ecommerce_app/models/order.dart';
 import 'package:admin_ecommerce_app/screens/dashboard_screen/dashboard_screen.dart';
+import 'package:admin_ecommerce_app/screens/order_detail_screen/order_detail_screen.dart';
 import 'package:admin_ecommerce_app/screens/order_screen/order_screen.dart';
 import 'package:admin_ecommerce_app/screens/product_screen/product_screen.dart';
 import 'package:admin_ecommerce_app/screens/promotion_screen/promotion_screen.dart';
@@ -25,6 +27,11 @@ class AppRoutes {
       case SupportScreen.routeName:
         return MaterialPageRoute(
             settings: settings, builder: (context) => const SupportScreen());
+      case OrderDetailScreen.routeName:
+        final args = settings.arguments as OrderModel;
+        return MaterialPageRoute(
+            settings: settings,
+            builder: (context) => OrderDetailScreen(order: args));
 
       default:
         return MaterialPageRoute(

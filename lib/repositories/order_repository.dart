@@ -1,5 +1,6 @@
 import 'package:admin_ecommerce_app/constants/firebase_constants.dart';
 import 'package:admin_ecommerce_app/extensions/order_status_extensions.dart';
+import 'package:admin_ecommerce_app/extensions/list_order_extension.dart';
 import 'package:admin_ecommerce_app/models/order.dart';
 import 'package:admin_ecommerce_app/models/order_product_detail.dart';
 import 'package:admin_ecommerce_app/models/tracking_status.dart';
@@ -7,16 +8,12 @@ import 'package:admin_ecommerce_app/models/tracking_status.dart';
 class OrderRepository {
   Future<Map<String, double>> getSalesStatistics() async {
     final snapshot = await ordersRef.get();
+    final orders = snapshot.docs
+        .map((e) => OrderModel.fromMap(e.data() as Map<String, dynamic>))
+        .toList();
     return {
       'total_orders': snapshot.docs.length.toDouble(),
-      'total_sales': snapshot.docs.isEmpty
-          ? 0
-          : snapshot.docs.fold(
-              0,
-              (previousValue, element) =>
-                  previousValue +
-                  (element.data() as Map<String, dynamic>)['orderSummary']
-                      ['total']),
+      'total_sales': orders.totalSales,
     };
   }
 

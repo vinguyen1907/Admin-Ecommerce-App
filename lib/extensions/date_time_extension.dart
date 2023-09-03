@@ -6,6 +6,6 @@ extension DateTimeExt on DateTime {
   }
 
   String toFullDateTimeFormat() {
-    return DateFormat('EEE, MMM d, yyyy, h:mm a').format(this);
+    return DateFormat('E, MMM d, y, h:mm a').format(this);
   }
 }
