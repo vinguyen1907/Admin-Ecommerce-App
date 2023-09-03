@@ -45,6 +45,9 @@ dependencies:
   cloud_firestore: ^4.9.0
   intl: ^0.18.1
   collection: ^1.17.2
+  number_pagination: ^0.0.3+2
+ 
+
 
 dev_dependencies:
   flutter_test:
