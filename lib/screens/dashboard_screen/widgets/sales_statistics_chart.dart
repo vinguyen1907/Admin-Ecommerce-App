@@ -1,4 +1,5 @@
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
+import 'package:admin_ecommerce_app/extensions/list_order_extension.dart';
 import 'package:admin_ecommerce_app/models/order.dart';
 import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -170,10 +171,7 @@ class _SalesStatisticsChartState extends State<SalesStatisticsChart> {
 
     final List<Map<int, double>> result = [];
     groupedOrders.forEach((key, value) {
-      double total = value.fold(
-          0,
-          (previousValue, element) =>
-              previousValue + element.orderSummary.total);
+      double total = value.totalSales;
       if (total > max) {
         max = total;
       }
