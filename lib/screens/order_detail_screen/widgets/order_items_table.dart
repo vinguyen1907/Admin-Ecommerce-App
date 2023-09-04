@@ -9,6 +9,7 @@ import 'package:admin_ecommerce_app/extensions/string_extensions.dart';
 import 'package:admin_ecommerce_app/models/order.dart';
 import 'package:admin_ecommerce_app/models/order_product_detail.dart';
 import 'package:admin_ecommerce_app/repositories/order_repository.dart';
+import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/screens/order_detail_screen/widgets/order_summary_line.dart';
 import 'package:admin_ecommerce_app/screens/order_detail_screen/widgets/payment_status_badge.dart';
 import 'package:flutter/material.dart';
@@ -51,10 +52,13 @@ class _OrderItemsTableState extends State<OrderItemsTable> {
               return SizedBox(
                 width: double.infinity,
                 child: DataTable(
-                  headingTextStyle: AppStyles.tableColumnName,
-                  dataTextStyle: AppStyles.tableCell,
+                  horizontalMargin: Responsive.isDesktop(context) ? 10 : 0,
+                  headingTextStyle: AppStyles.tableColumnName.copyWith(
+                      fontSize: !Responsive.isDesktop(context) ? 12 : null),
+                  dataTextStyle: AppStyles.tableCell.copyWith(
+                      fontSize: !Responsive.isDesktop(context) ? 12 : null),
                   dataRowMaxHeight: 60,
-                  columnSpacing: 5,
+                  columnSpacing: 10,
                   columns: const [
                     DataColumn(label: Text("#")),
                     DataColumn(label: Text("Product")),

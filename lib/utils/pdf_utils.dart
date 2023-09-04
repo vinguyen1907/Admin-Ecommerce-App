@@ -11,7 +11,7 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
-import 'dart:html' as html;
+import 'package:universal_html/html.dart' as html;
 
 class PdfUtils {
   static Future<void> openFile(File file) async {

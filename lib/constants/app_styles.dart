@@ -14,11 +14,13 @@ class AppStyles {
     fontFamily: "Poppins",
     fontSize: 14,
     fontWeight: FontWeight.w600,
+    color: AppColors.primaryColor,
   );
   static const TextStyle tableCell = TextStyle(
     fontFamily: "Poppins",
     fontSize: 14,
     fontWeight: FontWeight.w400,
+    color: AppColors.primaryColor,
   );
   static const TextStyle displayLarge = TextStyle(
     fontSize: 25,

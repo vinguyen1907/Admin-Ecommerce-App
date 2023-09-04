@@ -33,6 +33,7 @@ class TrackingInformation extends StatelessWidget {
             final List<TrackingStatus> statuses = state.trackingStatuses;
             return ListView.builder(
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: statuses.length,
               itemBuilder: (_, index) {
                 final status = statuses[index];

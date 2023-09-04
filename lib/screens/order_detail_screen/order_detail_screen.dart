@@ -82,58 +82,68 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     ],
                   ),
                   const Spacer(),
-                  Wrap(children: [
-                    MyOutlinedButton(
-                        padding: const EdgeInsets.all(0),
-                        onPressed: () {},
-                        child: DropdownButton<OrderStatus>(
-                          itemHeight: 48,
-                          icon: const MyIcon(
-                            icon: AppAssets.icArrowDown,
-                            colorFilter: ColorFilter.mode(
-                                AppColors.greyTextColor, BlendMode.srcIn),
-                          ),
-                          isDense: true,
-                          elevation: 0,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 4),
-                          hint: const Text(
-                            "Change Status",
-                            style: AppStyles.bodyMedium,
-                          ),
-                          underline: const SizedBox(),
-                          style: AppStyles.bodyMedium
-                              .copyWith(color: AppColors.primaryColor),
-                          value: newOrderStatus,
-                          items: OrderStatus.values.map((OrderStatus value) {
-                            return DropdownMenuItem<OrderStatus>(
-                              value: value,
-                              child: Text(value.statusName,
-                                  style: AppStyles.bodyMedium
-                                      .copyWith(color: AppColors.primaryColor)),
-                            );
-                          }).toList(),
-                          onChanged: _onChangeStatus,
-                        )),
-                    SizedBox(width: Responsive.isDesktop(context) ? 20 : 10),
-                    MyOutlinedButton(
-                        onPressed: newOrderStatus == null ? null : _onSave,
-                        child: Text("Save",
-                            style: AppStyles.bodyMedium
-                                .copyWith(color: AppColors.greyTextColor))),
-                    SizedBox(width: Responsive.isDesktop(context) ? 20 : 10),
-                    ElevatedButton(
-                        onPressed: _onPrint,
-                        style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    AppDimensions.defaultButtonBorderRadius),
+                  Wrap(
+                    children: [
+                      MyOutlinedButton(
+                          height: 40,
+                          padding: const EdgeInsets.all(0),
+                          onPressed: () {},
+                          child: DropdownButton<OrderStatus>(
+                            itemHeight: 48,
+                            icon: const MyIcon(
+                              icon: AppAssets.icArrowDown,
+                              colorFilter: ColorFilter.mode(
+                                  AppColors.greyTextColor, BlendMode.srcIn),
+                            ),
+                            isDense: true,
                             elevation: 0,
-                            backgroundColor: AppColors.darkGreyColor,
-                            padding: const EdgeInsets.all(8)),
-                        child: const MyIcon(
-                            icon: AppAssets.icPrinter, height: 24, width: 24))
-                  ]),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 4),
+                            hint: const Text(
+                              "Change Status",
+                              style: AppStyles.bodyMedium,
+                            ),
+                            underline: const SizedBox(),
+                            style: AppStyles.bodyMedium
+                                .copyWith(color: AppColors.primaryColor),
+                            value: newOrderStatus,
+                            items: OrderStatus.values.map((OrderStatus value) {
+                              return DropdownMenuItem<OrderStatus>(
+                                value: value,
+                                child: Text(value.statusName,
+                                    style: AppStyles.bodyMedium.copyWith(
+                                        color: AppColors.primaryColor)),
+                              );
+                            }).toList(),
+                            onChanged: _onChangeStatus,
+                          )),
+                      SizedBox(width: Responsive.isDesktop(context) ? 20 : 10),
+                      MyOutlinedButton(
+                          height: 40,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          onPressed: newOrderStatus == null ? null : _onSave,
+                          child: Text("Save",
+                              style: AppStyles.bodyMedium
+                                  .copyWith(color: AppColors.greyTextColor))),
+                      SizedBox(width: Responsive.isDesktop(context) ? 20 : 10),
+                      SizedBox(
+                        height: 40,
+                        child: ElevatedButton(
+                            onPressed: _onPrint,
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: AppDimensions
+                                        .defaultButtonBorderRadius),
+                                elevation: 0,
+                                backgroundColor: AppColors.darkGreyColor,
+                                padding: const EdgeInsets.all(8)),
+                            child: const MyIcon(
+                                icon: AppAssets.icPrinter,
+                                height: 24,
+                                width: 24)),
+                      )
+                    ],
+                  ),
                 ],
               ),
               const SizedBox(height: 6),
