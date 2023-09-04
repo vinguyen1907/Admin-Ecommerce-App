@@ -17,43 +17,38 @@ class CustomerInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        PrimaryBackground(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return PrimaryBackground(
+      child: Wrap(
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        runSpacing: 10,
+        children: [
+          CustomerInformationHeadline(
+              icon: AppAssets.icUser,
+              title: "Customer",
+              children: [
+                Text(order.customerName,
+                    style: AppStyles.bodyMedium
+                        .copyWith(color: AppColors.primaryColor)),
+                Text(order.customerPhoneNumber,
+                    style: AppStyles.bodyMedium
+                        .copyWith(color: AppColors.primaryColor)),
+              ]),
+          const SizedBox(width: 50),
+          CustomerInformationHeadline(
+            icon: AppAssets.icLocation,
+            title: "Delivery to",
             children: [
-              CustomerInformationHeadline(
-                  icon: AppAssets.icUser,
-                  title: "Customer",
-                  children: [
-                    Text(order.customerName,
-                        style: AppStyles.bodyMedium
-                            .copyWith(color: AppColors.primaryColor)),
-                    Text(order.customerPhoneNumber,
-                        style: AppStyles.bodyMedium
-                            .copyWith(color: AppColors.primaryColor)),
-                  ]),
-              const SizedBox(width: 50),
-              CustomerInformationHeadline(
-                icon: AppAssets.icLocation,
-                title: "Delivery to",
-                children: [
-                  HeadlineRichText(
-                      label: "Country: ", content: order.address.country),
-                  HeadlineRichText(
-                      label: "State: ", content: order.address.state),
-                  HeadlineRichText(
-                      label: "City: ", content: order.address.city),
-                  HeadlineRichText(
-                      label: "Street: ", content: order.address.street),
-                ],
-              ),
+              HeadlineRichText(
+                  label: "Country: ", content: order.address.country),
+              HeadlineRichText(label: "State: ", content: order.address.state),
+              HeadlineRichText(label: "City: ", content: order.address.city),
+              HeadlineRichText(
+                  label: "Street: ", content: order.address.street),
             ],
           ),
-        )
-      ],
+          const Spacer(),
+        ],
+      ),
     );
   }
 }

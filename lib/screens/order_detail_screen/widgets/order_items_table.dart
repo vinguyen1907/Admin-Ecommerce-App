@@ -1,6 +1,7 @@
 import 'package:admin_ecommerce_app/common_widgets/color_dot.dart';
 import 'package:admin_ecommerce_app/common_widgets/custom_loading_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/primary_background.dart';
+import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_dimensions.dart';
 import 'package:admin_ecommerce_app/constants/app_styles.dart';
 import 'package:admin_ecommerce_app/extensions/double_extension.dart';
@@ -35,6 +36,7 @@ class _OrderItemsTableState extends State<OrderItemsTable> {
     return PrimaryBackground(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
         children: [
           FutureBuilder<List<OrderProductDetail>>(
             future: fetchOrderItems,
@@ -46,74 +48,84 @@ class _OrderItemsTableState extends State<OrderItemsTable> {
                 return const Center(child: CustomLoadingWidget());
               }
               final orderItems = snapshot.data!;
-              return DataTable(
-                headingTextStyle: AppStyles.tableColumnName,
-                dataTextStyle: AppStyles.tableCell,
-                dataRowMaxHeight: 60,
-                columns: const [
-                  DataColumn(label: Text("#")),
-                  DataColumn(label: Text("Product")),
-                  DataColumn(label: Text("Price"), numeric: true),
-                  DataColumn(label: Text("Quantity"), numeric: true),
-                  DataColumn(label: Text("Total"), numeric: true),
-                ],
-                rows: [
-                  ...List.generate(
-                    orderItems.length,
-                    (index) {
-                      final item = orderItems[index];
-                      return DataRow(
-                        cells: [
-                          DataCell(Text((index + 1).toString())),
-                          DataCell(
-                            Row(
-                              children: [
-                                Container(
-                                    margin: const EdgeInsets.only(
-                                        right: 10, top: 5, bottom: 5),
-                                    height: 50,
-                                    width: 50,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            AppDimensions.defaultBorderRadius,
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                item.productImgUrl),
-                                            fit: BoxFit.cover))),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        item.productName,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                    Row(
+              return SizedBox(
+                width: double.infinity,
+                child: DataTable(
+                  headingTextStyle: AppStyles.tableColumnName,
+                  dataTextStyle: AppStyles.tableCell,
+                  dataRowMaxHeight: 60,
+                  columnSpacing: 5,
+                  columns: const [
+                    DataColumn(label: Text("#")),
+                    DataColumn(label: Text("Product")),
+                    DataColumn(label: Text("Price"), numeric: true),
+                    DataColumn(label: Text("Qty"), numeric: true),
+                    DataColumn(label: Text("Total"), numeric: true),
+                  ],
+                  rows: [
+                    ...List.generate(
+                      orderItems.length,
+                      (index) {
+                        final item = orderItems[index];
+                        return DataRow(
+                          cells: [
+                            DataCell(Text((index + 1).toString())),
+                            DataCell(
+                              Row(
+                                children: [
+                                  Container(
+                                      margin: const EdgeInsets.only(
+                                          right: 10, top: 5, bottom: 5),
+                                      height: 50,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              AppDimensions.defaultBorderRadius,
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  item.productImgUrl),
+                                              fit: BoxFit.cover))),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        const Text("Color: ",
-                                            style: AppStyles.bodySmall),
-                                        ColorDotWidget(
-                                            color: item.color.toColor()),
-                                        const SizedBox(width: 20),
-                                        Text("Size: ${item.size}",
-                                            style: AppStyles.bodySmall),
+                                        Text(item.productName,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: AppStyles.bodyLarge.copyWith(
+                                                color: AppColors.primaryColor)),
+                                        FittedBox(
+                                          child: Wrap(
+                                            crossAxisAlignment:
+                                                WrapCrossAlignment.center,
+                                            children: [
+                                              const Text("Color: ",
+                                                  style: AppStyles.bodySmall),
+                                              ColorDotWidget(
+                                                  margin: const EdgeInsets.only(
+                                                      right: 5),
+                                                  color: item.color.toColor()),
+                                              Text("Size: ${item.size}",
+                                                  style: AppStyles.bodySmall),
+                                            ],
+                                          ),
+                                        )
                                       ],
-                                    )
-                                  ],
-                                ),
-                              ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          DataCell(Text(item.productPrice.toPriceString())),
-                          DataCell(Text(item.quantity.toString())),
-                          DataCell(Text(item.totalPrice.toPriceString())),
-                        ],
-                      );
-                    },
-                  )
-                ],
+                            DataCell(Text(item.productPrice.toPriceString())),
+                            DataCell(Text(item.quantity.toString())),
+                            DataCell(Text(item.totalPrice.toPriceString())),
+                          ],
+                        );
+                      },
+                    )
+                  ],
+                ),
               );
             },
           ),
@@ -126,7 +138,10 @@ class _OrderItemsTableState extends State<OrderItemsTable> {
               label: "Promotion: ",
               number: widget.order.orderSummary.promotionDiscount),
           OrderSummaryLine(
-              label: "Total: ", number: widget.order.orderSummary.total),
+            label: "Total: ",
+            number: widget.order.orderSummary.total,
+            numberFontSize: 20,
+          ),
           const SizedBox(height: 10),
           PaymentStatusBadge(paymentMethod: widget.order.paymentMethod),
         ],

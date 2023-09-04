@@ -1,9 +1,9 @@
 import 'package:admin_ecommerce_app/common_widgets/primary_background.dart';
+import 'package:admin_ecommerce_app/common_widgets/screen_horizontal_padding_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/screen_name_section.dart';
 import 'package:admin_ecommerce_app/blocs/dashboard_bloc/dashboard_bloc.dart';
 import 'package:admin_ecommerce_app/common_widgets/search_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/table_divider.dart';
-import 'package:admin_ecommerce_app/constants/app_dimensions.dart';
 import 'package:admin_ecommerce_app/screens/order_screen/widgets/orders_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,9 +30,7 @@ class _OrderScreenState extends State<OrderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: AppDimensions.defaultHorizontalContentPadding),
+        child: ScreenHorizontalPaddingWidget(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

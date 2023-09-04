@@ -61,7 +61,7 @@ class TrackingStatusItemWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${trackingStatusTitle[status.status]}",
+                "${orderStatusName[status.status]}",
                 style: AppStyles.labelMedium,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,

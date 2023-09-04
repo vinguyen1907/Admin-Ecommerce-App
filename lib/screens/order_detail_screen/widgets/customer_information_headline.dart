@@ -18,6 +18,7 @@ class CustomerInformationHeadline extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         MyIcon(icon: icon),
         const SizedBox(width: 16),
