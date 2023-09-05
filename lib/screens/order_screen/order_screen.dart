@@ -1,5 +1,6 @@
 import 'package:admin_ecommerce_app/blocs/orders_bloc/orders_bloc.dart';
 import 'package:admin_ecommerce_app/common_widgets/my_icon.dart';
+import 'package:admin_ecommerce_app/common_widgets/paginator.dart';
 import 'package:admin_ecommerce_app/common_widgets/primary_background.dart';
 import 'package:admin_ecommerce_app/common_widgets/screen_horizontal_padding_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/screen_name_section.dart';
@@ -72,20 +73,10 @@ class _OrderScreenState extends State<OrderScreen> {
 
                       // Paginator
                       if (state.searchOrders == null)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            IconButton(
-                                onPressed: _onPreviousPage,
-                                icon: const MyIcon(
-                                    icon: AppAssets.icArrowLeftSquare)),
-                            Text("${state.currentPageIndex + 1}"),
-                            IconButton(
-                                onPressed: _onNextPage,
-                                icon: const MyIcon(
-                                    icon: AppAssets.icArrowRightSquare)),
-                          ],
-                        )
+                        Paginator(
+                            currentPageIndex: state.currentPageIndex,
+                            onPreviousPage: _onPreviousPage,
+                            onNextPage: _onNextPage)
                     ],
                   ),
                 );
