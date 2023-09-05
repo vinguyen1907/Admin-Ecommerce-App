@@ -13,34 +13,44 @@ final class DashboardInitial extends DashboardState {}
 final class DashboardLoading extends DashboardState {}
 
 class DashboardLoaded extends DashboardState {
-  final List<OrderModel> orders;
+  final List<OrderModel> latestOrders;
+  final DocumentSnapshot? lastDocument;
   final int productCount;
+  final int totalOrdersCount;
   final DateTime? lastUpdateTime;
 
   const DashboardLoaded(
-      {required this.orders, required this.productCount, this.lastUpdateTime});
+      {required this.latestOrders,
+      required this.lastDocument,
+      required this.productCount,
+      required this.totalOrdersCount,
+      this.lastUpdateTime});
 
   @override
-  List<Object?> get props => [orders, productCount, lastUpdateTime];
+  List<Object?> get props => [latestOrders, productCount, lastUpdateTime];
 
   double get totalSales {
     double total = 0;
-    for (var order in orders) {
+    for (var order in latestOrders) {
       total += order.orderSummary.total;
     }
     return total;
   }
 
-  int get totalOrders => orders.length;
+  int get totalOrders => latestOrders.length;
 
   DashboardLoaded copyWith({
-    List<OrderModel>? orders,
+    List<OrderModel>? latestOrders,
+    DocumentSnapshot? lastDocument,
     int? productCount,
+    int? totalOrdersCount,
     DateTime? lastUpdateTime,
   }) {
     return DashboardLoaded(
-      orders: orders ?? this.orders,
+      latestOrders: latestOrders ?? this.latestOrders,
+      lastDocument: lastDocument ?? this.lastDocument,
       productCount: productCount ?? this.productCount,
+      totalOrdersCount: totalOrdersCount ?? this.totalOrdersCount,
       lastUpdateTime: lastUpdateTime ?? this.lastUpdateTime,
     );
   }

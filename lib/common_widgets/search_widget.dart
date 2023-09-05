@@ -6,10 +6,12 @@ class SearchWidget extends StatelessWidget {
     super.key,
     required this.controller,
     required this.onQuery,
+    required this.onClear,
   });
 
   final TextEditingController controller;
   final Function()? onQuery;
+  final Function()? onClear;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +21,10 @@ class SearchWidget extends StatelessWidget {
         controller: controller,
         hintText: 'Search',
         suffixIcon: IconButton(
-          onPressed: onQuery,
-          icon: const Icon(Icons.search),
+          onPressed: controller.text.isEmpty ? onQuery : onClear,
+          icon: controller.text.isEmpty
+              ? const Icon(Icons.search)
+              : const Icon(Icons.clear),
         ),
       ),
     );

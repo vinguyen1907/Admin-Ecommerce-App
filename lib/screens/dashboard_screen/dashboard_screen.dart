@@ -1,4 +1,5 @@
 import 'package:admin_ecommerce_app/blocs/dashboard_bloc/dashboard_bloc.dart';
+import 'package:admin_ecommerce_app/blocs/orders_bloc/orders_bloc.dart';
 import 'package:admin_ecommerce_app/common_widgets/screen_name_section.dart';
 import 'package:admin_ecommerce_app/constants/app_assets.dart';
 import 'package:admin_ecommerce_app/constants/app_dimensions.dart';
@@ -21,12 +22,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<DashboardBloc>().add(LoadDashboard());
+    _onLoadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DashboardBloc, DashboardState>(
+    return BlocConsumer<DashboardBloc, DashboardState>(
+      listener: (context, state) {
+        if (state is DashboardLoaded) {
+          context.read<OrdersBloc>().add(SetOrders(
+              orders: state.latestOrders,
+              totalOrdersCount: state.totalOrdersCount,
+              lastDocument: state.lastDocument));
+        }
+      },
       builder: (context, state) {
         if (state is DashboardLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -55,7 +64,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       const SizedBox(width: 20),
                       DashboardStatisticsItem(
                         title: "Total Orders",
-                        value: state.totalOrders.toDouble(),
+                        value: state.totalOrdersCount.toDouble(),
                         iconAsset: AppAssets.icBagBold,
                         iconInnerColor: Colors.greenAccent,
                         iconOuterColor: Colors.greenAccent.withOpacity(0.3),
@@ -71,8 +80,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  DashboardCharts(orders: state.orders),
-                  LatestOrdersTable(orders: state.orders),
+                  DashboardCharts(orders: state.latestOrders),
+                  LatestOrdersTable(orders: state.latestOrders),
                 ],
               ),
             ),
@@ -81,5 +90,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         return const SizedBox();
       },
     );
+  }
+
+  void _onLoadData() {
+    final state = context.read<DashboardBloc>().state;
+    if (state is! DashboardLoaded) {
+      context.read<DashboardBloc>().add(LoadDashboard());
+    }
   }
 }
