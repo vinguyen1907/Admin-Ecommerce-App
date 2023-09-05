@@ -15,53 +15,55 @@ class ProductScreenLoading extends ProductScreenState {
 }
 
 class ProductScreenLoaded extends ProductScreenState {
-  final List<Product> originalList;
-  final List<Product> queryList;
   final List<Product> products;
   final List<Category> categories;
   final Category categorySelected;
+  final DocumentSnapshot firstDocument;
+  final DocumentSnapshot lastDocument;
+  final String query;
   final int numberPages;
   final int pageSelected;
 
-  const ProductScreenLoaded({
-    required this.originalList,
-    required this.queryList,
-    required this.products,
-    required this.categories,
-    required this.categorySelected,
-    required this.numberPages,
-    required this.pageSelected,
-  });
+  const ProductScreenLoaded(
+      {required this.products,
+      required this.categories,
+      required this.numberPages,
+      required this.pageSelected,
+      required this.categorySelected,
+      required this.firstDocument,
+      required this.lastDocument,
+      required this.query});
 
   @override
   List<Object> get props => [
         products,
         categories,
         categorySelected,
-        pageSelected,
+        firstDocument,
+        lastDocument,
+        query,
         numberPages,
-        originalList,
-        queryList
+        pageSelected
       ];
 
-  ProductScreenLoaded copyWith({
-    List<Product>? originalList,
-    List<Product>? queryList,
-    List<Product>? products,
-    List<Category>? categories,
-    Category? categorySelected,
-    int? numberPages,
-    int? pageSelected,
-  }) {
+  ProductScreenLoaded copyWith(
+      {List<Product>? products,
+      List<Category>? categories,
+      Category? categorySelected,
+      DocumentSnapshot? firstDocument,
+      DocumentSnapshot? lastDocument,
+      int? numberPages,
+      int? pageSelected,
+      String? query}) {
     return ProductScreenLoaded(
-      originalList: originalList ?? this.originalList,
-      queryList: queryList ?? this.queryList,
-      products: products ?? this.products,
-      categories: categories ?? this.categories,
-      categorySelected: categorySelected ?? this.categorySelected,
-      numberPages: numberPages ?? this.numberPages,
-      pageSelected: pageSelected ?? this.pageSelected,
-    );
+        products: products ?? this.products,
+        categories: categories ?? this.categories,
+        categorySelected: categorySelected ?? this.categorySelected,
+        firstDocument: firstDocument ?? this.firstDocument,
+        lastDocument: lastDocument ?? this.lastDocument,
+        numberPages: numberPages ?? this.numberPages,
+        pageSelected: pageSelected ?? this.pageSelected,
+        query: query ?? this.query);
   }
 }
 

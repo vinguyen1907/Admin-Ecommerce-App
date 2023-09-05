@@ -18,12 +18,18 @@ class SearchProduct extends ProductScreenEvent {
   List<Object?> get props => [query];
 }
 
-class ChangePage extends ProductScreenEvent {
-  const ChangePage({required this.pageSelected});
-  final int pageSelected;
+class LoadPreviousPage extends ProductScreenEvent {
+  const LoadPreviousPage();
   @override
   // TODO: implement props
-  List<Object?> get props => [pageSelected];
+  List<Object?> get props => [];
+}
+
+class LoadNextPage extends ProductScreenEvent {
+  const LoadNextPage();
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
 }
 
 class ChangeCategory extends ProductScreenEvent {

@@ -1,5 +1,6 @@
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_styles.dart';
+import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:flutter/material.dart';
 
 class MyElevatedButton extends StatelessWidget {
@@ -11,7 +12,9 @@ class MyElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.all(16),
+            padding: Responsive.isDesktop(context)
+                ? const EdgeInsets.all(16)
+                : const EdgeInsets.all(10),
             textStyle: AppStyles.titleSmall,
             foregroundColor: AppColors.whiteColor,
             backgroundColor: AppColors.primaryColor,

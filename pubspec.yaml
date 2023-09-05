@@ -46,6 +46,10 @@ dependencies:
   intl: ^0.18.1
   collection: ^1.17.2
   number_pagination: ^0.0.3+2
+  image_picker: ^1.0.4
+  file_picker: ^5.5.0
+  permission_handler: ^10.4.3
+  firebase_storage: ^11.2.6
  
 
 

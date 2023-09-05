@@ -38,47 +38,49 @@ class ProductItem extends StatelessWidget {
             product.price.toPriceString(),
             style: AppStyles.bodyLarge.copyWith(color: AppColors.primaryColor),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                MyOutlinedButton(
-                    onPressed: () {},
-                    widget: Row(
-                      children: [
-                        const Icon(
-                          Icons.edit,
-                          size: 16,
-                          color: AppColors.primaryColor,
-                        ),
-                        Text(
-                          'Edit',
-                          style: AppStyles.bodySmall
-                              .copyWith(color: AppColors.primaryColor),
-                        ),
-                      ],
-                    )),
-                MyOutlinedButton(
-                    onPressed: () {},
-                    widget: Row(
-                      children: [
-                        const Icon(
-                          Icons.delete,
-                          size: 16,
-                          color: Colors.redAccent,
-                        ),
-                        Text(
-                          'Delete',
-                          style: AppStyles.bodySmall
-                              .copyWith(color: Colors.redAccent),
-                        ),
-                      ],
-                    )),
-              ],
-            ),
-          )
+          const SizedBox(
+            height: 6,
+          ),
+          MyOutlinedButton(
+              onPressed: () {},
+              widget: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.edit,
+                    size: 16,
+                    color: AppColors.primaryColor,
+                  ),
+                  Text(
+                    'Edit',
+                    style: AppStyles.bodySmall
+                        .copyWith(color: AppColors.primaryColor),
+                  ),
+                ],
+              )),
+          const SizedBox(
+            height: 6,
+          ),
+          MyOutlinedButton(
+              onPressed: () {},
+              widget: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.delete,
+                    size: 16,
+                    color: Colors.redAccent,
+                  ),
+                  Text(
+                    'Delete',
+                    style:
+                        AppStyles.bodySmall.copyWith(color: Colors.redAccent),
+                  ),
+                ],
+              )),
+          const SizedBox(
+            height: 12,
+          ),
         ],
       ),
     );

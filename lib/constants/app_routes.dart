@@ -1,6 +1,7 @@
 import 'package:admin_ecommerce_app/screens/dashboard_screen/dashboard_screen.dart';
 import 'package:admin_ecommerce_app/screens/order_screen/order_screen.dart';
 import 'package:admin_ecommerce_app/screens/product_screen/product_screen.dart';
+import 'package:admin_ecommerce_app/screens/product_screen/widgets/add_product_dialog.dart';
 import 'package:admin_ecommerce_app/screens/promotion_screen/promotion_screen.dart';
 import 'package:admin_ecommerce_app/screens/support_screen/support_screen.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,9 @@ class AppRoutes {
       case SupportScreen.routeName:
         return MaterialPageRoute(
             settings: settings, builder: (context) => const SupportScreen());
-
+      case AddProductScreen.routeName:
+        return MaterialPageRoute(
+            settings: settings, builder: (context) => const AddProductScreen());
       default:
         return MaterialPageRoute(
             builder: (context) => const Scaffold(
