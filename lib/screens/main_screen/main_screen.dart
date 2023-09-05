@@ -35,9 +35,10 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Responsive.isMobile(context)
-          ? SideMenu(onSelectItem: _onSelectItem, currentIndex: currentIndex)
-          : null,
+      drawer: SideMenu(
+        currentIndex: currentIndex,
+        onSelectItem: _onSelectItem,
+      ),
       body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         if (Responsive.isDesktop(context))
           Expanded(
@@ -47,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
           )),
         Expanded(
           flex: 5,
-          child: localNavigator(context),
+          child: SafeArea(child: localNavigator(context)),
         )
       ]),
     );

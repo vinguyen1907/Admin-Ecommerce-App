@@ -14,6 +14,7 @@ class OrderModel {
   final String orderNumber;
   final String customerId;
   final String customerName;
+  final String customerPhoneNumber;
   final ShippingAddress address;
   final OrderSummary orderSummary;
   final bool isCompleted;
@@ -27,6 +28,7 @@ class OrderModel {
     required this.orderNumber,
     required this.customerId,
     required this.customerName,
+    required this.customerPhoneNumber,
     required this.address,
     required this.orderSummary,
     required this.isCompleted,
@@ -42,6 +44,7 @@ class OrderModel {
       'orderNumber': orderNumber,
       'customerId': customerId,
       'customerName': customerName,
+      'customerPhoneNumber': customerPhoneNumber,
       'address': address.toMap(),
       'orderSummary': orderSummary.toMap(),
       'isCompleted': isCompleted,
@@ -58,6 +61,8 @@ class OrderModel {
       orderNumber: map['orderNumber'] as String,
       customerId: map['customerId'] as String,
       customerName: map['customerName'] as String,
+      customerPhoneNumber:
+          map['customerPhoneNumber'] ?? "Not have phone number",
       address: ShippingAddress.fromMap(map['address'] as Map<String, dynamic>),
       orderSummary:
           OrderSummary.fromMap(map['orderSummary'] as Map<String, dynamic>),
@@ -79,6 +84,7 @@ class OrderModel {
     String? orderNumber,
     String? customerId,
     String? customerName,
+    String? customerPhoneNumber,
     ShippingAddress? address,
     List<OrderProductDetail>? items,
     OrderSummary? orderSummary,
@@ -93,6 +99,7 @@ class OrderModel {
       orderNumber: orderNumber ?? this.orderNumber,
       customerId: customerId ?? this.customerId,
       customerName: customerName ?? this.customerName,
+      customerPhoneNumber: customerPhoneNumber ?? this.customerPhoneNumber,
       address: address ?? this.address,
       orderSummary: orderSummary ?? this.orderSummary,
       isCompleted: isCompleted ?? this.isCompleted,
