@@ -42,6 +42,8 @@ class OrderStatusBadge extends StatelessWidget {
       ),
       child: Text(
         order.currentOrderStatus.statusName,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
         style: TextStyle(color: textColor),
       ),
     );

@@ -62,4 +62,6 @@ class OrderProductDetail {
 
   factory OrderProductDetail.fromJson(String source) =>
       OrderProductDetail.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  double get totalPrice => productPrice * quantity;
 }
