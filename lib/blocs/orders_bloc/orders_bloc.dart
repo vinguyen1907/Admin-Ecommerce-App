@@ -164,7 +164,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       emit(OrdersLoaded(
         orders: state.orders,
         displayOrders: state.displayOrders,
-        searchOrders: results == null ? null : [results],
+        searchOrders: results,
         totalOrdersCount: state.totalOrdersCount,
         lastDocument: state.lastDocument,
         currentPageIndex: state.currentPageIndex,

@@ -109,10 +109,13 @@ class OrderRepository {
     }
   }
 
-  Future<OrderModel?> searchOrder(String query) async {
+  Future<List<OrderModel>> searchOrder(String query) async {
     try {
-      final snapshot = await ordersRef.doc(query).get();
-      return OrderModel.fromMap(snapshot.data() as Map<String, dynamic>);
+      final snapshot =
+          await ordersRef.where("orderNumber", isEqualTo: query).get();
+      return snapshot.docs
+          .map((e) => OrderModel.fromMap(e.data() as Map<String, dynamic>))
+          .toList();
     } catch (e) {
       throw Exception(e);
     }

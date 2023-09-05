@@ -59,14 +59,21 @@ class _OrderScreenState extends State<OrderScreen> {
                             onClear: _onClear,
                           )),
                       const TableDivider(),
-                      OrdersTable(
-                          orders: orders,
-                          isLoading: state is LoadingMoreOrders ||
-                              state is SearchingOrders),
+                      if (orders.isEmpty)
+                        const Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Text("No orders found"),
+                        ),
+                      if (orders.isNotEmpty)
+                        OrdersTable(
+                            orders: orders,
+                            isLoading: state is LoadingMoreOrders ||
+                                state is SearchingOrders),
 
                       // Paginator
                       if (state.searchOrders == null)
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             IconButton(
                                 onPressed: _onPreviousPage,

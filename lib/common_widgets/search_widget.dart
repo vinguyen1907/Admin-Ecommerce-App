@@ -20,6 +20,11 @@ class SearchWidget extends StatelessWidget {
       child: MyTextField(
         controller: controller,
         hintText: 'Search',
+        onSubmitted: (_) {
+          if (onQuery != null) {
+            onQuery!();
+          }
+        },
         suffixIcon: IconButton(
           onPressed: controller.text.isEmpty ? onQuery : onClear,
           icon: controller.text.isEmpty
