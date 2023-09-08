@@ -3,23 +3,38 @@ import 'package:admin_ecommerce_app/constants/app_styles.dart';
 import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {
-  const MyTextField(
-      {super.key,
-      required this.hintText,
-      this.controller,
-      this.onChanged,
-      this.onSubmitted,
-      this.suffixIcon});
+  const MyTextField({
+    super.key,
+    required this.hintText,
+    this.controller,
+    this.onChanged,
+    this.onSubmitted,
+    this.suffixIcon,
+    this.initialValue,
+    this.readOnly = false,
+    this.keyboardType,
+    this.validator,
+  });
+
   final String hintText;
   final TextEditingController? controller;
   final Function(String)? onChanged;
   final Function(String)? onSubmitted;
   final Widget? suffixIcon;
+  final String? initialValue;
+  final bool readOnly;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
+
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+        readOnly: readOnly,
+        validator: validator,
         onChanged: onChanged,
-        onSubmitted: onSubmitted,
+        onFieldSubmitted: onSubmitted,
+        initialValue: initialValue,
+        keyboardType: keyboardType,
         controller: controller,
         style: AppStyles.titleSmall,
         decoration: InputDecoration(
@@ -30,8 +45,7 @@ class MyTextField extends StatelessWidget {
           isDense: true,
           contentPadding: const EdgeInsets.all(12),
           hintText: hintText,
-          hintStyle:
-              AppStyles.titleSmall.copyWith(color: AppColors.greyTextColor),
+          hintStyle: AppStyles.primaryHintText,
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(color: AppColors.greyColor)),

@@ -50,6 +50,13 @@ dependencies:
   open_file: ^3.3.2
   path_provider: ^2.1.1
   universal_html: ^2.2.3
+  cached_network_image: ^3.2.3
+  shimmer: ^3.0.0
+  omni_datetime_picker: ^1.0.8
+  image_picker_web: ^3.1.1
+  image_picker: ^1.0.4
+  firebase_storage: ^11.2.6
+  flutter_image_compress: ^2.0.4
 
 dev_dependencies:
   flutter_test:

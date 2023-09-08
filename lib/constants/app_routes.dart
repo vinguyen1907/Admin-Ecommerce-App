@@ -1,5 +1,7 @@
 import 'package:admin_ecommerce_app/models/order.dart';
+import 'package:admin_ecommerce_app/models/promotion.dart';
 import 'package:admin_ecommerce_app/screens/dashboard_screen/dashboard_screen.dart';
+import 'package:admin_ecommerce_app/screens/edit_promotion_screen/edit_promotion_screen.dart';
 import 'package:admin_ecommerce_app/screens/order_detail_screen/order_detail_screen.dart';
 import 'package:admin_ecommerce_app/screens/order_screen/order_screen.dart';
 import 'package:admin_ecommerce_app/screens/product_screen/product_screen.dart';
@@ -32,6 +34,11 @@ class AppRoutes {
         return MaterialPageRoute(
             settings: settings,
             builder: (context) => OrderDetailScreen(order: args));
+      case EditPromotionScreen.routeName:
+        final args = settings.arguments as Promotion?;
+        return MaterialPageRoute(
+            settings: settings,
+            builder: (context) => EditPromotionScreen(promotion: args));
 
       default:
         return MaterialPageRoute(

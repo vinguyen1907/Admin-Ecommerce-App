@@ -3,6 +3,7 @@ import 'package:admin_ecommerce_app/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/order_tracking_bloc/order_tracking_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/orders_bloc/orders_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/product_screen_bloc/product_screen_bloc.dart';
+import 'package:admin_ecommerce_app/blocs/promotions_bloc/promotions_bloc.dart';
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_routes.dart';
 import 'package:admin_ecommerce_app/firebase_options.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => DashboardBloc()),
         BlocProvider(create: (_) => ProductScreenBloc()),
         BlocProvider(create: (_) => OrdersBloc()),
+        BlocProvider(create: (_) => PromotionsBloc()),
         BlocProvider(
             create: (_) => OrderTrackingBloc(dashboardBloc: DashboardBloc())),
       ],

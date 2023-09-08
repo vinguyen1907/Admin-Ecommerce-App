@@ -7,6 +7,7 @@ class AppColors {
   static const Color primaryColor = Color(0xFF000000);
   static const Color greyColor = Color(0xFFEEEEEE);
   static const Color darkGreyColor = Color(0xFFDDDDDD);
+  static const Color primaryHintColor = Color(0xFFAAAAAA);
   static Color pendingBackgroundColor = Colors.orangeAccent.withOpacity(0.3);
   static Color pendingTextColor = Colors.orange;
   static Color inProgressBackgroundColor = Colors.blueAccent.withOpacity(0.3);

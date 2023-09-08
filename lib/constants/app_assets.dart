@@ -31,4 +31,5 @@ class AppAssets {
   static const String icPrinter = "$iconPath/ic_printer.svg";
   static const String icUser = "$iconPath/ic_user.svg";
   static const String icLocation = "$iconPath/ic_location.svg";
+  static const String icGalleryExport = "$iconPath/ic_gallery_export.svg";
 }
