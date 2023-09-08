@@ -8,4 +8,8 @@ extension DateTimeExt on DateTime {
   String toFullDateTimeFormat() {
     return DateFormat('E, MMM d, y, h:mm a').format(this);
   }
+
+  String toDateFormat() {
+    return DateFormat.yMMMd().format(this);
+  }
 }
