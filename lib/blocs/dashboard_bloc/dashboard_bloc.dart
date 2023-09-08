@@ -21,19 +21,30 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   _onLoadDashboard(LoadDashboard event, Emitter<DashboardState> emit) async {
     try {
       emit(DashboardLoading());
-      final ordersStatistics =
-          await StatisticsRepository().getOrdersStatistics();
-      final OrdersWithLastDoc orders =
-          await OrderRepository().fetchLatestOrders();
-      final int productCount = await ProductRepository().getProductsCount();
-      final List<OrdersMonthlyStatistics> monthlySales =
-          await StatisticsRepository().getMonthlySales();
+      final ordersStatisticsTask = StatisticsRepository().getOrdersStatistics();
+      final ordersTask = OrderRepository().fetchLatestOrders();
+      final productCountTask = ProductRepository().getProductsCount();
+      final monthlySalesTask = StatisticsRepository().getMonthlySales();
+
+      await Future.wait([
+        ordersStatisticsTask,
+        ordersTask,
+        productCountTask,
+        monthlySalesTask,
+      ]);
+
+      // Access the results of each statement
+      final Map<String, dynamic> statistics = await ordersStatisticsTask;
+      final OrdersWithLastDoc orders = await ordersTask;
+      final int productCount = await productCountTask;
+      final List<OrdersMonthlyStatistics> monthlySales = await monthlySalesTask;
+
       emit(DashboardLoaded(
         latestOrders: orders.orders,
         productCount: productCount,
         lastDocument: orders.lastDocument,
-        totalOrdersCount: ordersStatistics['total_orders']!.toInt(),
-        totalSales: ordersStatistics['total_sales']!,
+        totalOrdersCount: statistics['total_orders']!.toInt(),
+        totalSales: statistics['total_sales']!,
         monthlyStatistics: monthlySales,
       ));
     } catch (e) {
