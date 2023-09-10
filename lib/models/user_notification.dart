@@ -27,7 +27,7 @@ class UserNotification {
       'userId': userId,
       'title': title,
       'content': content,
-      'createdAt': createdAt.millisecondsSinceEpoch,
+      'createdAt': createdAt,
       'type': type.name,
     };
   }
@@ -38,7 +38,7 @@ class UserNotification {
       userId: map['userId'] as String,
       title: map['title'] as String,
       content: map['content'] as String,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
+      createdAt: map['createdAt'] as DateTime,
       type: (map['type'] as String).toNotificationType(),
     );
   }
@@ -47,4 +47,22 @@ class UserNotification {
 
   factory UserNotification.fromJson(String source) =>
       UserNotification.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  UserNotification copyWith({
+    String? id,
+    String? userId,
+    String? title,
+    String? content,
+    DateTime? createdAt,
+    NotificationType? type,
+  }) {
+    return UserNotification(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      title: title ?? this.title,
+      content: content ?? this.content,
+      createdAt: createdAt ?? this.createdAt,
+      type: type ?? this.type,
+    );
+  }
 }

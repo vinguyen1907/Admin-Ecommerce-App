@@ -5,16 +5,22 @@ import 'package:admin_ecommerce_app/services/notification_service.dart';
 class NotificationRepository {
   Future<void> addNotification(
       {required UserNotification notification,
-      required String receiverId}) async {
+      required String receiverId,
+      String? imgUrl}) async {
     try {
       final fcmToken = await getFcmToken(receiverId);
       if (fcmToken == null) {
         throw Exception("This user is not available.");
       }
+
+      final doc = notificationsRef.doc();
       final List<Future> futures = [
-        notificationsRef.add(notification.toMap()),
+        notificationsRef.add(notification.copyWith(id: doc.id).toMap()),
         NotificationService().sendNotification(
-            fcmToken, notification.title, notification.content),
+            fcmToken: fcmToken,
+            title: notification.title,
+            body: notification.content,
+            imgUrl: imgUrl),
       ];
 
       await Future.wait(futures);

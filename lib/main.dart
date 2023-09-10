@@ -9,7 +9,6 @@ import 'package:admin_ecommerce_app/constants/app_routes.dart';
 import 'package:admin_ecommerce_app/firebase_options.dart';
 import 'package:admin_ecommerce_app/helpers/custom_scroll_behavior.dart';
 import 'package:admin_ecommerce_app/screens/main_screen/main_screen.dart';
-import 'package:admin_ecommerce_app/services/notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,10 +29,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NotificationService().sendNotification(
-        "eVEQzZkQQVKb628OYslwc0:APA91bHIEuiiwz4-I4sew97EKYPUmx4mhgj6mixaZQsNDTX2mVLkrR-E9RPlZNYVVVfB4G98sQ4mS9EFgWcP2seJ54SnoCGGLe-VGhlRDRAUJTboB0fK4JdEdv3wo3QFIK7HDY40jbBz",
-        "Test",
-        "Test");
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => NavigationBloc()),
