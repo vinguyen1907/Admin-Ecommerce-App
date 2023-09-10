@@ -1,5 +1,10 @@
 import 'package:admin_ecommerce_app/blocs/dashboard_bloc/dashboard_bloc.dart';
+import 'package:admin_ecommerce_app/extensions/order_status_extensions.dart';
+import 'package:admin_ecommerce_app/models/notification_type.dart';
+import 'package:admin_ecommerce_app/models/order.dart';
 import 'package:admin_ecommerce_app/models/tracking_status.dart';
+import 'package:admin_ecommerce_app/models/user_notification.dart';
+import 'package:admin_ecommerce_app/repositories/notifcation_repository.dart';
 import 'package:admin_ecommerce_app/repositories/order_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -32,10 +37,21 @@ class OrderTrackingBloc extends Bloc<OrderTrackingEvent, OrderTrackingState> {
   _onUpdateOrderStatus(
       UpdateOrderStatus event, Emitter<OrderTrackingState> emit) async {
     try {
-      await OrderRepository().updateOrderStatus(event.orderId, event.status);
+      final notification = UserNotification(
+          id: "",
+          userId: event.order.customerId,
+          title: "Your order status has been updated",
+          content:
+              "Your order status has been updated to ${event.status.status.statusName}",
+          createdAt: DateTime.now(),
+          type: NotificationType.statusOrder);
+
+      await OrderRepository().updateOrderStatus(event.order.id, event.status);
+      await NotificationRepository().addNotification(
+          notification: notification, receiverId: event.order.customerId);
 
       _dashboardBloc.add(
-          UpdateOrders(orderId: event.orderId, trackingStatus: event.status));
+          UpdateOrders(orderId: event.order.id, trackingStatus: event.status));
 
       if (state is OrderTrackingLoaded) {
         final currentTrackingStatuses =

@@ -20,13 +20,13 @@ class LoadOrderTracking extends OrderTrackingEvent {
 
 class UpdateOrderStatus extends OrderTrackingEvent {
   const UpdateOrderStatus({
-    required this.orderId,
+    required this.order,
     required this.status,
   });
 
-  final String orderId;
+  final OrderModel order;
   final TrackingStatus status;
 
   @override
-  List<Object> get props => [orderId, status];
+  List<Object> get props => [order, status];
 }
