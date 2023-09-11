@@ -1,7 +1,10 @@
 import 'package:admin_ecommerce_app/models/order.dart';
+import 'package:admin_ecommerce_app/models/orders_monthly_statistics.dart';
+import 'package:admin_ecommerce_app/models/orders_with_last_doc.dart';
 import 'package:admin_ecommerce_app/models/tracking_status.dart';
 import 'package:admin_ecommerce_app/repositories/order_repository.dart';
 import 'package:admin_ecommerce_app/repositories/product_repository.dart';
+import 'package:admin_ecommerce_app/repositories/statistics_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
@@ -18,14 +21,31 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   _onLoadDashboard(LoadDashboard event, Emitter<DashboardState> emit) async {
     try {
       emit(DashboardLoading());
-      final salesStatistics = await OrderRepository().getSalesStatistics();
-      final orders = await OrderRepository().fetchLatestOrders();
-      final productCount = await ProductRepository().getProductsCount();
+      final ordersStatisticsTask = StatisticsRepository().getOrdersStatistics();
+      final ordersTask = OrderRepository().fetchLatestOrders();
+      final productCountTask = ProductRepository().getProductsCount();
+      final monthlySalesTask = StatisticsRepository().getMonthlySales();
+
+      await Future.wait([
+        ordersStatisticsTask,
+        ordersTask,
+        productCountTask,
+        monthlySalesTask,
+      ]);
+
+      // Access the results of each statement
+      final Map<String, dynamic> statistics = await ordersStatisticsTask;
+      final OrdersWithLastDoc orders = await ordersTask;
+      final int productCount = await productCountTask;
+      final List<OrdersMonthlyStatistics> monthlySales = await monthlySalesTask;
+
       emit(DashboardLoaded(
         latestOrders: orders.orders,
         productCount: productCount,
         lastDocument: orders.lastDocument,
-        totalOrdersCount: salesStatistics['total_orders']!.toInt(),
+        totalOrdersCount: statistics['total_orders']!.toInt(),
+        totalSales: statistics['total_sales']!,
+        monthlyStatistics: monthlySales,
       ));
     } catch (e) {
       emit(DashboardError(message: e.toString()));

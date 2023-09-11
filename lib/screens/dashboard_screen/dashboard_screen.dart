@@ -41,7 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           return const Center(child: CircularProgressIndicator());
         }
         if (state is DashboardError) {
-          return const Center(child: Text("Error"));
+          return Center(child: Text(state.message));
         }
         if (state is DashboardLoaded) {
           return SingleChildScrollView(
@@ -80,7 +80,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  DashboardCharts(orders: state.latestOrders),
+                  DashboardCharts(monthlyStatistics: state.monthlyStatistics),
                   LatestOrdersTable(orders: state.latestOrders),
                 ],
               ),
