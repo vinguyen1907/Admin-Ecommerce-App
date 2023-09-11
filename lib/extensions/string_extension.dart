@@ -1,3 +1,4 @@
+import 'package:admin_ecommerce_app/models/notification_type.dart';
 import 'package:admin_ecommerce_app/models/promotion_type.dart';
 
 extension StringExt on String {
@@ -11,6 +12,19 @@ extension StringExt on String {
         return PromotionType.fixedAmount;
       default:
         return PromotionType.freeShipping;
+    }
+  }
+
+  NotificationType toNotificationType() {
+    switch (this) {
+      case "promotion":
+        return NotificationType.promotion;
+      case "advertisement":
+        return NotificationType.advertisement;
+      case "statusOrder":
+        return NotificationType.statusOrder;
+      default:
+        return NotificationType.promotion;
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final CollectionReference usersRef =
     FirebaseFirestore.instance.collection('users');
@@ -15,3 +16,5 @@ final DocumentReference productsStatisticsDocRef =
     firestore.collection("statistics").doc("products_statistics");
 final CollectionReference monthlySalesRef =
     ordersStatisticsDocRef.collection("monthly_sales");
+final CollectionReference notificationsRef =
+    firestore.collection("notifications");
