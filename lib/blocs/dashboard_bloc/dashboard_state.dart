@@ -19,6 +19,8 @@ class DashboardLoaded extends DashboardState {
   final int totalOrdersCount;
   final double totalSales;
   final List<OrdersMonthlyStatistics> monthlyStatistics;
+  final List<Product> topProducts;
+  final int totalSoldCount;
   final DateTime? lastUpdateTime;
 
   const DashboardLoaded(
@@ -28,6 +30,8 @@ class DashboardLoaded extends DashboardState {
       required this.totalOrdersCount,
       required this.totalSales,
       required this.monthlyStatistics,
+      required this.topProducts,
+      required this.totalSoldCount,
       this.lastUpdateTime});
 
   @override
@@ -38,6 +42,8 @@ class DashboardLoaded extends DashboardState {
         totalOrdersCount,
         totalSales,
         monthlyStatistics,
+        topProducts,
+        totalSoldCount,
         lastUpdateTime,
       ];
 
@@ -50,6 +56,8 @@ class DashboardLoaded extends DashboardState {
     int? totalOrdersCount,
     double? totalSales,
     List<OrdersMonthlyStatistics>? monthlyStatistics,
+    List<Product>? topProducts,
+    int? totalSoldCount,
     DateTime? lastUpdateTime,
   }) {
     return DashboardLoaded(
@@ -59,6 +67,8 @@ class DashboardLoaded extends DashboardState {
       totalOrdersCount: totalOrdersCount ?? this.totalOrdersCount,
       totalSales: totalSales ?? this.totalSales,
       monthlyStatistics: monthlyStatistics ?? this.monthlyStatistics,
+      topProducts: topProducts ?? this.topProducts,
+      totalSoldCount: totalSoldCount ?? this.totalSoldCount,
       lastUpdateTime: lastUpdateTime ?? this.lastUpdateTime,
     );
   }

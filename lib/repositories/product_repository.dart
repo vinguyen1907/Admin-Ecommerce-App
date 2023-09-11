@@ -116,4 +116,19 @@ class ProductRepository {
       throw Exception(e);
     }
   }
+
+  Future<List<Product>> fetchTopProducts() async {
+    try {
+      final snapshot = await productsRef
+          .orderBy("soldCount", descending: true)
+          .limit(5)
+          .get();
+      final List<Product> products = snapshot.docs
+          .map((e) => Product.fromMap(e.data() as Map<String, dynamic>))
+          .toList();
+      return products;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }
