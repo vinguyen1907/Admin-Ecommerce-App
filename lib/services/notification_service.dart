@@ -1,4 +1,5 @@
 import 'package:admin_ecommerce_app/constants/app_constant.dart';
+import 'package:admin_ecommerce_app/models/notification_type.dart';
 import 'package:dio/dio.dart';
 
 class NotificationService {
@@ -6,15 +7,14 @@ class NotificationService {
       {required String fcmToken,
       required String title,
       required String body,
-      String? imgUrl}) async {
+      String? imgUrl,
+      required NotificationType type}) async {
     var postUrl = AppConstants.fcmPostUrl;
     var data = {
       "notification": {"body": body, "title": title},
       "priority": "high",
       "data": {
-        "click_action": "FLUTTER_NOTIFICATION_CLICK",
-        "id": "1",
-        "status": "done"
+        "type": type.name,
       },
       "to": fcmToken
     };
@@ -40,7 +40,9 @@ class NotificationService {
   }
 
   Future<bool> sendNotificationToAll(
-      {required String title, required String content}) async {
+      {required String title,
+      required String content,
+      required NotificationType type}) async {
     final dio = Dio(
       BaseOptions(
         baseUrl: 'https://fcm.googleapis.com/fcm',
@@ -54,10 +56,14 @@ class NotificationService {
     final data = {
       "to": "/topics/all",
       "collapse_key": "type_a",
+      "priority": "high",
       "notification": {
         "title": title,
         "body": content,
-      }
+      },
+      "data": {
+        "type": type.name,
+      },
     };
 
     try {

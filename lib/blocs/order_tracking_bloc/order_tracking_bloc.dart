@@ -48,7 +48,10 @@ class OrderTrackingBloc extends Bloc<OrderTrackingEvent, OrderTrackingState> {
 
       await OrderRepository().updateOrderStatus(event.order.id, event.status);
       await NotificationRepository().addNotification(
-          notification: notification, receiverId: event.order.customerId);
+        notification: notification,
+        receiverId: event.order.customerId,
+        type: NotificationType.statusOrder,
+      );
 
       _dashboardBloc.add(
           UpdateOrders(orderId: event.order.id, trackingStatus: event.status));

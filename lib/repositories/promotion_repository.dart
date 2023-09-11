@@ -88,8 +88,8 @@ class PromotionRepository {
         // Add notification in Firestore
         notificationDoc.set(notification.toMap()),
         // Send notification using FCM
-        NotificationService()
-            .sendNotificationToAll(title: title, content: content),
+        NotificationService().sendNotificationToAll(
+            title: title, content: content, type: NotificationType.promotion),
       ];
 
       await Future.wait(futures);
