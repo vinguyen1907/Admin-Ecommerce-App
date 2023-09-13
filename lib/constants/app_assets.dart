@@ -18,6 +18,8 @@ class AppAssets {
   static const String icPromotionBold = "$iconPath/ic_promotion_bold.svg";
   static const String icSms = "$iconPath/ic_sms.svg";
   static const String icSmsBold = "$iconPath/ic_sms_bold.svg";
+  static const String icPeople = "$iconPath/ic_people.svg";
+  static const String icPeopleBold = "$iconPath/ic_people_bold.svg";
   static const String icLogout = "$iconPath/ic_logout.svg";
   static const String icDollar = "$iconPath/ic_dollar.svg";
   static const String icDelete = "$iconPath/ic_delete.svg";

@@ -20,7 +20,6 @@ class SideMenu extends StatelessWidget {
       'Product',
       'Order',
       'Promotion',
-      'Support',
     ];
     final drawerTileIcons = <String>[
       AppAssets.icChart,
@@ -57,6 +56,13 @@ class SideMenu extends StatelessWidget {
                     onTap: () => onSelectItem(index),
                   );
                 }),
+            DrawerListTile(
+              icon: AppAssets.icPeople,
+              selectedIcon: AppAssets.icPeopleBold,
+              isSelected: currentIndex == drawerTileTitles.length + 1,
+              title: "Employee",
+              onTap: () => onSelectItem(drawerTileTitles.length + 1),
+            ),
             const Spacer(),
             DrawerListTile(
               icon: AppAssets.icLogout,
