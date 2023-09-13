@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
   String getFullAddress(
@@ -57,5 +58,16 @@ class Utils {
     final RegExp regex =
         RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
     return regex.hasMatch(email);
+  }
+
+  static Future<void> changeSignInState(bool isSignedIn) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("isSignedIn", isSignedIn);
+  }
+
+  static Future<bool> getSignInState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool isSignedIn = prefs.getBool("isSignedIn") ?? false;
+    return isSignedIn;
   }
 }

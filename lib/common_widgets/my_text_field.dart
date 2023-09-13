@@ -15,6 +15,7 @@ class MyTextField extends StatelessWidget {
     this.readOnly = false,
     this.keyboardType,
     this.validator,
+    this.obscureText = false,
   });
 
   final String hintText;
@@ -27,6 +28,7 @@ class MyTextField extends StatelessWidget {
   final bool readOnly;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
+  final bool obscureText;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,7 @@ class MyTextField extends StatelessWidget {
         keyboardType: keyboardType,
         controller: controller,
         style: AppStyles.titleSmall,
+        obscureText: obscureText,
         decoration: InputDecoration(
           constraints: const BoxConstraints(
             minHeight: 40,

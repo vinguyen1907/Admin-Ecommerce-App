@@ -36,10 +36,20 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void initState() {
     super.initState();
+
+    Utils.getSignInState().then((isSignedIn) {
+      if (isSignedIn) {
+        context.read<UserBloc>().add(const LoadUser());
+        if (_authStateChangesSubscription != null) {
+          _authStateChangesSubscription!.cancel();
+        }
+      }
+    });
     _authStateChangesSubscription =
         FirebaseAuth.instance.authStateChanges().listen((user) {
       if (user != null) {
         context.read<UserBloc>().add(const LoadUser());
+        Utils.changeSignInState(true);
         _authStateChangesSubscription!.cancel();
       }
     });
@@ -120,11 +130,13 @@ class _SignInScreenState extends State<SignInScreen> {
                       MyTextField(
                         controller: _passwordController,
                         hintText: "Password",
+                        obscureText: true,
                         prefixIcon: const MyIcon(
                           icon: AppAssets.icLock,
                           colorFilter: ColorFilter.mode(
                               AppColors.greyColor, BlendMode.srcIn),
                         ),
+                        onSubmitted: (value) => _onLogIn(),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Password is required.";
