@@ -9,8 +9,6 @@ import 'package:admin_ecommerce_app/common_widgets/screen_name_section.dart';
 import 'package:admin_ecommerce_app/constants/app_assets.dart';
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_styles.dart';
-import 'package:admin_ecommerce_app/constants/firebase_constants.dart';
-import 'package:admin_ecommerce_app/models/user.dart';
 import 'package:admin_ecommerce_app/screens/main_screen/main_screen.dart';
 import 'package:admin_ecommerce_app/services/firebase_auth_service.dart';
 import 'package:admin_ecommerce_app/utils/utils.dart';

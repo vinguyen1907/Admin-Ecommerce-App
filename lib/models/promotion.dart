@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:admin_ecommerce_app/extensions/double_extension.dart';
 import 'package:admin_ecommerce_app/extensions/promotion_type_extensions.dart';
-import 'package:admin_ecommerce_app/extensions/string_extension.dart';
+import 'package:admin_ecommerce_app/extensions/string_extensions.dart';
 import 'package:admin_ecommerce_app/models/promotion_type.dart';
 
 class Promotion {

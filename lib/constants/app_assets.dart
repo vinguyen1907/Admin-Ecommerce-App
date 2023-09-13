@@ -3,6 +3,7 @@ class AppAssets {
   static const String iconPath = "assets/icons";
 
   // Images
+  static const String imgDefaultAvatar = "$imagePath/img_default_avatar.jpg";
 
   // Icons
   static const String icAppIcon = "$iconPath/app_icon.svg";
