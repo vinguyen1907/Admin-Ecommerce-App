@@ -1,11 +1,14 @@
+import 'package:admin_ecommerce_app/blocs/user_bloc/user_bloc.dart';
 import 'package:admin_ecommerce_app/common_widgets/my_icon.dart';
 import 'package:admin_ecommerce_app/constants/app_assets.dart';
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
+import 'package:admin_ecommerce_app/models/user.dart';
 import 'package:admin_ecommerce_app/screens/main_screen/widgets/drawer_listtile.dart';
 import 'package:admin_ecommerce_app/screens/sign_in_screen/sign_in_screen.dart';
 import 'package:admin_ecommerce_app/services/firebase_auth_service.dart';
 import 'package:admin_ecommerce_app/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -23,7 +26,6 @@ class SideMenu extends StatelessWidget {
       'Product',
       'Order',
       'Promotion',
-      'Support',
     ];
     final drawerTileIcons = <String>[
       AppAssets.icChart,
@@ -60,6 +62,22 @@ class SideMenu extends StatelessWidget {
                     onTap: () => onSelectItem(index),
                   );
                 }),
+            BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                if (state is UserLoaded) {
+                  if (state.user.type == UserType.admin) {
+                    return DrawerListTile(
+                      icon: AppAssets.icPeople,
+                      selectedIcon: AppAssets.icPeopleBold,
+                      isSelected: currentIndex == drawerTileTitles.length + 1,
+                      title: "Employee",
+                      onTap: () => onSelectItem(drawerTileTitles.length + 1),
+                    );
+                  }
+                }
+                return const SizedBox();
+              },
+            ),
             const Spacer(),
             DrawerListTile(
               icon: AppAssets.icLogout,

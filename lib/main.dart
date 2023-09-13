@@ -1,4 +1,5 @@
 import 'package:admin_ecommerce_app/blocs/dashboard_bloc/dashboard_bloc.dart';
+import 'package:admin_ecommerce_app/blocs/employees_bloc/employees_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/order_tracking_bloc/order_tracking_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/orders_bloc/orders_bloc.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => ProductScreenBloc()),
         BlocProvider(create: (_) => OrdersBloc()),
         BlocProvider(create: (_) => PromotionsBloc()),
+        BlocProvider(create: (_) => EmployeesBloc()),
         BlocProvider(
             create: (_) => OrderTrackingBloc(dashboardBloc: DashboardBloc())),
       ],

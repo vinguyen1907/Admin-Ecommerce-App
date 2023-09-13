@@ -70,4 +70,17 @@ class Utils {
     final bool isSignedIn = prefs.getBool("isSignedIn") ?? false;
     return isSignedIn;
   }
+
+  static Future<DateTime?> showMyDatePicker(
+      {required BuildContext context,
+      DateTime? initialDate,
+      required DateTime firstDate,
+      required DateTime lastDate}) async {
+    final DateTime? date = await showDatePicker(
+        context: context,
+        initialDate: initialDate ?? DateTime.now(),
+        firstDate: firstDate,
+        lastDate: lastDate);
+    return date;
+  }
 }

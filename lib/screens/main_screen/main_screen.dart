@@ -1,6 +1,7 @@
 import 'package:admin_ecommerce_app/helpers/local_navigator.dart';
 import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/screens/dashboard_screen/dashboard_screen.dart';
+import 'package:admin_ecommerce_app/screens/employee_screen/employee_screen.dart';
 import 'package:admin_ecommerce_app/screens/main_screen/widgets/side_menu.dart';
 import 'package:admin_ecommerce_app/screens/order_screen/order_screen.dart';
 import 'package:admin_ecommerce_app/screens/product_screen/product_screen.dart';
@@ -28,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
     OrderScreen.routeName,
     PromotionScreen.routeName,
     SupportScreen.routeName,
+    EmployeeScreen.routeName
   ];
 
   @override
