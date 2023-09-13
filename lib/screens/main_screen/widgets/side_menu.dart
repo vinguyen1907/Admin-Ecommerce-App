@@ -70,9 +70,9 @@ class SideMenu extends StatelessWidget {
                     return DrawerListTile(
                       icon: AppAssets.icPeople,
                       selectedIcon: AppAssets.icPeopleBold,
-                      isSelected: currentIndex == drawerTileTitles.length + 1,
+                      isSelected: currentIndex == drawerTileTitles.length,
                       title: "Employee",
-                      onTap: () => onSelectItem(drawerTileTitles.length + 1),
+                      onTap: () => onSelectItem(drawerTileTitles.length),
                     );
                   }
                 }
