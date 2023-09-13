@@ -19,3 +19,7 @@ class NavigateTo extends NavigationEvent {
   @override
   List<Object?> get props => [routeName, arguments];
 }
+
+class CreateNavigatorState extends NavigationEvent {
+  const CreateNavigatorState();
+}

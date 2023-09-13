@@ -7,12 +7,25 @@ import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/screens/dashboard_screen/widgets/order_status_badge.dart';
 import 'package:flutter/material.dart';
 
-class LatestOrdersTable extends StatelessWidget {
+class LatestOrdersTable extends StatefulWidget {
   final List<OrderModel> orders;
   const LatestOrdersTable({
     super.key,
     required this.orders,
   });
+
+  @override
+  State<LatestOrdersTable> createState() => _LatestOrdersTableState();
+}
+
+class _LatestOrdersTableState extends State<LatestOrdersTable> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +37,9 @@ class LatestOrdersTable extends StatelessWidget {
           const Text("Latest Orders", style: AppStyles.headlineMedium),
           Scrollbar(
             thumbVisibility: true,
-            controller: ScrollController(),
+            controller: _scrollController,
             child: SingleChildScrollView(
+              controller: _scrollController,
               scrollDirection: Axis.horizontal,
               child: DataTable(
                 showCheckboxColumn: false,
@@ -48,9 +62,10 @@ class LatestOrdersTable extends StatelessWidget {
                   DataColumn(numeric: true, label: Text("Price")),
                   DataColumn(label: Text("Status")),
                 ],
-                rows: List.generate(orders.length > 10 ? 10 : orders.length,
+                rows: List.generate(
+                    widget.orders.length > 10 ? 10 : widget.orders.length,
                     (index) {
-                  final order = orders[index];
+                  final order = widget.orders[index];
                   return DataRow(cells: <DataCell>[
                     DataCell(Text((index + 1).toString())),
                     DataCell(Text(

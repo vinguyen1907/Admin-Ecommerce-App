@@ -10,6 +10,7 @@ class MyTextField extends StatelessWidget {
     this.onChanged,
     this.onSubmitted,
     this.suffixIcon,
+    this.prefixIcon,
     this.initialValue,
     this.readOnly = false,
     this.keyboardType,
@@ -20,6 +21,7 @@ class MyTextField extends StatelessWidget {
   final TextEditingController? controller;
   final Function(String)? onChanged;
   final Function(String)? onSubmitted;
+  final Widget? prefixIcon;
   final Widget? suffixIcon;
   final String? initialValue;
   final bool readOnly;
@@ -41,6 +43,13 @@ class MyTextField extends StatelessWidget {
           constraints: const BoxConstraints(
             minHeight: 40,
           ),
+          prefixIcon: prefixIcon == null
+              ? null
+              : Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: prefixIcon,
+                ),
+          prefixIconColor: AppColors.greyColor,
           suffixIcon: suffixIcon,
           isDense: true,
           contentPadding: const EdgeInsets.all(12),
