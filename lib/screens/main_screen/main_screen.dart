@@ -66,6 +66,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _onSelectItem(int index) {
+    print(index);
+    print(routes[index]);
     setState(() {
       currentIndex = index;
     });
