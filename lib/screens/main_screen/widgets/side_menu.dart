@@ -26,6 +26,7 @@ class SideMenu extends StatelessWidget {
       'Product',
       'Order',
       'Promotion',
+      'Support',
     ];
     final drawerTileIcons = <String>[
       AppAssets.icChart,
