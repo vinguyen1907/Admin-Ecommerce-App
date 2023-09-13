@@ -1,8 +1,9 @@
 import 'package:admin_ecommerce_app/blocs/dashboard_bloc/dashboard_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/orders_bloc/orders_bloc.dart';
+import 'package:admin_ecommerce_app/common_widgets/screen_horizontal_padding_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/screen_name_section.dart';
 import 'package:admin_ecommerce_app/constants/app_assets.dart';
-import 'package:admin_ecommerce_app/constants/app_dimensions.dart';
+import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/screens/dashboard_screen/widgets/dashboard_charts.dart';
 import 'package:admin_ecommerce_app/screens/dashboard_screen/widgets/dashboard_statistics_item.dart';
 import 'package:admin_ecommerce_app/screens/dashboard_screen/widgets/latest_orders_table.dart';
@@ -41,46 +42,88 @@ class _DashboardScreenState extends State<DashboardScreen> {
           return const Center(child: CircularProgressIndicator());
         }
         if (state is DashboardError) {
-          return const Center(child: Text("Error"));
+          return Center(child: Text(state.message));
         }
         if (state is DashboardLoaded) {
           return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: AppDimensions.defaultHorizontalContentPadding),
+            child: ScreenHorizontalPaddingWidget(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const ScreenNameSection("Dashboard"),
-                  Row(
-                    children: [
-                      DashboardStatisticsItem(
-                        title: "Total Sales",
-                        value: state.totalSales,
-                        iconAsset: AppAssets.icDollar,
-                        iconInnerColor: Colors.orangeAccent,
-                        iconOuterColor: Colors.orangeAccent.withOpacity(0.3),
+                  if (Responsive.isMobile(context))
+                    Column(
+                      children: [
+                        DashboardStatisticsItem(
+                          title: "Total Sales",
+                          value: state.totalSales,
+                          iconAsset: AppAssets.icDollar,
+                          iconInnerColor: Colors.orangeAccent,
+                          iconOuterColor: Colors.orangeAccent.withOpacity(0.3),
+                        ),
+                        const SizedBox(height: 20),
+                        DashboardStatisticsItem(
+                          title: "Total Orders",
+                          value: state.totalOrdersCount.toDouble(),
+                          iconAsset: AppAssets.icBagBold,
+                          iconInnerColor: Colors.greenAccent,
+                          iconOuterColor: Colors.greenAccent.withOpacity(0.3),
+                        ),
+                        const SizedBox(height: 20),
+                        DashboardStatisticsItem(
+                          title: "Total Products",
+                          value: state.productCount.toDouble(),
+                          iconAsset: AppAssets.icBoxBold,
+                          iconInnerColor: Colors.blueAccent,
+                          iconOuterColor: Colors.blueAccent.withOpacity(0.3),
+                        )
+                      ],
+                    ),
+                  if (!Responsive.isMobile(context))
+                    IntrinsicHeight(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: DashboardStatisticsItem(
+                              title: "Total Sales",
+                              value: state.totalSales,
+                              iconAsset: AppAssets.icDollar,
+                              iconInnerColor: Colors.orangeAccent,
+                              iconOuterColor:
+                                  Colors.orangeAccent.withOpacity(0.3),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: DashboardStatisticsItem(
+                              title: "Total Orders",
+                              value: state.totalOrdersCount.toDouble(),
+                              iconAsset: AppAssets.icBagBold,
+                              iconInnerColor: Colors.greenAccent,
+                              iconOuterColor:
+                                  Colors.greenAccent.withOpacity(0.3),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: DashboardStatisticsItem(
+                              title: "Total Products",
+                              value: state.productCount.toDouble(),
+                              iconAsset: AppAssets.icBoxBold,
+                              iconInnerColor: Colors.blueAccent,
+                              iconOuterColor:
+                                  Colors.blueAccent.withOpacity(0.3),
+                            ),
+                          )
+                        ],
                       ),
-                      const SizedBox(width: 20),
-                      DashboardStatisticsItem(
-                        title: "Total Orders",
-                        value: state.totalOrdersCount.toDouble(),
-                        iconAsset: AppAssets.icBagBold,
-                        iconInnerColor: Colors.greenAccent,
-                        iconOuterColor: Colors.greenAccent.withOpacity(0.3),
-                      ),
-                      const SizedBox(width: 20),
-                      DashboardStatisticsItem(
-                        title: "Total Products",
-                        value: state.productCount.toDouble(),
-                        iconAsset: AppAssets.icBoxBold,
-                        iconInnerColor: Colors.blueAccent,
-                        iconOuterColor: Colors.blueAccent.withOpacity(0.3),
-                      )
-                    ],
-                  ),
+                    ),
                   const SizedBox(height: 20),
-                  DashboardCharts(orders: state.latestOrders),
+                  DashboardCharts(
+                    monthlyStatistics: state.monthlyStatistics,
+                    topProducts: state.topProducts,
+                    totalSoldCount: state.totalSoldCount,
+                  ),
                   LatestOrdersTable(orders: state.latestOrders),
                 ],
               ),

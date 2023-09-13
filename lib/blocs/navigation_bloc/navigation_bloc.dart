@@ -6,8 +6,10 @@ part 'navigation_event.dart';
 part 'navigation_state.dart';
 
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
-  NavigationBloc() : super(NavigationState()) {
+  NavigationBloc()
+      : super(NavigationState(navigatorKey: GlobalKey<NavigatorState>())) {
     on<NavigateTo>(_onNavigateTo);
+    on<CreateNavigatorState>(_onCreateNavigatorState);
   }
 
   _onNavigateTo(NavigateTo event, Emitter<NavigationState> emit) {
@@ -15,5 +17,9 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       event.routeName,
       arguments: event.arguments,
     );
+  }
+
+  _onCreateNavigatorState(event, emit) {
+    emit(NavigationState(navigatorKey: GlobalKey<NavigatorState>()));
   }
 }

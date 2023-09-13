@@ -55,16 +55,6 @@ class _SignInScreenState extends State<SignInScreen> {
         _authStateChangesSubscription!.cancel();
       }
     });
-
-    usersRef.doc("clVyzvLxwXWEdxJabjac2fBPIYM2").set(Employee(
-            id: "clVyzvLxwXWEdxJabjac2fBPIYM2",
-            email: "employee1@gmail.com",
-            type: UserType.employee,
-            name: "Employee 1",
-            dateOfBirth: DateTime(2023),
-            salary: 1000,
-            workingStatus: WorkingStatus.working)
-        .toMap());
   }
 
   @override

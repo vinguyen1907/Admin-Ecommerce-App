@@ -29,7 +29,8 @@ class CustomerInformation extends StatelessWidget {
                 Text(order.customerName,
                     style: AppStyles.bodyMedium
                         .copyWith(color: AppColors.primaryColor)),
-                Text(order.customerPhoneNumber,
+                Text(
+                    "+${order.address.countryCallingCode} ${order.address.phoneNumber}",
                     style: AppStyles.bodyMedium
                         .copyWith(color: AppColors.primaryColor)),
               ]),

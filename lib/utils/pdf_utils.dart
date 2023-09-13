@@ -88,10 +88,11 @@ class PdfUtils {
     ));
 
     if (kIsWeb) {
-      await saveDocumentOnWeb(name: 'invoice-${order.id}.pdf', pdf: pdf);
+      await saveDocumentOnWeb(
+          name: 'invoice-${order.orderNumber}.pdf', pdf: pdf);
     } else {
-      final pdfFile =
-          await saveDocument(name: 'invoice-${order.id}.pdf', pdf: pdf);
+      final pdfFile = await saveDocument(
+          name: 'invoice-${order.orderNumber}.pdf', pdf: pdf);
       PdfUtils.openFile(pdfFile);
     }
   }
@@ -119,7 +120,7 @@ class PdfUtils {
               width: 50,
               child: BarcodeWidget(
                 barcode: Barcode.qrCode(),
-                data: order.id,
+                data: order.orderNumber,
               ),
             ),
           ],
@@ -156,7 +157,7 @@ class PdfUtils {
       'Date of invoice:',
     ];
     final data = <String>[
-      order.id,
+      order.orderNumber,
       order.createdAt.toDate().toDateTimeFormat(),
       DateTime.now().toDateTimeFormat(),
     ];

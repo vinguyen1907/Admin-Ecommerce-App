@@ -2,6 +2,9 @@ import 'package:admin_ecommerce_app/common_widgets/my_icon.dart';
 import 'package:admin_ecommerce_app/constants/app_assets.dart';
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/screens/main_screen/widgets/drawer_listtile.dart';
+import 'package:admin_ecommerce_app/screens/sign_in_screen/sign_in_screen.dart';
+import 'package:admin_ecommerce_app/services/firebase_auth_service.dart';
+import 'package:admin_ecommerce_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class SideMenu extends StatelessWidget {
@@ -69,11 +72,17 @@ class SideMenu extends StatelessWidget {
               selectedIcon: AppAssets.icLogout,
               isSelected: false,
               title: "Logout",
-              onTap: () {},
+              onTap: () => _onSignOut(context),
             ),
           ],
         ),
       );
     });
+  }
+
+  Future<void> _onSignOut(BuildContext context) async {
+    await FirebaseAuthService().signOut();
+    Utils.changeSignInState(false);
+    Navigator.popAndPushNamed(context, SignInScreen.routeName);
   }
 }
