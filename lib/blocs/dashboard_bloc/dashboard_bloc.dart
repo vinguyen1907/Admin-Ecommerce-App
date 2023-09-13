@@ -1,6 +1,7 @@
 import 'package:admin_ecommerce_app/models/order.dart';
 import 'package:admin_ecommerce_app/models/orders_monthly_statistics.dart';
 import 'package:admin_ecommerce_app/models/orders_with_last_doc.dart';
+import 'package:admin_ecommerce_app/models/product.dart';
 import 'package:admin_ecommerce_app/models/tracking_status.dart';
 import 'package:admin_ecommerce_app/repositories/order_repository.dart';
 import 'package:admin_ecommerce_app/repositories/product_repository.dart';
@@ -25,12 +26,17 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       final ordersTask = OrderRepository().fetchLatestOrders();
       final productCountTask = ProductRepository().getProductsCount();
       final monthlySalesTask = StatisticsRepository().getMonthlySales();
+      final topProductsTask = ProductRepository().fetchTopProducts();
+      final productsStatisticsTask =
+          StatisticsRepository().getProductsStatistics();
 
       await Future.wait([
         ordersStatisticsTask,
         ordersTask,
         productCountTask,
         monthlySalesTask,
+        topProductsTask,
+        productsStatisticsTask,
       ]);
 
       // Access the results of each statement
@@ -38,6 +44,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       final OrdersWithLastDoc orders = await ordersTask;
       final int productCount = await productCountTask;
       final List<OrdersMonthlyStatistics> monthlySales = await monthlySalesTask;
+      final List<Product> topProducts = await topProductsTask;
+      final Map<String, double> productsStatistics =
+          await productsStatisticsTask;
 
       emit(DashboardLoaded(
         latestOrders: orders.orders,
@@ -46,6 +55,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         totalOrdersCount: statistics['total_orders']!.toInt(),
         totalSales: statistics['total_sales']!,
         monthlyStatistics: monthlySales,
+        topProducts: topProducts,
+        totalSoldCount: productsStatistics['soldQuantity']!.toInt(),
       ));
     } catch (e) {
       emit(DashboardError(message: e.toString()));

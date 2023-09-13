@@ -22,9 +22,9 @@ class DashboardStatisticsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    // final Size size = MediaQuery.of(context).size;
     return Container(
-      width: (size.width * 5 / 6 - 40 - 44 * 2) / 3,
+      // width: (size.width * 5 / 6 - 40 - 44 * 2) / 3,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       decoration: BoxDecoration(
         borderRadius: AppDimensions.defaultBorderRadius,
@@ -52,10 +52,12 @@ class DashboardStatisticsItem extends StatelessWidget {
               Text(
                 title,
                 overflow: TextOverflow.ellipsis,
+                maxLines: 2,
                 style: AppStyles.bodySmall,
               ),
               Text(
                 "\$$value",
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: AppStyles.labelLarge,
               ),

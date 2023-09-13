@@ -2,18 +2,22 @@ import 'package:admin_ecommerce_app/models/order.dart';
 import 'package:admin_ecommerce_app/models/promotion.dart';
 import 'package:admin_ecommerce_app/screens/dashboard_screen/dashboard_screen.dart';
 import 'package:admin_ecommerce_app/screens/edit_promotion_screen/edit_promotion_screen.dart';
+import 'package:admin_ecommerce_app/screens/main_screen/main_screen.dart';
 import 'package:admin_ecommerce_app/screens/order_detail_screen/order_detail_screen.dart';
 import 'package:admin_ecommerce_app/screens/order_screen/order_screen.dart';
 import 'package:admin_ecommerce_app/screens/product_screen/product_screen.dart';
 import 'package:admin_ecommerce_app/screens/promotion_screen/promotion_screen.dart';
+import 'package:admin_ecommerce_app/screens/sign_in_screen/sign_in_screen.dart';
 import 'package:admin_ecommerce_app/screens/support_screen/support_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
-      // case MainScreen.routeName:
-      //   return MaterialPageRoute(builder: (context) => const MainScreen());
+      case SignInScreen.routeName:
+        return MaterialPageRoute(builder: (context) => const SignInScreen());
+      case MainScreen.routeName:
+        return MaterialPageRoute(builder: (context) => const MainScreen());
       case DashboardScreen.routeName:
         return MaterialPageRoute(
             settings: settings, builder: (context) => const DashboardScreen());

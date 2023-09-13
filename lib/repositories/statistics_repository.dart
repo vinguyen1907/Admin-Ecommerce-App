@@ -23,18 +23,18 @@ class StatisticsRepository {
     final doc = await productsStatisticsDocRef.get();
     if (doc.exists) {
       return {
-        'total_products':
+        'totalProducts':
             (doc.data() as Map<String, dynamic>)['totalQuantity'].toDouble(),
-        'sold_quantity':
+        'soldQuantity':
             (doc.data() as Map<String, dynamic>)['soldQuantity'].toDouble(),
-        'stock_quantity':
+        'stockQuantity':
             (doc.data() as Map<String, dynamic>)['stockQuantity'].toDouble(),
       };
     } else {
       return {
-        'total_products': 0,
-        'sold_quantity': 0,
-        'stock_quantity': 0,
+        'totalProducts': 0,
+        'soldQuantity': 0,
+        'stockQuantity': 0,
       };
     }
   }

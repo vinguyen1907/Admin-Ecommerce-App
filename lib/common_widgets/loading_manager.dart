@@ -13,6 +13,7 @@ class LoadingManager extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.loose,
       children: [
         child,
         if (isLoading)
