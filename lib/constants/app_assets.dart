@@ -42,4 +42,5 @@ class AppAssets {
   static const String icGalleryExport = "$iconPath/ic_gallery_export.svg";
   static const String icEmail = "$iconPath/ic_email.svg";
   static const String icLock = "$iconPath/ic_lock.svg";
+  static const String icSidebarRight = "$iconPath/ic_sidebar_right.svg";
 }

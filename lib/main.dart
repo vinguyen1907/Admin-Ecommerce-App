@@ -14,7 +14,6 @@ import 'package:admin_ecommerce_app/constants/app_routes.dart';
 import 'package:admin_ecommerce_app/firebase_options.dart';
 import 'package:admin_ecommerce_app/helpers/custom_scroll_behavior.dart';
 import 'package:admin_ecommerce_app/screens/sign_in_screen/sign_in_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

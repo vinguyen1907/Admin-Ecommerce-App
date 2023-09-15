@@ -9,6 +9,7 @@ import 'package:admin_ecommerce_app/common_widgets/screen_name_section.dart';
 import 'package:admin_ecommerce_app/constants/app_assets.dart';
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_styles.dart';
+import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/screens/main_screen/main_screen.dart';
 import 'package:admin_ecommerce_app/services/firebase_auth_service.dart';
 import 'package:admin_ecommerce_app/utils/utils.dart';
@@ -43,14 +44,15 @@ class _SignInScreenState extends State<SignInScreen> {
         if (_authStateChangesSubscription != null) {
           _authStateChangesSubscription!.cancel();
         }
-      }
-    });
-    _authStateChangesSubscription =
-        FirebaseAuth.instance.authStateChanges().listen((user) {
-      if (user != null) {
-        context.read<UserBloc>().add(const LoadUser());
-        Utils.changeSignInState(true);
-        _authStateChangesSubscription!.cancel();
+      } else {
+        _authStateChangesSubscription =
+            FirebaseAuth.instance.authStateChanges().listen((user) {
+          if (user != null) {
+            context.read<UserBloc>().add(const LoadUser());
+            Utils.changeSignInState(true);
+            _authStateChangesSubscription!.cancel();
+          }
+        });
       }
     });
   }
@@ -90,7 +92,9 @@ class _SignInScreenState extends State<SignInScreen> {
             isLoading: isLoading,
             child: Center(
               child: Container(
-                width: size.width * 0.4,
+                width: Responsive.isMobile(context)
+                    ? size.width - 40
+                    : size.width * 0.4,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                     color: Colors.white,
