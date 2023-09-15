@@ -74,7 +74,7 @@ class Employee extends UserModel {
       type: (map['type'] as String).toUserType() ?? UserType.employee,
       name: map['name'] as String,
       dateOfBirth: (map['dateOfBirth'] as Timestamp).toDate(),
-      salary: map['salary'] as double,
+      salary: map['salary'].toDouble(),
       workingStatus: (map['workingStatus'] as String).toWorkingStatus(),
       imgUrl: map['imgUrl'] as String?,
       address: map['address'] ?? "",
