@@ -14,7 +14,7 @@ class EmployeeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: !Responsive.isDesktop(context) ? const MyAppBar() : null,
-      body: SafeArea(
+      body: const SafeArea(
           child: ScreenHorizontalPaddingWidget(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
