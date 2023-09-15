@@ -10,7 +10,7 @@ import 'package:admin_ecommerce_app/models/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'dart:html' as html;
+import 'package:universal_html/html.dart' as html;
 
 class ChatService {
   final String userId = AppConstants.adminId;
