@@ -44,14 +44,15 @@ class _SignInScreenState extends State<SignInScreen> {
         if (_authStateChangesSubscription != null) {
           _authStateChangesSubscription!.cancel();
         }
-      }
-    });
-    _authStateChangesSubscription =
-        FirebaseAuth.instance.authStateChanges().listen((user) {
-      if (user != null) {
-        context.read<UserBloc>().add(const LoadUser());
-        Utils.changeSignInState(true);
-        _authStateChangesSubscription!.cancel();
+      } else {
+        _authStateChangesSubscription =
+            FirebaseAuth.instance.authStateChanges().listen((user) {
+          if (user != null) {
+            context.read<UserBloc>().add(const LoadUser());
+            Utils.changeSignInState(true);
+            _authStateChangesSubscription!.cancel();
+          }
+        });
       }
     });
   }

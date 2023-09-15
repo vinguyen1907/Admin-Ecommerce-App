@@ -101,7 +101,7 @@ class ProductPieChartState extends State<ProductsPieChart> {
       final value = data[i]["value"];
       return PieChartSectionData(
           color: data[i]["color"],
-          value: value,
+          value: value.toDouble(),
           title: '${value / widget.totalSoldCount * 100}%',
           radius: radius,
           titleStyle: AppStyles.bodySmall.copyWith(
