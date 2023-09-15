@@ -55,6 +55,15 @@ dependencies:
   open_file: ^3.3.2
   path_provider: ^2.1.1
   universal_html: ^2.2.3
+  awesome_dialog: ^3.1.0
+  dio: ^5.3.2
+  audioplayers: ^4.1.0
+  flutter_sound: ^9.2.13
+  flutter_sound_record: ^3.3.2
+  lottie: ^2.6.0
+  firebase_messaging: ^14.6.7
+  zego_uikit_signaling_plugin: ^2.5.0
+  zego_uikit_prebuilt_call: ^3.14.0
 
 dev_dependencies:
   flutter_test:
@@ -82,7 +91,7 @@ flutter:
     - assets/images/
     - assets/fonts/
     - assets/icons/
-
+    - assets/lotties/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

@@ -1,7 +1,7 @@
 class AppAssets {
   static const String imagePath = "assets/images";
   static const String iconPath = "assets/icons";
-
+  static const String lottiePath = "assets/lotties";
   // Images
 
   // Icons
@@ -26,9 +26,14 @@ class AppAssets {
   static const String icArrowDown = "$iconPath/ic_arrow_down.svg";
   static const String icArrowLeft = "$iconPath/ic_arrow_left.svg";
   static const String icArrowLeftSquare = "$iconPath/ic_arrow_left_square.svg";
+  static const String icSend = "$iconPath/ic_send.svg";
+  static const String icMic = "$iconPath/ic_mic.svg";
+  static const String icCamera = "$iconPath/ic_camera.svg";
   static const String icArrowRightSquare =
       "$iconPath/ic_arrow_right_square.svg";
   static const String icPrinter = "$iconPath/ic_printer.svg";
   static const String icUser = "$iconPath/ic_user.svg";
   static const String icLocation = "$iconPath/ic_location.svg";
+  static const String lottieAudio = "$lottiePath/lottie_audio.json";
+  static const String lottieAudio1 = "$lottiePath/lottie_audio1.json";
 }

@@ -3,6 +3,7 @@ import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_styles.dart';
 import 'package:admin_ecommerce_app/extensions/double_extension.dart';
 import 'package:admin_ecommerce_app/models/product.dart';
+import 'package:admin_ecommerce_app/screens/edit_product_screen/edit_product_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {
@@ -42,8 +43,8 @@ class ProductItem extends StatelessWidget {
             height: 6,
           ),
           MyOutlinedButton(
-              onPressed: () {},
-              widget: Row(
+              onPressed: () => _navigateEditProductScreen(context),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Icon(
@@ -63,7 +64,7 @@ class ProductItem extends StatelessWidget {
           ),
           MyOutlinedButton(
               onPressed: () {},
-              widget: Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Icon(
@@ -84,5 +85,10 @@ class ProductItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _navigateEditProductScreen(BuildContext context) {
+    Navigator.pushNamed(context, EditProductScreen.routeName,
+        arguments: product);
   }
 }

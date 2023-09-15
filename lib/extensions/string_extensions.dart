@@ -1,3 +1,4 @@
+import 'package:admin_ecommerce_app/constants/enums/message_type.dart';
 import 'package:admin_ecommerce_app/models/order_status.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,23 @@ extension StringExtensions on String {
       return words.sublist(words.length - 2).join(' ');
     } else {
       return this;
+    }
+  }
+
+  double toPrice() {
+    return double.parse(this);
+  }
+
+  MessageType toMessageType() {
+    switch (this) {
+      case "text":
+        return MessageType.text;
+      case "image":
+        return MessageType.image;
+      case "voice":
+        return MessageType.voice;
+      default:
+        return MessageType.text;
     }
   }
 

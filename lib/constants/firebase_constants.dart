@@ -8,3 +8,4 @@ final CollectionReference ordersRef =
 final CollectionReference productsRef =
     FirebaseFirestore.instance.collection('products');
 final CollectionReference categoriesRef = firestore.collection("categories");
+final CollectionReference chatRoomsRef = firestore.collection("chat_rooms");
