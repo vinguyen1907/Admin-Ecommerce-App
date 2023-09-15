@@ -17,6 +17,10 @@ class DashboardLoaded extends DashboardState {
   final DocumentSnapshot? lastDocument;
   final int productCount;
   final int totalOrdersCount;
+  final double totalSales;
+  final List<OrdersMonthlyStatistics> monthlyStatistics;
+  final List<Product> topProducts;
+  final int totalSoldCount;
   final DateTime? lastUpdateTime;
 
   const DashboardLoaded(
@@ -24,18 +28,24 @@ class DashboardLoaded extends DashboardState {
       required this.lastDocument,
       required this.productCount,
       required this.totalOrdersCount,
+      required this.totalSales,
+      required this.monthlyStatistics,
+      required this.topProducts,
+      required this.totalSoldCount,
       this.lastUpdateTime});
 
   @override
-  List<Object?> get props => [latestOrders, productCount, lastUpdateTime];
-
-  double get totalSales {
-    double total = 0;
-    for (var order in latestOrders) {
-      total += order.orderSummary.total;
-    }
-    return total;
-  }
+  List<Object?> get props => [
+        latestOrders,
+        lastDocument,
+        productCount,
+        totalOrdersCount,
+        totalSales,
+        monthlyStatistics,
+        topProducts,
+        totalSoldCount,
+        lastUpdateTime,
+      ];
 
   int get totalOrders => latestOrders.length;
 
@@ -44,6 +54,10 @@ class DashboardLoaded extends DashboardState {
     DocumentSnapshot? lastDocument,
     int? productCount,
     int? totalOrdersCount,
+    double? totalSales,
+    List<OrdersMonthlyStatistics>? monthlyStatistics,
+    List<Product>? topProducts,
+    int? totalSoldCount,
     DateTime? lastUpdateTime,
   }) {
     return DashboardLoaded(
@@ -51,6 +65,10 @@ class DashboardLoaded extends DashboardState {
       lastDocument: lastDocument ?? this.lastDocument,
       productCount: productCount ?? this.productCount,
       totalOrdersCount: totalOrdersCount ?? this.totalOrdersCount,
+      totalSales: totalSales ?? this.totalSales,
+      monthlyStatistics: monthlyStatistics ?? this.monthlyStatistics,
+      topProducts: topProducts ?? this.topProducts,
+      totalSoldCount: totalSoldCount ?? this.totalSoldCount,
       lastUpdateTime: lastUpdateTime ?? this.lastUpdateTime,
     );
   }

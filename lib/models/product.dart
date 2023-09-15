@@ -13,6 +13,8 @@ class Product extends Equatable {
   final double averageRating;
   final int reviewCount;
   final String imgUrl;
+  final int soldCount;
+  final int stockCount;
   final DateTime createdAt;
 
   const Product(
@@ -25,6 +27,8 @@ class Product extends Equatable {
       required this.averageRating,
       required this.reviewCount,
       required this.imgUrl,
+      required this.soldCount,
+      required this.stockCount,
       required this.createdAt});
 
   factory Product.fromMap(Map<String, dynamic> json) {
@@ -38,12 +42,13 @@ class Product extends Equatable {
       averageRating: json['averageRating'].toDouble(),
       reviewCount: json['reviewCount'],
       imgUrl: json['imgUrl'],
+      soldCount: json['soldCount'],
+      stockCount: json['stockCount'],
       createdAt: json['createdAt'].toDate(),
     );
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [id, name, price, brand];
 
   Map<String, dynamic> toMap() {
@@ -57,6 +62,8 @@ class Product extends Equatable {
       'averageRating': averageRating,
       'reviewCount': reviewCount,
       'imgUrl': imgUrl,
+      'soldCount': soldCount,
+      'stockCount': stockCount,
       'createdAt': createdAt,
     };
   }

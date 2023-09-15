@@ -3,6 +3,7 @@ class AppAssets {
   static const String iconPath = "assets/icons";
   static const String lottiePath = "assets/lotties";
   // Images
+  static const String imgDefaultAvatar = "$imagePath/img_default_avatar.jpg";
 
   // Icons
   static const String icAppIcon = "$iconPath/app_icon.svg";
@@ -18,6 +19,8 @@ class AppAssets {
   static const String icPromotionBold = "$iconPath/ic_promotion_bold.svg";
   static const String icSms = "$iconPath/ic_sms.svg";
   static const String icSmsBold = "$iconPath/ic_sms_bold.svg";
+  static const String icPeople = "$iconPath/ic_people.svg";
+  static const String icPeopleBold = "$iconPath/ic_people_bold.svg";
   static const String icLogout = "$iconPath/ic_logout.svg";
   static const String icDollar = "$iconPath/ic_dollar.svg";
   static const String icDelete = "$iconPath/ic_delete.svg";
@@ -36,4 +39,7 @@ class AppAssets {
   static const String icLocation = "$iconPath/ic_location.svg";
   static const String lottieAudio = "$lottiePath/lottie_audio.json";
   static const String lottieAudio1 = "$lottiePath/lottie_audio1.json";
+  static const String icGalleryExport = "$iconPath/ic_gallery_export.svg";
+  static const String icEmail = "$iconPath/ic_email.svg";
+  static const String icLock = "$iconPath/ic_lock.svg";
 }

@@ -1,16 +1,14 @@
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
-import 'package:admin_ecommerce_app/extensions/list_order_extension.dart';
-import 'package:admin_ecommerce_app/models/order.dart';
-import 'package:collection/collection.dart';
+import 'package:admin_ecommerce_app/models/orders_monthly_statistics.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class SalesStatisticsChart extends StatefulWidget {
-  final List<OrderModel> orders;
+  final List<OrdersMonthlyStatistics> monthlyStatistics;
 
   const SalesStatisticsChart({
     super.key,
-    required this.orders,
+    required this.monthlyStatistics,
   });
 
   @override
@@ -164,22 +162,12 @@ class _SalesStatisticsChartState extends State<SalesStatisticsChart> {
   }
 
   void generateBarData() {
-    final Map<int, List<OrderModel>> groupedOrders =
-        groupBy(widget.orders, (order) {
-      return order.createdAt.toDate().month;
-    });
-
-    final List<Map<int, double>> result = [];
-    groupedOrders.forEach((key, value) {
-      double total = value.totalSales;
-      if (total > max) {
-        max = total;
+    barsData = widget.monthlyStatistics.map((e) {
+      if (e.revenue > max) {
+        max = e.revenue;
       }
-      result.add({key: total});
-      // type of result: [1: 1000, 2: 2000]
-    });
-    result.sort((a, b) => a.keys.first.compareTo(b.keys.first));
-    barsData = result;
+      return {e.month: e.revenue};
+    }).toList();
   }
 
   int calculateInterval(double max) {

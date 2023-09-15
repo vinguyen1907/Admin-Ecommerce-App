@@ -83,4 +83,8 @@ class AppStyles {
     fontWeight: FontWeight.w500,
     color: AppColors.greyTextColor,
   );
+  static TextStyle primaryHintText =
+      titleSmall.copyWith(color: AppColors.primaryHintColor);
+  static TextStyle primaryTextFieldLabel =
+      labelMedium.copyWith(color: AppColors.greyTextColor);
 }

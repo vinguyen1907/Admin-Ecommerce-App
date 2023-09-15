@@ -188,7 +188,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
   Future<void> _onSave() async {
     context.read<OrderTrackingBloc>().add(UpdateOrderStatus(
-        orderId: widget.order.id,
+        order: widget.order,
         status: TrackingStatus(
           id: "",
           status: newOrderStatus ?? widget.order.currentOrderStatus,

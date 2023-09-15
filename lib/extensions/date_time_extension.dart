@@ -28,4 +28,8 @@ extension DateTimeExt on DateTime {
       return formatter.format(this);
     }
   }
+
+  String toDateFormat() {
+    return DateFormat.yMMMd().format(this);
+  }
 }
