@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:admin_ecommerce_app/constants/app_constant.dart';
 import 'package:admin_ecommerce_app/constants/firebase_constants.dart';
 import 'package:admin_ecommerce_app/models/category.dart';
 import 'package:admin_ecommerce_app/models/page_info.dart';
 import 'package:admin_ecommerce_app/models/product.dart';
 import 'package:admin_ecommerce_app/repositories/category_repository.dart';
+import 'package:admin_ecommerce_app/repositories/product_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,150 +15,139 @@ part 'product_screen_event.dart';
 part 'product_screen_state.dart';
 
 class ProductScreenBloc extends Bloc<ProductScreenEvent, ProductScreenState> {
-  ProductScreenBloc() : super(ProductScreenInitial()) {
+  ProductScreenBloc() : super(const ProductScreenInitial()) {
     on<LoadProducts>(_onLoadProducts);
     on<LoadNextPage>(_onLoadNextPage);
+    on<LoadPreviousPage>(_onLoadPreviousPage);
     on<ChangeCategory>(_onChangeCategory);
     on<SearchProduct>(_onSearchProduct);
   }
 
   _onLoadProducts(LoadProducts event, Emitter<ProductScreenState> emit) async {
-    emit(ProductScreenLoading());
-    Category allCategory =
-        const Category(id: '', name: 'All', imgUrl: '', productCount: 0);
-    List<Category> categories = [allCategory];
-    categories.addAll(await CategoryRepository().fetchCategories());
-    PageInfo pageInfo = await _getPageInfo(allCategory, '');
-    int pageSelected = 0;
+    emit(ProductScreenLoading(
+        products: state.products,
+        categories: state.categories,
+        categorySelected: state.categorySelected,
+        firstDocument: state.firstDocument,
+        lastDocument: state.lastDocument,
+        query: state.query,
+        productsCount: state.productsCount,
+        currentPageIndex: state.currentPageIndex));
+    List<Category> categories = await CategoryRepository().fetchCategories();
+    PageInfo pageInfo =
+        await ProductRepository().getPageInfo(categories.first, '');
     emit(ProductScreenLoaded(
-        numberPages: pageInfo.numberPages,
-        pageSelected: pageSelected,
         products: pageInfo.products,
-        query: '',
         categories: categories,
-        categorySelected: allCategory,
+        categorySelected: categories.first,
         firstDocument: pageInfo.firstDocument,
-        lastDocument: pageInfo.lastDocument));
+        lastDocument: pageInfo.lastDocument,
+        query: '',
+        productsCount: pageInfo.productsCount,
+        currentPageIndex: 0));
   }
 
   _onSearchProduct(
       SearchProduct event, Emitter<ProductScreenState> emit) async {
-    final currentState = state as ProductScreenLoaded;
-    String query = event.query;
-    PageInfo pageInfo =
-        await _getPageInfo(currentState.categorySelected, query);
-    emit(currentState.copyWith(
-        query: '',
+    emit(SearchingProduct(
+        products: state.products,
+        categories: state.categories,
+        categorySelected: state.categorySelected,
+        firstDocument: state.firstDocument,
+        lastDocument: state.lastDocument,
+        query: event.query,
+        productsCount: state.productsCount,
+        currentPageIndex: state.currentPageIndex));
+    PageInfo pageInfo = await ProductRepository()
+        .getPageInfo(state.categorySelected, event.query);
+    emit(ProductScreenLoaded(
+        products: pageInfo.products,
+        categories: state.categories,
+        categorySelected: state.categorySelected,
         firstDocument: pageInfo.firstDocument,
         lastDocument: pageInfo.lastDocument,
-        products: pageInfo.products));
+        query: state.query,
+        productsCount: pageInfo.productsCount,
+        currentPageIndex: 0));
   }
 
   FutureOr<void> _onLoadNextPage(
-      LoadNextPage event, Emitter<ProductScreenState> emit) {}
+      LoadNextPage event, Emitter<ProductScreenState> emit) async {
+    if ((state.currentPageIndex + 1) * AppConstants.numberItemsPerProductPage <
+        state.productsCount) {
+      emit(LoadingProducts(
+          products: state.products,
+          categories: state.categories,
+          categorySelected: state.categorySelected,
+          firstDocument: state.firstDocument,
+          lastDocument: state.lastDocument,
+          query: state.query,
+          productsCount: state.productsCount,
+          currentPageIndex: state.currentPageIndex));
+      final int newPageIndex = state.currentPageIndex + 1;
+      PageInfo pageInfo = await ProductRepository().loadNextPage(
+          state.categorySelected, state.query!, state.lastDocument!);
+      emit(ProductScreenLoaded(
+          products: pageInfo.products,
+          categories: state.categories,
+          categorySelected: state.categorySelected,
+          firstDocument: pageInfo.firstDocument,
+          lastDocument: pageInfo.lastDocument,
+          query: state.query,
+          productsCount: state.productsCount,
+          currentPageIndex: newPageIndex));
+    }
+  }
 
   FutureOr<void> _onChangeCategory(
       ChangeCategory event, Emitter<ProductScreenState> emit) async {
-    final currentState = state as ProductScreenLoaded;
+    emit(LoadingProducts(
+        products: state.products,
+        categories: state.categories,
+        categorySelected: state.categorySelected,
+        firstDocument: state.firstDocument,
+        lastDocument: state.lastDocument,
+        query: state.query,
+        productsCount: state.productsCount,
+        currentPageIndex: state.currentPageIndex));
     Category categorySelected = event.categorySelected;
-    PageInfo pageInfo = await _getPageInfo(categorySelected, '');
-    emit(currentState.copyWith(
-        query: '',
+    PageInfo pageInfo =
+        await ProductRepository().getPageInfo(categorySelected, '');
+    emit((ProductScreenLoaded(
+        products: pageInfo.products,
+        categories: state.categories,
         categorySelected: categorySelected,
         firstDocument: pageInfo.firstDocument,
         lastDocument: pageInfo.lastDocument,
-        products: pageInfo.products));
+        query: '',
+        productsCount: pageInfo.productsCount,
+        currentPageIndex: 0)));
   }
 
-  Future<PageInfo> _getPageInfo(Category category, String query) async {
-    List<Product> products = [];
-    DocumentSnapshot? firstDocument;
-    DocumentSnapshot? lastDocument;
-    int? numberPages;
-    if (query.isNotEmpty) {
-      if (category.name == 'All') {
-        AggregateQuerySnapshot temp = await productsRef
-            .where('keyword', arrayContains: query)
-            .count()
-            .get();
-        numberPages = temp.count;
-        await productsRef
-            .where('keyword', arrayContains: query)
-            .limit(8)
-            .get()
-            .then((value) {
-          if (value.docs.isNotEmpty) {
-            firstDocument = value.docs.first;
-            lastDocument = value.docs.last;
-          }
-          products.addAll(value.docs
-              .map((e) => Product.fromMap(e.data() as Map<String, dynamic>)));
-        });
-      } else if (category.name == 'New Arrivals') {
-        await productsRef
-            .orderBy('createdAt', descending: true)
-            .where('keyword', arrayContains: query)
-            .limit(8)
-            .get()
-            .then((value) {
-          firstDocument = value.docs.first;
-          lastDocument = value.docs.last;
-          products.addAll(value.docs
-              .map((e) => Product.fromMap(e.data() as Map<String, dynamic>)));
-        });
-      } else {
-        await productsRef
-            .where('categoryId', isEqualTo: category.id)
-            .where('keyword', arrayContains: query)
-            .limit(8)
-            .get()
-            .then((value) {
-          firstDocument = value.docs.first;
-          lastDocument = value.docs.last;
-          products.addAll(value.docs
-              .map((e) => Product.fromMap(e.data() as Map<String, dynamic>)));
-        });
-      }
-    } else {
-      if (category.name == 'All') {
-        AggregateQuerySnapshot temp = await productsRef.count().get();
-        numberPages = temp.count;
-        await productsRef.limit(8).get().then((value) {
-          firstDocument = value.docs.first;
-          lastDocument = value.docs.last;
-          products.addAll(value.docs
-              .map((e) => Product.fromMap(e.data() as Map<String, dynamic>)));
-        });
-      } else if (category.name == 'New Arrivals') {
-        await productsRef
-            .orderBy('createdAt', descending: true)
-            .limit(8)
-            .get()
-            .then((value) {
-          firstDocument = value.docs.first;
-          lastDocument = value.docs.last;
-          products.addAll(value.docs
-              .map((e) => Product.fromMap(e.data() as Map<String, dynamic>)));
-        });
-      } else {
-        await productsRef
-            .where('categoryId', isEqualTo: category.id)
-            .limit(8)
-            .get()
-            .then((value) {
-          firstDocument = value.docs.first;
-          lastDocument = value.docs.last;
-          products.addAll(value.docs
-              .map((e) => Product.fromMap(e.data() as Map<String, dynamic>)));
-        });
-      }
+  FutureOr<void> _onLoadPreviousPage(
+      LoadPreviousPage event, Emitter<ProductScreenState> emit) async {
+    if ((state.currentPageIndex - 1) >= 0) {
+      emit(LoadingProducts(
+          products: state.products,
+          categories: state.categories,
+          categorySelected: state.categorySelected,
+          firstDocument: state.firstDocument,
+          lastDocument: state.lastDocument,
+          query: state.query,
+          productsCount: state.productsCount,
+          currentPageIndex: state.currentPageIndex));
+      final int newPageIndex = state.currentPageIndex - 1;
+      PageInfo pageInfo = await ProductRepository().loadPreviousPage(
+          state.categorySelected, state.query!, state.firstDocument!);
+      emit(ProductScreenLoaded(
+          products: pageInfo.products,
+          categories: state.categories,
+          categorySelected: state.categorySelected,
+          firstDocument: pageInfo.firstDocument,
+          lastDocument: pageInfo.lastDocument,
+          query: state.query,
+          productsCount: state.productsCount,
+          currentPageIndex: newPageIndex));
     }
-    PageInfo pageInfo = PageInfo(
-        numberPages: numberPages!,
-        categorySelected: category,
-        firstDocument: firstDocument!,
-        lastDocument: lastDocument!,
-        products: products);
-    return pageInfo;
   }
 }
