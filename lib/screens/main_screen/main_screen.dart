@@ -1,3 +1,4 @@
+import 'package:admin_ecommerce_app/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:admin_ecommerce_app/helpers/local_navigator.dart';
 import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/screens/dashboard_screen/dashboard_screen.dart';
@@ -8,6 +9,7 @@ import 'package:admin_ecommerce_app/screens/product_screen/product_screen.dart';
 import 'package:admin_ecommerce_app/screens/promotion_screen/promotion_screen.dart';
 import 'package:admin_ecommerce_app/screens/support_screen/support_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainScreen extends StatefulWidget {
   final Widget? child;
@@ -32,17 +34,12 @@ class _MainScreenState extends State<MainScreen> {
     EmployeeScreen.routeName
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    // context.read<NavigationBloc>().add(const CreateNavigatorState());
-  }
-
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: context.read<NavigationBloc>().state.scaffoldKey,
       drawer: SideMenu(
         currentIndex: currentIndex,
         onSelectItem: _onSelectItem,
@@ -60,14 +57,12 @@ class _MainScreenState extends State<MainScreen> {
               child: LocalNavigator(
             navigatorKey: navigatorKey,
           )),
-        )
+        ),
       ]),
     );
   }
 
   void _onSelectItem(int index) {
-    print(index);
-    print(routes[index]);
     setState(() {
       currentIndex = index;
     });
