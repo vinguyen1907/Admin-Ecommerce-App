@@ -17,6 +17,8 @@ import 'package:admin_ecommerce_app/screens/product_screen/product_screen.dart';
 import 'package:admin_ecommerce_app/screens/add_product_screen/add_product_screen.dart';
 import 'package:admin_ecommerce_app/screens/promotion_screen/promotion_screen.dart';
 import 'package:admin_ecommerce_app/screens/record_voice_screen/record_voice_screen.dart';
+import 'package:admin_ecommerce_app/screens/sign_in_screen/sign_in_screen.dart';
+import 'package:admin_ecommerce_app/screens/support_screen/support_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {

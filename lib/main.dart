@@ -38,7 +38,9 @@ void main() async {
   ));
   await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
 
-  runApp(const MyApp());
+  runApp(MyApp(
+    navigatorKey: navigatorKey,
+  ));
 }
 
 class MyApp extends StatelessWidget {

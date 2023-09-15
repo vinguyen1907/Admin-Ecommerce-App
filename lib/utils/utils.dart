@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:html' as html;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
@@ -30,6 +29,8 @@ class Utils {
         child: CustomLoadingWidget(),
       ),
     );
+  }
+
   Future<Uint8List?> pickImage() async {
     Uint8List? bytes;
     if (kIsWeb) {
