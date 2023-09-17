@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:admin_ecommerce_app/constants/app_constant.dart';
@@ -144,7 +145,7 @@ class ChatService {
     return completer.future;
   }
 
-  Future<void> sendVoiceMessage(String filePath, ChatRoom chatRoom) async {
+  Future<void> sendVoiceMessageInWeb(String filePath, ChatRoom chatRoom) async {
     final String messageId =
         userId + DateTime.now().millisecondsSinceEpoch.toString();
     try {
@@ -159,6 +160,42 @@ class ChatService {
           .child(
               '$userId${DateTime.now().millisecondsSinceEpoch.toString()}.m4a')
           .putData(
+            data,
+            SettableMetadata(contentType: 'audio/mpeg'),
+          );
+      final linkAudio = await task.ref.getDownloadURL();
+      Message message = Message(
+          id: messageId,
+          senderId: userId,
+          content: '',
+          imageUrl: '',
+          audioUrl: linkAudio,
+          isRead: false,
+          type: MessageType.voice,
+          timestamp: DateTime.now());
+      await sendNotificationToToken(chatRoom.userToken!, 'Voice message.');
+      await chatRoomsRef
+          .doc(chatRoom.id)
+          .collection('messages')
+          .doc(messageId)
+          .set(message.toMap());
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> sendVoiceMessageInMobile(
+      String filePath, ChatRoom chatRoom) async {
+    final String messageId =
+        userId + DateTime.now().millisecondsSinceEpoch.toString();
+    try {
+      final data = File(filePath);
+      final storageRef =
+          FirebaseStorage.instance.ref().child('chat/chat_voice');
+      final task = await storageRef
+          .child(
+              '$userId${DateTime.now().millisecondsSinceEpoch.toString()}.m4a')
+          .putFile(
             data,
             SettableMetadata(contentType: 'audio/mpeg'),
           );

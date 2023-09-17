@@ -9,11 +9,13 @@ class MyTextFormField extends StatelessWidget {
       required this.label,
       this.validator,
       this.maxLines,
+      this.enabled,
       this.controller});
   final String hintText;
   final String label;
   final String? Function(String? value)? validator;
   final int? maxLines;
+  final bool? enabled;
   final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class MyTextFormField extends StatelessWidget {
             style: AppStyles.headlineMedium,
           ),
           TextFormField(
+              enabled: enabled,
               controller: controller,
               validator: validator,
               maxLines: maxLines,

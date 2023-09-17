@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:html';
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:admin_ecommerce_app/models/category.dart';
@@ -23,8 +23,8 @@ class EditProductScreenBloc
             categories: null, categorySelected: null, imageSelected: null)) {
     on<LoadEditProductScreen>(_onLoadEditProductScreen);
     on<ChangeImage>(_onChangeImage);
-    on<ChangeCategory>(_onChangeCategory);
-    on<Submit>(_onSubmit);
+    on<ChangeCategoryEditProductScreen>(_onChangeCategory);
+    on<Update>(_onUpdate);
   }
 
   FutureOr<void> _onLoadEditProductScreen(
@@ -45,7 +45,9 @@ class EditProductScreenBloc
           categories: categories,
           categorySelected: categorySelected,
           imageSelected: image));
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   FutureOr<void> _onChangeImage(
@@ -56,28 +58,41 @@ class EditProductScreenBloc
           categories: state.categories,
           categorySelected: state.categorySelected,
           imageSelected: image!));
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
-  FutureOr<void> _onChangeCategory(
-      ChangeCategory event, Emitter<EditProductScreenState> emit) {
+  FutureOr<void> _onChangeCategory(ChangeCategoryEditProductScreen event,
+      Emitter<EditProductScreenState> emit) {
     emit(EditProductScreenLoaded(
         categories: state.categories,
         categorySelected: event.category,
         imageSelected: state.imageSelected));
   }
 
-  FutureOr<void> _onSubmit(
-      Submit event, Emitter<EditProductScreenState> emit) async {
+  FutureOr<void> _onUpdate(
+      Update event, Emitter<EditProductScreenState> emit) async {
     try {
+      final currentState = state as EditProductScreenLoaded;
+      emit(Updating(
+          categories: currentState.categories,
+          categorySelected: currentState.categorySelected,
+          imageSelected: currentState.imageSelected));
       await ProductRepository().updateProduct(
-          image: event.image,
+          image: currentState.imageSelected!,
           name: event.name,
-          category: event.category,
+          category: currentState.categorySelected!,
           brand: event.brand,
           price: double.parse(event.price),
           description: event.description,
           id: event.id);
-    } catch (e) {}
+      emit(UpdateSuccessful(
+          categories: currentState.categories,
+          categorySelected: currentState.categorySelected,
+          imageSelected: currentState.imageSelected));
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

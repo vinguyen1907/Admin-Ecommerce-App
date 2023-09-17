@@ -1,4 +1,7 @@
 import 'package:admin_ecommerce_app/common_widgets/custom_loading_widget.dart';
+import 'package:admin_ecommerce_app/responsive.dart';
+import 'package:admin_ecommerce_app/services/image_picker_service.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/foundation.dart';
@@ -22,6 +25,7 @@ class Utils {
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
+        elevation: 0,
         child: CustomLoadingWidget(),
       ),
     );
@@ -30,28 +34,6 @@ class Utils {
   Future<Uint8List?> pickImage() async {
     Uint8List? bytes;
     bytes = await imagePickerService.pickImage();
-
-    // if (kIsWeb) {
-    //   // Use image_picker_web for web.
-    //   html.File? imageFile = await ImagePickerWeb.getImageAsFile();
-    //   if (imageFile != null) {
-    //     final reader = html.FileReader();
-    //     reader.readAsDataUrl(imageFile);
-    //     await reader.onLoad.first;
-    //     final encoded = reader.result as String;
-    //     // Remove the data:image/png;base64, part
-    //     final stripped =
-    //         encoded.replaceFirst(RegExp(r'data:image/[^;]+;base64,'), '');
-    //     bytes = base64.decode(stripped);
-    //   }
-    // } else {
-    //   // Use image_picker for mobile.
-    //   final ImagePicker picker = ImagePicker();
-    //   XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    //   if (image != null) {
-    //     bytes = await image.readAsBytes();
-    //   }
-    // }
     return bytes;
   }
 
@@ -94,5 +76,41 @@ class Utils {
         firstDate: firstDate,
         lastDate: lastDate);
     return date;
+  }
+
+  void showSuccessful(
+      {required BuildContext context,
+      required String title,
+      required String desc,
+      VoidCallback? btnOkOnPress}) {
+    Size size = MediaQuery.of(context).size;
+    AwesomeDialog(
+      dismissOnTouchOutside: false,
+      context: context,
+      width: Responsive.isMobile(context) ? null : size.width * 0.35,
+      dialogType: DialogType.success,
+      animType: AnimType.rightSlide,
+      title: title,
+      desc: desc,
+      btnOkOnPress: btnOkOnPress,
+    ).show();
+  }
+  void showFail(
+      {required BuildContext context,
+        required String title,
+        required String desc,
+        VoidCallback? btnCancelOnPress,
+        VoidCallback? btnOkOnPress}){
+    Size size = MediaQuery.of(context).size;
+    AwesomeDialog(
+      context: context,
+      width: Responsive.isMobile(context) ? null : size.width * 0.35,
+      dialogType: DialogType.error,
+      animType: AnimType.rightSlide,
+      title: 'Image is empty',
+      desc: 'Please select an image',
+      btnCancelOnPress: btnCancelOnPress,
+      btnOkOnPress: btnOkOnPress,
+    ).show();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:admin_ecommerce_app/blocs/product_screen_bloc/product_screen_bloc.dart';
 import 'package:admin_ecommerce_app/common_widgets/my_outlined_button.dart';
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_styles.dart';
@@ -5,6 +6,7 @@ import 'package:admin_ecommerce_app/extensions/double_extension.dart';
 import 'package:admin_ecommerce_app/models/product.dart';
 import 'package:admin_ecommerce_app/screens/edit_product_screen/edit_product_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({super.key, required this.product});
@@ -63,7 +65,9 @@ class ProductItem extends StatelessWidget {
             height: 6,
           ),
           MyOutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                _deleteProduct(context, product.id);
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -90,5 +94,9 @@ class ProductItem extends StatelessWidget {
   _navigateEditProductScreen(BuildContext context) {
     Navigator.pushNamed(context, EditProductScreen.routeName,
         arguments: product);
+  }
+
+  _deleteProduct(BuildContext context, String id) {
+    context.read<ProductScreenBloc>().add(DeleteProduct(id: id));
   }
 }

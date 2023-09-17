@@ -5,9 +5,11 @@ import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_styles.dart';
 import 'package:admin_ecommerce_app/models/chat_room.dart';
 import 'package:admin_ecommerce_app/services/chat_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound_record/flutter_sound_record.dart';
 import 'package:lottie/lottie.dart';
+import 'package:path_provider/path_provider.dart';
 
 class RecordVoiceScreen extends StatefulWidget {
   const RecordVoiceScreen({super.key, required this.chatRoom});
@@ -35,9 +37,15 @@ class _RecordVoiceScreenState extends State<RecordVoiceScreen> {
   }
 
   void startRecording() async {
-    // final path = await getTemporaryDirectory();
+    String path;
+    if (kIsWeb) {
+      path = '${DateTime.now().millisecondsSinceEpoch}.m4a';
+    } else {
+      final tempDir = await getTemporaryDirectory();
+      path = '${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}.m4a';
+    }
     await _flutterSoundRecorder.start(
-      path: '${DateTime.now().millisecondsSinceEpoch}.m4a', // required
+      path: path, // required
       encoder: AudioEncoder.AAC, // by default
       bitRate: 128000, // by default
       samplingRate: 44100, // by default
@@ -132,7 +140,12 @@ class _RecordVoiceScreenState extends State<RecordVoiceScreen> {
   Future<void> _sendVoiceMessage() async {
     if (_filePath.isNotEmpty) {
       Navigator.of(context).pop();
-      await ChatService().sendVoiceMessage(_filePath, widget.chatRoom);
+      if (kIsWeb) {
+        await ChatService().sendVoiceMessageInWeb(_filePath, widget.chatRoom);
+      } else {
+        await ChatService()
+            .sendVoiceMessageInMobile(_filePath, widget.chatRoom);
+      }
     }
   }
 

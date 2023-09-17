@@ -13,7 +13,6 @@ import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/utils/image_picker_utils.dart';
 import 'package:admin_ecommerce_app/utils/utils.dart';
 import 'package:admin_ecommerce_app/utils/validator_utils.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -228,34 +227,21 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   _showSubmitSuccessful() {
-    Size size = MediaQuery.of(context).size;
-    AwesomeDialog(
-      dismissOnTouchOutside: false,
-      context: context,
-      width: size.width * 0.35,
-      dialogType: DialogType.success,
-      animType: AnimType.rightSlide,
-      title: 'Submit successfully',
-      desc: 'You have successfully created a new product',
-      btnOkOnPress: () {
-        _clearForm();
-      },
-    ).show();
+    Utils().showSuccessful(
+        context: context,
+        title: 'Submit successfully',
+        desc: 'You have successfully created a new product',
+        btnOkOnPress: _clearForm);
   }
 
   _addProduct() async {
-    Size size = MediaQuery.of(context).size;
     if (_image == null) {
-      AwesomeDialog(
-        context: context,
-        width: size.width * 0.4,
-        dialogType: DialogType.error,
-        animType: AnimType.rightSlide,
-        title: 'Image is empty',
-        desc: 'Please select an image',
-        btnCancelOnPress: () {},
-        btnOkOnPress: _addImage,
-      ).show();
+      Utils().showFail(
+          context: context,
+          title: 'Image is empty',
+          desc: 'Please select an image',
+          btnCancelOnPress: () {},
+          btnOkOnPress: _addImage);
     }
     if (_formKey.currentState!.validate()) {
       context.read<AddProductScreenBloc>().add(Submit(

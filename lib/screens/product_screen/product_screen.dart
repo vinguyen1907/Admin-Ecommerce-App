@@ -1,18 +1,16 @@
 import 'package:admin_ecommerce_app/blocs/product_screen_bloc/product_screen_bloc.dart';
 import 'package:admin_ecommerce_app/common_widgets/custom_loading_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/my_elevated_button.dart';
-import 'package:admin_ecommerce_app/common_widgets/my_text_field.dart';
 import 'package:admin_ecommerce_app/common_widgets/paginator.dart';
 import 'package:admin_ecommerce_app/common_widgets/primary_background.dart';
 import 'package:admin_ecommerce_app/common_widgets/screen_name_section.dart';
 import 'package:admin_ecommerce_app/common_widgets/search_widget.dart';
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_dimensions.dart';
-import 'package:admin_ecommerce_app/constants/firebase_constants.dart';
 import 'package:admin_ecommerce_app/models/category.dart';
-import 'package:admin_ecommerce_app/repositories/product_repository.dart';
 import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/screens/add_product_screen/add_product_screen.dart';
+import 'package:admin_ecommerce_app/screens/category_screen/category_screen.dart';
 import 'package:admin_ecommerce_app/screens/product_screen/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,12 +60,25 @@ class _ProductScreenState extends State<ProductScreen> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         const ScreenNameSection("Product"),
-                        MyElevatedButton(
-                            onPressed: () async {
-                              Navigator.pushNamed(
-                                  context, AddProductScreen.routeName);
-                            },
-                            widget: const Text('Add New'))
+                        Row(
+                          children: [
+                            MyElevatedButton(
+                                onPressed: () async {
+                                  Navigator.pushNamed(
+                                      context, CategoryScreen.routeName);
+                                },
+                                widget: const Text('Category')),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            MyElevatedButton(
+                                onPressed: () async {
+                                  Navigator.pushNamed(
+                                      context, AddProductScreen.routeName);
+                                },
+                                widget: const Text('Add New')),
+                          ],
+                        )
                       ],
                     ),
                     PrimaryBackground(

@@ -1,12 +1,17 @@
+import 'package:admin_ecommerce_app/models/category.dart';
 import 'package:admin_ecommerce_app/models/chat_room.dart';
 import 'package:admin_ecommerce_app/models/order.dart';
 import 'package:admin_ecommerce_app/models/product.dart';
+import 'package:admin_ecommerce_app/screens/add_category_screen/add_category_screen.dart';
+import 'package:admin_ecommerce_app/screens/add_product_detail_screen/add_product_detail_screen.dart';
+import 'package:admin_ecommerce_app/screens/add_product_stock_screen/add_product_stock_screen.dart';
+import 'package:admin_ecommerce_app/screens/category_screen/category_screen.dart';
 import 'package:admin_ecommerce_app/screens/chat_screen/chat_screen.dart';
 import 'package:admin_ecommerce_app/screens/dashboard_screen/dashboard_screen.dart';
+import 'package:admin_ecommerce_app/screens/edit_category_screen/edit_category_screen.dart';
 import 'package:admin_ecommerce_app/screens/edit_product_screen/edit_product_screen.dart';
 import 'package:admin_ecommerce_app/models/promotion.dart';
 import 'package:admin_ecommerce_app/models/user.dart';
-import 'package:admin_ecommerce_app/screens/dashboard_screen/dashboard_screen.dart';
 import 'package:admin_ecommerce_app/screens/edit_employee_screen/edit_employee_screen.dart';
 import 'package:admin_ecommerce_app/screens/edit_promotion_screen/edit_promotion_screen.dart';
 import 'package:admin_ecommerce_app/screens/employee_screen/employee_screen.dart';
@@ -83,7 +88,28 @@ class AppRoutes {
         return MaterialPageRoute(
             settings: settings,
             builder: (context) => EditEmployeeScreen(employee: args));
-
+      case CategoryScreen.routeName:
+        return MaterialPageRoute(
+            settings: settings, builder: (context) => const CategoryScreen());
+      case AddCategoryScreen.routeName:
+        return MaterialPageRoute(
+            settings: settings,
+            builder: (context) => const AddCategoryScreen());
+      case EditCategoryScreen.routeName:
+        final args = settings.arguments as Category;
+        return MaterialPageRoute(
+            settings: settings,
+            builder: (context) => EditCategoryScreen(category: args));
+      case AddProductDetailScreen.routeName:
+        final args = settings.arguments as Product;
+        return MaterialPageRoute(
+            settings: settings,
+            builder: (context) => AddProductDetailScreen(product: args));
+      case AddProductStockScreen.routeName:
+        final args = settings.arguments as Product;
+        return MaterialPageRoute(
+            settings: settings,
+            builder: (context) => AddProductStockScreen(product: args));
       default:
         return MaterialPageRoute(
             builder: (context) => const Scaffold(

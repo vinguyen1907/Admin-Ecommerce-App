@@ -2,7 +2,6 @@ import 'package:admin_ecommerce_app/blocs/chat_room_bloc/chat_room_bloc.dart';
 import 'package:admin_ecommerce_app/common_widgets/custom_loading_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/screen_horizontal_padding_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/screen_name_section.dart';
-import 'package:admin_ecommerce_app/common_widgets/search_widget.dart';
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_dimensions.dart';
 import 'package:admin_ecommerce_app/constants/app_styles.dart';

@@ -1,5 +1,4 @@
 import 'package:admin_ecommerce_app/constants/app_constant.dart';
-import 'package:admin_ecommerce_app/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';

@@ -39,3 +39,23 @@ class EditProductScreenLoaded extends EditProductScreenState {
   @override
   List<Object> get props => [imageSelected!, categorySelected!];
 }
+
+class Updating extends EditProductScreenState {
+  const Updating(
+      {required super.categories,
+      required super.categorySelected,
+      required super.imageSelected});
+
+  @override
+  List<Object> get props => [imageSelected!, categorySelected!];
+}
+
+class UpdateSuccessful extends EditProductScreenState {
+  const UpdateSuccessful(
+      {required super.categories,
+      required super.categorySelected,
+      required super.imageSelected});
+
+  @override
+  List<Object> get props => [imageSelected!, categorySelected!];
+}

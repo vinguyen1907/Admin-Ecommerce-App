@@ -1,5 +1,4 @@
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
-import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:flutter/material.dart';
 
 class MyOutlinedButton extends StatelessWidget {

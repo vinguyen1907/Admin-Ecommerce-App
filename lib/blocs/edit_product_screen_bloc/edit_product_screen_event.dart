@@ -24,9 +24,9 @@ class ChangeImage extends EditProductScreenEvent {
   List<Object?> get props => throw UnimplementedError();
 }
 
-class ChangeCategory extends EditProductScreenEvent {
+class ChangeCategoryEditProductScreen extends EditProductScreenEvent {
   final Category category;
-  const ChangeCategory({
+  const ChangeCategoryEditProductScreen({
     required this.category,
   });
 
@@ -35,22 +35,18 @@ class ChangeCategory extends EditProductScreenEvent {
   List<Object?> get props => throw UnimplementedError();
 }
 
-class Submit extends EditProductScreenEvent {
-  final Uint8List image;
+class Update extends EditProductScreenEvent {
   final String name;
   final String brand;
   final String price;
   final String description;
-  final Category category;
   final String id;
-  const Submit({
-    required this.image,
+  const Update({
     required this.name,
-    required this.category,
     required this.brand,
     required this.price,
     required this.description,
-    required this.id,
+    required this.id
   });
 
   @override

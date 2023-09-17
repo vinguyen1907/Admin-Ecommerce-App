@@ -43,4 +43,6 @@ class AppAssets {
   static const String icEmail = "$iconPath/ic_email.svg";
   static const String icLock = "$iconPath/ic_lock.svg";
   static const String icSidebarRight = "$iconPath/ic_sidebar_right.svg";
+  static const String icVideoCall = "$iconPath/ic_video_call.svg";
+  static const String icVoiceCall = "$iconPath/ic_voice_call.svg";
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:admin_ecommerce_app/constants/app_constant.dart';
 import 'package:admin_ecommerce_app/models/order.dart';
 import 'package:admin_ecommerce_app/repositories/order_repository.dart';
@@ -170,7 +172,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         currentPageIndex: state.currentPageIndex,
       ));
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
     }
   }
 

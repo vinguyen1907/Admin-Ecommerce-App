@@ -39,3 +39,13 @@ class ChangeCategory extends ProductScreenEvent {
   // TODO: implement props
   List<Object?> get props => [categorySelected];
 }
+
+class DeleteProduct extends ProductScreenEvent {
+  const DeleteProduct({required this.id});
+  final String id;
+  @override
+  // TODO: implement props
+  List<Object?> get props => [id];
+}
+
+

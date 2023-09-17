@@ -1,5 +1,5 @@
-import 'package:admin_ecommerce_app/blocs/add_product_screen_bloc/add_product_screen_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/edit_product_screen_bloc/edit_product_screen_bloc.dart';
+import 'package:admin_ecommerce_app/blocs/product_screen_bloc/product_screen_bloc.dart';
 import 'package:admin_ecommerce_app/common_widgets/custom_loading_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/image_picker_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/my_drop_down_button.dart';
@@ -12,11 +12,11 @@ import 'package:admin_ecommerce_app/constants/app_styles.dart';
 import 'package:admin_ecommerce_app/models/category.dart';
 import 'package:admin_ecommerce_app/models/product.dart';
 import 'package:admin_ecommerce_app/responsive.dart';
-import 'package:admin_ecommerce_app/utils/image_picker_utils.dart';
+import 'package:admin_ecommerce_app/screens/add_product_detail_screen/add_product_detail_screen.dart';
+import 'package:admin_ecommerce_app/screens/add_product_stock_screen/add_product_stock_screen.dart';
+import 'package:admin_ecommerce_app/utils/utils.dart';
 import 'package:admin_ecommerce_app/utils/validator_utils.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditProductScreen extends StatefulWidget {
@@ -65,7 +65,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   builder: (context, state) {
                     if (state is EditProductScreenLoading) {
                       return const CustomLoadingWidget();
-                    } else if (state is EditProductScreenLoaded) {
+                    } else if (state is EditProductScreenLoaded ||
+                        state is Updating ||
+                        state is UpdateSuccessful) {
                       return PrimaryBackground(
                         margin: Responsive.isDesktop(context)
                             ? EdgeInsets.zero
@@ -181,13 +183,59 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                                 ],
                                               )
                                             : const SizedBox(),
-                                        // const Spacer(),
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: MyElevatedButton(
-                                              onPressed: () {},
-                                              widget: const Text('Submit')),
-                                        )
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Responsive.isMobile(context)
+                                            ? Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  MyElevatedButton(
+                                                      onPressed: () =>
+                                                          _navigateAddProductStock(),
+                                                      widget:
+                                                          const Text('Import')),
+                                                  MyElevatedButton(
+                                                      onPressed: () =>
+                                                          _navigateAddProductDetail(),
+                                                      widget: const Text(
+                                                          'Add Product Detail')),
+                                                  MyElevatedButton(
+                                                      onPressed: () =>
+                                                          _updateProduct(),
+                                                      widget:
+                                                          const Text('Update')),
+                                                ],
+                                              )
+                                            : Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  MyElevatedButton(
+                                                      onPressed: () =>
+                                                          _navigateAddProductStock(),
+                                                      widget:
+                                                          const Text('Import')),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  MyElevatedButton(
+                                                      onPressed: () =>
+                                                          _navigateAddProductDetail(),
+                                                      widget: const Text(
+                                                          'Add Product Detail')),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  MyElevatedButton(
+                                                      onPressed: () =>
+                                                          _updateProduct(),
+                                                      widget:
+                                                          const Text('Update')),
+                                                ],
+                                              )
                                       ],
                                     ),
                                   ),
@@ -202,7 +250,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     }
                   },
                   listener:
-                      (BuildContext context, EditProductScreenState state) {},
+                      (BuildContext context, EditProductScreenState state) {
+                    if (state is Updating) {
+                      Utils().showDialogLoading(context);
+                    }
+                    if (state is UpdateSuccessful) {
+                      _showUpdateSuccessful();
+                    }
+                  },
                 ),
               ],
             ),
@@ -213,44 +268,46 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   _onChangeCategory(Category? value) {
-    context.read<EditProductScreenBloc>().add(ChangeCategory(category: value!));
+    context
+        .read<EditProductScreenBloc>()
+        .add(ChangeCategoryEditProductScreen(category: value!));
   }
 
   Future<void> _addImage() async {
     context.read<EditProductScreenBloc>().add(ChangeImage(context: context));
   }
 
-  _showSubmitSuccessful() {
-    Size size = MediaQuery.of(context).size;
-    AwesomeDialog(
-      dismissOnTouchOutside: false,
-      context: context,
-      width: size.width * 0.35,
-      dialogType: DialogType.success,
-      animType: AnimType.rightSlide,
-      title: 'Submit successfully',
-      desc: 'You have successfully created a new product',
-      btnOkOnPress: () {
-        _clearForm();
-      },
-    ).show();
+  _showUpdateSuccessful() {
+    Navigator.of(context, rootNavigator: true).pop();
+    context.read<ProductScreenBloc>().add(const LoadProducts());
+    Utils().showSuccessful(
+        context: context,
+        title: 'Update successfully',
+        desc: 'You have successfully updated a product',
+        btnOkOnPress: () {
+          Navigator.pop(context);
+        });
   }
 
   _updateProduct() async {
     if (_formKey.currentState!.validate()) {
-      // context.read<EditProductScreenBloc>().add(Submit(
-      //     image: _image!,
-      //     name: _nameController.text,
-      //     brand: _brandController.text,
-      //     price: _priceController.text,
-      //     description: _desController.text));
+      context.read<EditProductScreenBloc>().add(Update(
+            name: _nameController.text,
+            brand: _brandController.text,
+            price: _priceController.text,
+            description: _desController.text,
+            id: widget.product.id,
+          ));
     }
   }
 
-  _clearForm() {
-    _nameController.clear();
-    _brandController.clear();
-    _priceController.clear();
-    _desController.clear();
+  _navigateAddProductDetail() {
+    Navigator.pushNamed(context, AddProductDetailScreen.routeName,
+        arguments: widget.product);
+  }
+
+  _navigateAddProductStock() {
+    Navigator.pushNamed(context, AddProductStockScreen.routeName,
+        arguments: widget.product);
   }
 }

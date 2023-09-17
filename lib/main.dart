@@ -1,6 +1,10 @@
+import 'package:admin_ecommerce_app/blocs/add_category_screen_bloc/add_category_screen_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/add_product_screen_bloc/add_product_screen_bloc.dart';
+import 'package:admin_ecommerce_app/blocs/add_product_stock_screen_bloc/add_product_stock_screen_bloc.dart';
+import 'package:admin_ecommerce_app/blocs/category_screen_bloc/category_screen_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/chat_room_bloc/chat_room_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/dashboard_bloc/dashboard_bloc.dart';
+import 'package:admin_ecommerce_app/blocs/edit_category_screen_bloc/edit_category_screen_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/edit_product_screen_bloc/edit_product_screen_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/employees_bloc/employees_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/navigation_bloc/navigation_bloc.dart';
@@ -14,6 +18,7 @@ import 'package:admin_ecommerce_app/constants/app_routes.dart';
 import 'package:admin_ecommerce_app/firebase_options.dart';
 import 'package:admin_ecommerce_app/helpers/custom_scroll_behavior.dart';
 import 'package:admin_ecommerce_app/screens/sign_in_screen/sign_in_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -32,10 +37,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MyApp(
-    navigatorKey: navigatorKey,
-  ));
-  await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+  if (kIsWeb) {
+    await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+  }
 
   runApp(MyApp(
     navigatorKey: navigatorKey,
@@ -59,6 +63,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => ChatRoomBloc()..add(const LoadChatRooms())),
         BlocProvider(create: (_) => PromotionsBloc()),
         BlocProvider(create: (_) => EmployeesBloc()),
+        BlocProvider(create: (_) => CategoryScreenBloc()),
+        BlocProvider(create: (_) => AddCategoryScreenBloc()),
+        BlocProvider(create: (_) => EditCategoryScreenBloc()),
+        BlocProvider(create: (_) => AddProductStockScreenBloc()),
         BlocProvider(
             create: (_) => OrderTrackingBloc(dashboardBloc: DashboardBloc())),
       ],

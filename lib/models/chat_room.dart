@@ -6,6 +6,7 @@ class ChatRoom {
   final String? adminToken;
   final DateTime createdAt;
   final DateTime? lastMessageTime;
+  final String userId;
 
   ChatRoom(
       {required this.id,
@@ -14,6 +15,7 @@ class ChatRoom {
       required this.userToken,
       required this.adminToken,
       required this.createdAt,
+      required this.userId,
       required this.lastMessageTime});
 
   factory ChatRoom.fromMap(Map<String, dynamic> data) {
@@ -23,6 +25,7 @@ class ChatRoom {
       imgUrl: data['imgUrl'],
       userToken: data['userToken'],
       adminToken: data['adminToken'],
+      userId: data['userId'],
       createdAt: data['createdAt'].toDate(),
       lastMessageTime: data['lastMessageTime'].toDate(),
     );
@@ -35,6 +38,7 @@ class ChatRoom {
       'imgUrl': imgUrl,
       'userToken': userToken,
       'adminToken': adminToken,
+      'userId': userId,
       'createdAt': createdAt,
       'lastMessageTime': lastMessageTime
     };

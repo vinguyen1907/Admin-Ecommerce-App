@@ -3,11 +3,14 @@ import 'dart:typed_data';
 
 import 'package:admin_ecommerce_app/constants/app_constant.dart';
 import 'package:admin_ecommerce_app/constants/firebase_constants.dart';
+import 'package:admin_ecommerce_app/extensions/color_extensions.dart';
 import 'package:admin_ecommerce_app/models/category.dart';
 import 'package:admin_ecommerce_app/models/page_info.dart';
 import 'package:admin_ecommerce_app/models/product.dart';
+import 'package:admin_ecommerce_app/models/product_detail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 
 class ProductRepository {
   Future<int> getProductsCount() async {
@@ -41,6 +44,7 @@ class ProductRepository {
       List<Product> products = [];
       await productsRef
           .where('categoryId', isEqualTo: category.id)
+          .where('isDelete', isEqualTo: false)
           .get()
           .then((value) {
         products.addAll(value.docs
@@ -94,11 +98,15 @@ class ProductRepository {
         'name': name,
         'brand': brand,
         'price': price,
+        'keyword': name.split(' '),
         'categoryId': category.id,
         'createdAt': DateTime.now(),
         'description': description,
+        'isDelete': false,
         'averageRating': 0,
         'reviewCount': 0,
+        'stockCount': 0,
+        'soldCount': 0,
         'imgUrl': linkImage
       }).then((value) async {
         await productsRef.doc(value.id).update({'id': value.id});
@@ -129,6 +137,7 @@ class ProductRepository {
         'name': name,
         'brand': brand,
         'price': price,
+        'keyword': name.toLowerCase().split(' '),
         'categoryId': category.id,
         'description': description,
         'imgUrl': linkImage
@@ -139,11 +148,26 @@ class ProductRepository {
     }
   }
 
+  Future<void> deleteProduct(String id) async {
+    await productsRef.doc(id).update({'isDelete': true});
+  }
+
   Future<void> updateProduct1() async {
     List<Product> products = [];
-    await productsRef.get().then((value) {
+    await productsRef.get().then((value) async {
       products.addAll(value.docs
           .map((e) => Product.fromMap(e.data() as Map<String, dynamic>)));
+      // value.docs.forEach((element) {
+      //   productsRef
+      //       .doc(element.id)
+      //       .collection('productDetails')
+      //       .get()
+      //       .then((value) {
+      //     if (value.docs.isEmpty) {
+      //       productsRef.doc(element.id).delete();
+      //     }
+      //   });
+      // });
     });
     for (var i in products) {
       await addKeyWord(i);
@@ -152,8 +176,7 @@ class ProductRepository {
 
   Future<void> addKeyWord(Product product) async {
     await productsRef.doc(product.id).update({
-      'soldCount': 0,
-      'stockCount': 100,
+      'isDelete': false,
     });
   }
 
@@ -166,11 +189,13 @@ class ProductRepository {
       if (category.name == 'All') {
         AggregateQuerySnapshot temp = await productsRef
             .where('keyword', arrayContains: query)
+            .where('isDelete', isEqualTo: false)
             .count()
             .get();
         productsCount = temp.count;
         await productsRef
             .where('keyword', arrayContains: query)
+            .where('isDelete', isEqualTo: false)
             .orderBy('name')
             .limit(AppConstants.numberItemsPerProductPage)
             .get()
@@ -186,12 +211,14 @@ class ProductRepository {
         AggregateQuerySnapshot temp = await productsRef
             .where('categoryId', isEqualTo: category.id)
             .where('keyword', arrayContains: query)
+            .where('isDelete', isEqualTo: false)
             .count()
             .get();
         productsCount = temp.count;
         await productsRef
             .where('categoryId', isEqualTo: category.id)
             .where('keyword', arrayContains: query)
+            .where('isDelete', isEqualTo: false)
             .orderBy('name')
             .limit(AppConstants.numberItemsPerProductPage)
             .get()
@@ -210,6 +237,7 @@ class ProductRepository {
         productsCount = temp.count;
         await productsRef
             .orderBy('name')
+            .where('isDelete', isEqualTo: false)
             .limit(AppConstants.numberItemsPerProductPage)
             .get()
             .then((value) {
@@ -221,11 +249,13 @@ class ProductRepository {
       } else {
         AggregateQuerySnapshot temp = await productsRef
             .where('categoryId', isEqualTo: category.id)
+            .where('isDelete', isEqualTo: false)
             .count()
             .get();
         productsCount = temp.count;
         await productsRef
             .where('categoryId', isEqualTo: category.id)
+            .where('isDelete', isEqualTo: false)
             .orderBy('name')
             .limit(AppConstants.numberItemsPerProductPage)
             .get()
@@ -238,7 +268,7 @@ class ProductRepository {
       }
     }
     PageInfo pageInfo = PageInfo(
-        productsCount: productsCount!,
+        productsCount: productsCount,
         categorySelected: category,
         firstDocument: firstDocument,
         lastDocument: lastDocument,
@@ -256,11 +286,13 @@ class ProductRepository {
       if (categorySelected.name == 'All') {
         AggregateQuerySnapshot temp = await productsRef
             .where('keyword', arrayContains: query)
+            .where('isDelete', isEqualTo: false)
             .count()
             .get();
         productsCount = temp.count;
         await productsRef
             .where('keyword', arrayContains: query)
+            .where('isDelete', isEqualTo: false)
             .orderBy('name')
             .startAfterDocument(lastDocument)
             .limit(AppConstants.numberItemsPerProductPage)
@@ -277,12 +309,14 @@ class ProductRepository {
         AggregateQuerySnapshot temp = await productsRef
             .where('categoryId', isEqualTo: categorySelected.id)
             .where('keyword', arrayContains: query)
+            .where('isDelete', isEqualTo: false)
             .count()
             .get();
         productsCount = temp.count;
         await productsRef
             .where('categoryId', isEqualTo: categorySelected.id)
             .where('keyword', arrayContains: query)
+            .where('isDelete', isEqualTo: false)
             .orderBy('name')
             .startAfterDocument(lastDocument)
             .limit(AppConstants.numberItemsPerProductPage)
@@ -300,9 +334,9 @@ class ProductRepository {
       if (categorySelected.name == 'All') {
         AggregateQuerySnapshot temp = await productsRef.count().get();
         productsCount = temp.count;
-        print(productsCount);
         await productsRef
             .orderBy('name')
+            .where('isDelete', isEqualTo: false)
             .startAfterDocument(lastDocument)
             .limit(AppConstants.numberItemsPerProductPage)
             .get()
@@ -322,6 +356,7 @@ class ProductRepository {
         productsCount = temp.count;
         await productsRef
             .where('categoryId', isEqualTo: categorySelected.id)
+            .where('isDelete', isEqualTo: false)
             .orderBy('name')
             .startAfterDocument(lastDocument)
             .limit(AppConstants.numberItemsPerProductPage)
@@ -337,7 +372,7 @@ class ProductRepository {
       }
     }
     PageInfo pageInfo = PageInfo(
-        productsCount: productsCount!,
+        productsCount: productsCount,
         categorySelected: categorySelected,
         firstDocument: newFirstDocument,
         lastDocument: newLastDocument,
@@ -355,11 +390,13 @@ class ProductRepository {
       if (categorySelected.name == 'All') {
         AggregateQuerySnapshot temp = await productsRef
             .where('keyword', arrayContains: query)
+            .where('isDelete', isEqualTo: false)
             .count()
             .get();
         productsCount = temp.count;
         await productsRef
             .where('keyword', arrayContains: query)
+            .where('isDelete', isEqualTo: false)
             .orderBy('name')
             .endBeforeDocument(firstDocument)
             .limitToLast(AppConstants.numberItemsPerProductPage)
@@ -376,6 +413,7 @@ class ProductRepository {
         AggregateQuerySnapshot temp = await productsRef
             .where('categoryId', isEqualTo: categorySelected.id)
             .where('keyword', arrayContains: query)
+            .where('isDelete', isEqualTo: false)
             .count()
             .get();
         productsCount = temp.count;
@@ -401,6 +439,7 @@ class ProductRepository {
         productsCount = temp.count;
         await productsRef
             .orderBy('name')
+            .where('isDelete', isEqualTo: false)
             .endBeforeDocument(firstDocument)
             .limitToLast(AppConstants.numberItemsPerProductPage)
             .get()
@@ -413,11 +452,13 @@ class ProductRepository {
       } else {
         AggregateQuerySnapshot temp = await productsRef
             .where('categoryId', isEqualTo: categorySelected.id)
+            .where('isDelete', isEqualTo: false)
             .count()
             .get();
         productsCount = temp.count;
         await productsRef
             .where('categoryId', isEqualTo: categorySelected.id)
+            .where('isDelete', isEqualTo: false)
             .orderBy('name')
             .endBeforeDocument(firstDocument)
             .limitToLast(AppConstants.numberItemsPerProductPage)
@@ -431,7 +472,7 @@ class ProductRepository {
       }
     }
     PageInfo pageInfo = PageInfo(
-        productsCount: productsCount!,
+        productsCount: productsCount,
         categorySelected: categorySelected,
         firstDocument: newFirstDocument,
         lastDocument: newLastDocument,
@@ -452,5 +493,48 @@ class ProductRepository {
     } catch (e) {
       throw Exception(e);
     }
+  }
+
+  Future<void> addProductDetail(
+      {required String productId,
+      required String size,
+      required Color color}) async {
+    await productsRef
+        .doc(productId)
+        .collection('productDetails')
+        .add({'size': size, 'color': color.toColorCode(), 'stock': 0});
+  }
+
+  Future<List<ProductDetail>> getProductDetails(
+      {required String productId}) async {
+    List<ProductDetail> productDetails = [];
+    await productsRef
+        .doc(productId)
+        .collection('productDetails')
+        .get()
+        .then((value) {
+      productDetails
+          .addAll(value.docs.map((e) => ProductDetail.fromJson(e.data())));
+    });
+    return productDetails;
+  }
+
+  Future<void> importProductDetail(
+      {required ProductDetail productDetail,
+      required Product product,
+      required int quantity}) async {
+    await productsRef
+        .doc(product.id)
+        .collection('productDetails')
+        .where('size', isEqualTo: productDetail.size)
+        .where('color', isEqualTo: productDetail.color)
+        .get()
+        .then((value) async {
+      await productsRef
+          .doc(product.id)
+          .collection('productDetails')
+          .doc(value.docs.first.id)
+          .update({'stock': productDetail.stock + quantity});
+    });
   }
 }

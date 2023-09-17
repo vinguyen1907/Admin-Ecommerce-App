@@ -71,6 +71,7 @@ dependencies:
   flutter_image_compress: ^2.0.4
   firebase_auth: ^4.9.0
   shared_preferences: ^2.2.1
+  flutter_colorpicker: ^1.0.3
 
 dev_dependencies:
   flutter_test:

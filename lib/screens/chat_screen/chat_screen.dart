@@ -1,3 +1,4 @@
+import 'package:admin_ecommerce_app/common_widgets/ava_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/custom_loading_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/my_icon.dart';
 import 'package:admin_ecommerce_app/constants/app_assets.dart';
@@ -14,6 +15,7 @@ import 'package:admin_ecommerce_app/services/chat_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, required this.chatRoom});
@@ -27,6 +29,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
+    super.initState();
     checkAdminToken();
   }
 
@@ -55,28 +58,73 @@ class _ChatScreenState extends State<ChatScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Responsive.isMobile(context)
-                    ? IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const MyIcon(
-                          icon: AppAssets.icArrowLeft,
-                        ))
-                    : const SizedBox(),
-                CircleAvatar(
-                  radius: 20,
-                  backgroundImage: NetworkImage(widget.chatRoom.imgUrl),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Responsive.isMobile(context)
+                        ? IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const MyIcon(
+                              icon: AppAssets.icArrowLeft,
+                            ))
+                        : const SizedBox(),
+                    AvaWidget(url: widget.chatRoom.imgUrl, radius: 20),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Text(
+                      widget.chatRoom.name,
+                      style: AppStyles.labelMedium,
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  width: 4,
-                ),
-                Text(
-                  widget.chatRoom.name,
-                  style: AppStyles.labelMedium,
-                ),
+                Row(
+                  children: [
+                    ZegoSendCallInvitationButton(
+                      iconSize: const Size(30, 30),
+                      isVideoCall: true,
+                      buttonSize: const Size(40, 40),
+                      icon: ButtonIcon(
+                          backgroundColor: Colors.transparent,
+                          icon: const MyIcon(
+                            icon: AppAssets.icVideoCall,
+                            width: 20,
+                            height: 20,
+                          )),
+                      timeoutSeconds: 60,
+                      invitees: [
+                        ZegoUIKitUser(
+                          id: widget.chatRoom.userId,
+                          name: widget.chatRoom.name,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    ZegoSendCallInvitationButton(
+                      iconSize: const Size(30, 30),
+                      buttonSize: const Size(40, 40),
+                      icon: ButtonIcon(
+                          backgroundColor: Colors.transparent,
+                          icon: const MyIcon(
+                            icon: AppAssets.icVoiceCall,
+                          )),
+                      isVideoCall: false,
+                      timeoutSeconds: 60,
+                      invitees: [
+                        ZegoUIKitUser(
+                          id: widget.chatRoom.userId,
+                          name: widget.chatRoom.name,
+                        ),
+                      ],
+                    ),
+                  ],
+                )
               ],
             ),
           ),

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:admin_ecommerce_app/constants/app_constant.dart';
-import 'package:admin_ecommerce_app/constants/firebase_constants.dart';
 import 'package:admin_ecommerce_app/models/category.dart';
 import 'package:admin_ecommerce_app/models/page_info.dart';
 import 'package:admin_ecommerce_app/models/product.dart';
@@ -21,9 +20,11 @@ class ProductScreenBloc extends Bloc<ProductScreenEvent, ProductScreenState> {
     on<LoadPreviousPage>(_onLoadPreviousPage);
     on<ChangeCategory>(_onChangeCategory);
     on<SearchProduct>(_onSearchProduct);
+    on<DeleteProduct>(_onDeleteProduct);
   }
 
-  _onLoadProducts(LoadProducts event, Emitter<ProductScreenState> emit) async {
+  _onLoadProducts(
+      ProductScreenEvent event, Emitter<ProductScreenState> emit) async {
     emit(ProductScreenLoading(
         products: state.products,
         categories: state.categories,
@@ -149,5 +150,12 @@ class ProductScreenBloc extends Bloc<ProductScreenEvent, ProductScreenState> {
           productsCount: state.productsCount,
           currentPageIndex: newPageIndex));
     }
+  }
+
+  FutureOr<void> _onDeleteProduct(
+      DeleteProduct event, Emitter<ProductScreenState> emit) async {
+    await ProductRepository()
+        .deleteProduct(event.id)
+        .whenComplete(() => _onLoadProducts(event, emit));
   }
 }

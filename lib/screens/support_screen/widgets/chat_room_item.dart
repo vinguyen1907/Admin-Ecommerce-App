@@ -1,9 +1,9 @@
 import 'package:admin_ecommerce_app/blocs/chat_room_bloc/chat_room_bloc.dart';
+import 'package:admin_ecommerce_app/common_widgets/ava_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/custom_loading_widget.dart';
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_dimensions.dart';
 import 'package:admin_ecommerce_app/constants/app_styles.dart';
-import 'package:admin_ecommerce_app/constants/enums/message_type.dart';
 import 'package:admin_ecommerce_app/extensions/date_time_extension.dart';
 import 'package:admin_ecommerce_app/models/chat_room.dart';
 import 'package:admin_ecommerce_app/models/message.dart';
@@ -36,9 +36,9 @@ class ChatRoomItem extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CircleAvatar(
+                child: AvaWidget(
+                  url: chatRoom.imgUrl,
                   radius: 25,
-                  backgroundImage: NetworkImage(chatRoom.imgUrl),
                 ),
               ),
               StreamBuilder<Message>(
@@ -61,7 +61,7 @@ class ChatRoomItem extends StatelessWidget {
                                 style: AppStyles.labelMedium,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              ContentLastMessage(message: snapshot!.data!)
+                              ContentLastMessage(message: snapshot.data!)
                             ],
                           ),
                         ),
