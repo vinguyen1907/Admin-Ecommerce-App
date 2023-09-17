@@ -35,6 +35,15 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  late final LocalNavigator localNavigator;
+
+  @override
+  void initState() {
+    super.initState();
+    localNavigator = LocalNavigator(
+      navigatorKey: navigatorKey,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +60,21 @@ class _MainScreenState extends State<MainScreen> {
             currentIndex: currentIndex,
             onSelectItem: _onSelectItem,
           )),
-        Expanded(
-          flex: 5,
-          child: SafeArea(
-              child: LocalNavigator(
-            navigatorKey: navigatorKey,
-          )),
-        ),
+        if (Responsive.isTablet(context))
+          SizedBox(
+            width: 60,
+            child: SideMenu(
+              currentIndex: currentIndex,
+              onSelectItem: _onSelectItem,
+            ),
+          ),
+        if (Responsive.isDesktop(context))
+          Expanded(
+            flex: 5,
+            child: SafeArea(child: localNavigator),
+          ),
+        if (!Responsive.isDesktop(context))
+          Expanded(child: SafeArea(child: localNavigator)),
       ]),
     );
   }
