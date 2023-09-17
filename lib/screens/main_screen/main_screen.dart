@@ -1,4 +1,5 @@
 import 'package:admin_ecommerce_app/blocs/navigation_bloc/navigation_bloc.dart';
+import 'package:admin_ecommerce_app/common_widgets/my_app_bar.dart';
 import 'package:admin_ecommerce_app/helpers/local_navigator.dart';
 import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/screens/dashboard_screen/dashboard_screen.dart';
@@ -53,6 +54,7 @@ class _MainScreenState extends State<MainScreen> {
         currentIndex: currentIndex,
         onSelectItem: _onSelectItem,
       ),
+      appBar: Responsive.isMobile(context) ? const MyAppBar() : null,
       body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         if (Responsive.isDesktop(context))
           Expanded(
