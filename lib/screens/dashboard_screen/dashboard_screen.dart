@@ -1,6 +1,5 @@
 import 'package:admin_ecommerce_app/blocs/dashboard_bloc/dashboard_bloc.dart';
 import 'package:admin_ecommerce_app/blocs/orders_bloc/orders_bloc.dart';
-import 'package:admin_ecommerce_app/common_widgets/my_app_bar.dart';
 import 'package:admin_ecommerce_app/common_widgets/screen_horizontal_padding_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/screen_name_section.dart';
 import 'package:admin_ecommerce_app/constants/app_assets.dart';
@@ -47,7 +46,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         }
         if (state is DashboardLoaded) {
           return Scaffold(
-            appBar: !Responsive.isDesktop(context) ? const MyAppBar() : null,
             body: SingleChildScrollView(
               child: ScreenHorizontalPaddingWidget(
                 child: Column(

@@ -1,5 +1,4 @@
 import 'package:admin_ecommerce_app/blocs/promotions_bloc/promotions_bloc.dart';
-import 'package:admin_ecommerce_app/common_widgets/my_app_bar.dart';
 import 'package:admin_ecommerce_app/common_widgets/my_elevated_button.dart';
 import 'package:admin_ecommerce_app/common_widgets/paginator.dart';
 import 'package:admin_ecommerce_app/common_widgets/primary_background.dart';
@@ -7,7 +6,6 @@ import 'package:admin_ecommerce_app/common_widgets/screen_horizontal_padding_wid
 import 'package:admin_ecommerce_app/common_widgets/screen_name_section.dart';
 import 'package:admin_ecommerce_app/common_widgets/search_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/table_divider.dart';
-import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/screens/edit_promotion_screen/edit_promotion_screen.dart';
 import 'package:admin_ecommerce_app/screens/promotion_screen/widgets/promotions_table.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +38,6 @@ class _PromotionScreenState extends State<PromotionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !Responsive.isDesktop(context) ? const MyAppBar() : null,
       body: SingleChildScrollView(
         child: ScreenHorizontalPaddingWidget(
           child: Column(
