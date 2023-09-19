@@ -15,4 +15,14 @@ class ValidatorUtils {
     }
     return null;
   }
+
+  static String? validateImport(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a quantity';
+    }
+    if (!RegExp(r'^[1-9]\d*$').hasMatch(value)) {
+      return 'Please enter a valid int';
+    }
+    return null;
+  }
 }

@@ -78,7 +78,7 @@ class _SignInScreenState extends State<SignInScreen> {
         setState(() {
           isLoading = false;
         });
-        Navigator.pushReplacementNamed(context, MainScreen.routeName);
+        Navigator.pushNamed(context, MainScreen.routeName);
       } else if (state is UserError) {
         setState(() {
           isLoading = false;

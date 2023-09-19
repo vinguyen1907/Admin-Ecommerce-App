@@ -124,13 +124,13 @@ class _AddProductStockScreenState extends State<AddProductStockScreen> {
                                   controller: _stockController,
                                   hintText: 'Stock',
                                   label: 'Stock',
-                                  validator: ValidatorUtils.validateText,
+                                  validator: ValidatorUtils.validateImport,
                                 ),
                                 MyTextFormField(
                                   controller: _importController,
                                   hintText: 'Import',
                                   label: 'Import',
-                                  validator: ValidatorUtils.validateText,
+                                  validator: ValidatorUtils.validateImport,
                                 ),
                                 Align(
                                   alignment: Alignment.centerRight,
@@ -177,5 +177,13 @@ class _AddProductStockScreenState extends State<AddProductStockScreen> {
     context
         .read<AddProductStockScreenBloc>()
         .add(ChangeProductDetail(productDetail: productDetail!));
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _stockController.dispose();
+    _importController.dispose();
   }
 }

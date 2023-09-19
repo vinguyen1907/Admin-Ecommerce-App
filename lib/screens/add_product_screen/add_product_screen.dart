@@ -262,4 +262,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
     _priceController.clear();
     _desController.clear();
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _nameController.dispose();
+    _brandController.dispose();
+    _priceController.dispose();
+    _desController.dispose();
+  }
 }

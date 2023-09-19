@@ -158,4 +158,11 @@ class _AddProductDetailScreenState extends State<AddProductDetailScreen> {
       _showSubmitSuccessful();
     }
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _sizeController.dispose();
+  }
 }

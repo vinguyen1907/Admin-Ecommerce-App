@@ -110,40 +110,12 @@ class _MessageInputState extends State<MessageInput> {
     if (!context.mounted) return;
     Navigator.pushNamed(context, RecordVoiceScreen.routeName,
         arguments: widget.chatRoom);
-    // final status = await Permission.microphone.request();
-    // if (status.isGranted) {
-    //
-    // } else if (status.isPermanentlyDenied) {
-    //   if (!context.mounted) return;
-    //   showDialog(
-    //     barrierDismissible: false,
-    //     context: context,
-    //     builder: (context) {
-    //       return AlertDialog(
-    //         title: const Text('Microphone Access Required'),
-    //         content: const Text(
-    //             'To use voice features, please grant microphone access.'),
-    //         actions: [
-    //           TextButton(
-    //               onPressed: () {
-    //                 Navigator.of(context).pop();
-    //               },
-    //               child: const Text(
-    //                 'Cancel',
-    //                 style: AppStyles.labelMedium,
-    //               )),
-    //           TextButton(
-    //               onPressed: () async {
-    //                 await openAppSettings();
-    //               },
-    //               child: const Text(
-    //                 'Open settings',
-    //                 style: AppStyles.labelMedium,
-    //               )),
-    //         ],
-    //       );
-    //     },
-    //   );
-    // }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _messageController.dispose();
   }
 }
