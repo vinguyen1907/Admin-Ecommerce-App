@@ -14,12 +14,14 @@ import 'package:admin_ecommerce_app/screens/chat_screen/widgets/message_item.dar
 import 'package:admin_ecommerce_app/services/chat_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, required this.chatRoom});
   final ChatRoom chatRoom;
+
   static const String routeName = '/chat-screen';
 
   @override
@@ -45,6 +47,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isSecondScreenPushed = ModalRoute.of(context)?.canPop ?? false;
     return Container(
       decoration: BoxDecoration(
         borderRadius: AppDimensions.defaultBorderRadius,
@@ -63,7 +66,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Responsive.isMobile(context)
+                    isSecondScreenPushed
                         ? IconButton(
                             onPressed: () {
                               Navigator.pop(context);
@@ -82,49 +85,51 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    ZegoSendCallInvitationButton(
-                      iconSize: const Size(30, 30),
-                      isVideoCall: true,
-                      buttonSize: const Size(40, 40),
-                      icon: ButtonIcon(
-                          backgroundColor: Colors.transparent,
-                          icon: const MyIcon(
-                            icon: AppAssets.icVideoCall,
-                            width: 20,
-                            height: 20,
-                          )),
-                      timeoutSeconds: 60,
-                      invitees: [
-                        ZegoUIKitUser(
-                          id: widget.chatRoom.userId,
-                          name: widget.chatRoom.name,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    ZegoSendCallInvitationButton(
-                      iconSize: const Size(30, 30),
-                      buttonSize: const Size(40, 40),
-                      icon: ButtonIcon(
-                          backgroundColor: Colors.transparent,
-                          icon: const MyIcon(
-                            icon: AppAssets.icVoiceCall,
-                          )),
-                      isVideoCall: false,
-                      timeoutSeconds: 60,
-                      invitees: [
-                        ZegoUIKitUser(
-                          id: widget.chatRoom.userId,
-                          name: widget.chatRoom.name,
-                        ),
-                      ],
-                    ),
-                  ],
-                )
+                !kIsWeb
+                    ? Row(
+                        children: [
+                          ZegoSendCallInvitationButton(
+                            iconSize: const Size(30, 30),
+                            isVideoCall: true,
+                            buttonSize: const Size(40, 40),
+                            icon: ButtonIcon(
+                                backgroundColor: Colors.transparent,
+                                icon: const MyIcon(
+                                  icon: AppAssets.icVideoCall,
+                                  width: 20,
+                                  height: 20,
+                                )),
+                            timeoutSeconds: 60,
+                            invitees: [
+                              ZegoUIKitUser(
+                                id: widget.chatRoom.userId,
+                                name: widget.chatRoom.name,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          ZegoSendCallInvitationButton(
+                            iconSize: const Size(30, 30),
+                            buttonSize: const Size(40, 40),
+                            icon: ButtonIcon(
+                                backgroundColor: Colors.transparent,
+                                icon: const MyIcon(
+                                  icon: AppAssets.icVoiceCall,
+                                )),
+                            isVideoCall: false,
+                            timeoutSeconds: 60,
+                            invitees: [
+                              ZegoUIKitUser(
+                                id: widget.chatRoom.userId,
+                                name: widget.chatRoom.name,
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : const SizedBox()
               ],
             ),
           ),

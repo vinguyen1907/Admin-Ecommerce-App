@@ -22,7 +22,7 @@ class ChatRoomItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         context.read<ChatRoomBloc>().add(ChooseChatRoom(chatRoom: chatRoom));
-        if (Responsive.isMobile(context)) {
+        if (!Responsive.isDesktop(context)) {
           Navigator.pushNamed(context, ChatScreen.routeName,
               arguments: chatRoom);
         }

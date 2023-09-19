@@ -110,11 +110,11 @@ class AppRoutes {
         return MaterialPageRoute(
             settings: settings,
             builder: (context) => AddProductStockScreen(product: args));
-      default:
-        return MaterialPageRoute(
-            builder: (context) => const Scaffold(
-                  body: Center(child: Text("No route")),
-                ));
+      // default:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const Scaffold(
+      //             body: Center(child: Text("No route")),
+      //           ));
     }
   }
 }

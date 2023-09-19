@@ -85,7 +85,7 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       currentIndex = index;
     });
-    navigatorKey.currentState!.pushNamed(
+    navigatorKey.currentState!.pushReplacementNamed(
       routes[index],
     );
     // Navigator.pushNamed(context, routes[index]);
