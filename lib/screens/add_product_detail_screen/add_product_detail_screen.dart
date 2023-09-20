@@ -114,6 +114,7 @@ class _AddProductDetailScreenState extends State<AddProductDetailScreen> {
     showDialog(
       builder: (context) => AlertDialog(
         title: const Text('Pick a color!'),
+        contentPadding: const EdgeInsets.all(8),
         content: SingleChildScrollView(
           child: HueRingPicker(
             pickerColor: pickerColor,
