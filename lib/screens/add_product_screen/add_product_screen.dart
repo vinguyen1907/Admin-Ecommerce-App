@@ -167,8 +167,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                                   ),
                                                   ImagePickerWidget(
                                                     height:
-                                                        size.width * 0.1 * 1.3,
-                                                    width: size.width * 0.1,
+                                                        size.width * 0.35 * 1.3,
+                                                    width: size.width * 0.35,
                                                     image: _image,
                                                     onTap: _addImage,
                                                   ),
