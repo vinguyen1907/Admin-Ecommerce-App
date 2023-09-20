@@ -13,7 +13,6 @@ class PromotionDetailDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     final List<String> labels = [
       "Content",
       "Start Time",
@@ -52,21 +51,16 @@ class PromotionDetailDialog extends StatelessWidget {
                 width: 260,
                 onGetPromotion: () {}),
             const SizedBox(width: 30),
-            SizedBox(
-                width: size.width * 0.2,
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: labels.length,
-                  itemBuilder: (_, index) {
-                    return PromotionDetailLine(
-                      label: labels[index],
-                      content: contents[index],
-                    );
-                  },
-                  separatorBuilder: (_, index) {
-                    return const SizedBox(height: 5);
-                  },
-                ))
+            IntrinsicWidth(
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: List.generate(
+                      labels.length,
+                      (index) => PromotionDetailLine(
+                            label: labels[index],
+                            content: contents[index],
+                          ))),
+            ),
           ],
         ),
       ),
