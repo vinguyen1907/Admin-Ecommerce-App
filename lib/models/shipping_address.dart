@@ -54,8 +54,8 @@ class ShippingAddress {
       zipCode: map['zipCode'] as String,
       countryCallingCode: map['countryCallingCode'] as String,
       phoneNumber: map['phoneNumber'] as String,
-      latitude: map['latitude'] as double,
-      longitude: map['longitude'] as double,
+      latitude: map['latitude'] as double?,
+      longitude: map['longitude'] as double?,
     );
   }
 

@@ -12,7 +12,7 @@ class NotificationService {
     var postUrl = AppConstants.fcmPostUrl;
     var data = {
       "notification": {"body": body, "title": title},
-      "priority": "high",
+      // "priority": "high",
       "data": {
         "type": type.name,
       },
