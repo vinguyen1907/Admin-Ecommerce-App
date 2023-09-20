@@ -2,6 +2,7 @@ import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_dimensions.dart';
 import 'package:admin_ecommerce_app/extensions/date_time_extension.dart';
 import 'package:admin_ecommerce_app/models/promotion.dart';
+import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/screens/promotion_screen/widgets/promotion_detail_line.dart';
 import 'package:admin_ecommerce_app/screens/promotion_screen/widgets/promotion_item.dart';
 import 'package:flutter/material.dart';
@@ -41,27 +42,43 @@ class PromotionDetailDialog extends StatelessWidget {
           color: AppColors.whiteColor,
           borderRadius: AppDimensions.defaultBorderRadius,
         ),
-        child: Row(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            PromotionItem(
-                promotion: promotion,
-                height: 160,
-                width: 260,
-                onGetPromotion: () {}),
-            const SizedBox(width: 30),
-            IntrinsicWidth(
-              child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: List.generate(
-                      labels.length,
-                      (index) => PromotionDetailLine(
-                            label: labels[index],
-                            content: contents[index],
-                          ))),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                PromotionItem(
+                    promotion: promotion,
+                    height: 160,
+                    width: 260,
+                    onGetPromotion: () {}),
+                if (!Responsive.isMobile(context)) const SizedBox(width: 30),
+                if (!Responsive.isMobile(context))
+                  IntrinsicWidth(
+                    child: promotionDetails(labels, contents),
+                  ),
+              ],
             ),
+            if (Responsive.isMobile(context)) const SizedBox(height: 20),
+            if (Responsive.isMobile(context)) promotionDetails(labels, contents)
           ],
+        ),
+      ),
+    );
+  }
+
+  Column promotionDetails(List<String> labels, List<String> contents) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: List.generate(
+        labels.length,
+        (index) => PromotionDetailLine(
+          label: labels[index],
+          content: contents[index],
         ),
       ),
     );
