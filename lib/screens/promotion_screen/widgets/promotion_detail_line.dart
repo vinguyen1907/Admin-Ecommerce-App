@@ -15,6 +15,7 @@ class PromotionDetailLine extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(label, style: AppStyles.bodyLarge),
+        const SizedBox(width: 20),
         Text(content,
             style: AppStyles.bodyLarge.copyWith(color: AppColors.primaryColor)),
       ],
