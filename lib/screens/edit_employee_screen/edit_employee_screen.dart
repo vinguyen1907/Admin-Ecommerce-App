@@ -16,6 +16,7 @@ import 'package:admin_ecommerce_app/extensions/date_time_extension.dart';
 import 'package:admin_ecommerce_app/extensions/working_status_extension.dart';
 import 'package:admin_ecommerce_app/models/user.dart';
 import 'package:admin_ecommerce_app/repositories/user_repository.dart';
+import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/screens/edit_employee_screen/edit_employee_form_validators.dart';
 import 'package:admin_ecommerce_app/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -155,105 +156,17 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                                     validator: EditEmployeeFormValidators
                                         .passwordValidator,
                                   ),
+                                if (Responsive.isMobile(context))
+                                  personalInformationColumn(),
                               ],
                             ),
                           ),
                           const SizedBox(width: 20),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const TextFieldLabel("Name", isRequired: true),
-                                MyTextField(
-                                  controller: _nameController,
-                                  hintText: "Name",
-                                  validator:
-                                      EditEmployeeFormValidators.nameValidator,
-                                ),
-                                const TextFieldLabel("Date of birth",
-                                    isRequired: true),
-                                MyTextField(
-                                  controller: _dateOfBirthController,
-                                  hintText: "Date of birth",
-                                  readOnly: true,
-                                  suffixIcon: IconButton(
-                                      onPressed: _onPickDateOfBirth,
-                                      icon: const MyIcon(
-                                          icon: AppAssets.icCalendar)),
-                                ),
-                                const TextFieldLabel("Address",
-                                    isRequired: true),
-                                MyTextField(
-                                  controller: _addressController,
-                                  hintText: "Address",
-                                  validator: EditEmployeeFormValidators
-                                      .addressValidator,
-                                ),
-                                const TextFieldLabel("Salary (\$)",
-                                    isRequired: true),
-                                MyTextField(
-                                  controller: _salaryController,
-                                  hintText: "Salary",
-                                  validator: EditEmployeeFormValidators
-                                      .salaryValidator,
-                                ),
-                                const TextFieldLabel("Working status"),
-                                Container(
-                                  height: 40,
-                                  alignment: Alignment.centerLeft,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                          color: AppColors.greyColor)),
-                                  child: DropdownButton<WorkingStatus>(
-                                      isExpanded: true,
-                                      icon: const MyIcon(
-                                          icon: AppAssets.icArrowDown),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      borderRadius: BorderRadius.circular(8),
-                                      underline: const SizedBox(),
-                                      itemHeight: 48,
-                                      isDense: true,
-                                      value: workingStatus,
-                                      items: WorkingStatus.values
-                                          .map((e) =>
-                                              DropdownMenuItem<WorkingStatus>(
-                                                  value: e,
-                                                  child: Text(e.title)))
-                                          .toList(),
-                                      onChanged: (value) =>
-                                          _onSelectPromotionType(value)),
-                                ),
-                                const SizedBox(height: 12),
-                                if (widget.employee != null)
-                                  Row(
-                                    children: [
-                                      Checkbox(
-                                          value: resetPassword,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              resetPassword = value!;
-                                            });
-                                          }),
-                                      const Text("Reset password")
-                                    ],
-                                  ),
-                                const SizedBox(height: 12),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: MyElevatedButton(
-                                      onPressed: _onSubmit,
-                                      widget: Text(widget.employee == null
-                                          ? "Add"
-                                          : "Edit")),
-                                )
-                              ],
-                            ),
-                          ),
+                          if (!Responsive.isMobile(context))
+                            Expanded(child: personalInformationColumn()),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -261,6 +174,84 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Column personalInformationColumn() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const TextFieldLabel("Name", isRequired: true),
+        MyTextField(
+          controller: _nameController,
+          hintText: "Name",
+          validator: EditEmployeeFormValidators.nameValidator,
+        ),
+        const TextFieldLabel("Date of birth", isRequired: true),
+        MyTextField(
+          controller: _dateOfBirthController,
+          hintText: "Date of birth",
+          readOnly: true,
+          suffixIcon: IconButton(
+              onPressed: _onPickDateOfBirth,
+              icon: const MyIcon(icon: AppAssets.icCalendar)),
+        ),
+        const TextFieldLabel("Address", isRequired: true),
+        MyTextField(
+          controller: _addressController,
+          hintText: "Address",
+          validator: EditEmployeeFormValidators.addressValidator,
+        ),
+        const TextFieldLabel("Salary (\$)", isRequired: true),
+        MyTextField(
+          controller: _salaryController,
+          hintText: "Salary",
+          validator: EditEmployeeFormValidators.salaryValidator,
+        ),
+        const TextFieldLabel("Working status"),
+        Container(
+          height: 40,
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: AppColors.greyColor)),
+          child: DropdownButton<WorkingStatus>(
+              isExpanded: true,
+              icon: const MyIcon(icon: AppAssets.icArrowDown),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              borderRadius: BorderRadius.circular(8),
+              underline: const SizedBox(),
+              itemHeight: 48,
+              isDense: true,
+              value: workingStatus,
+              items: WorkingStatus.values
+                  .map((e) => DropdownMenuItem<WorkingStatus>(
+                      value: e, child: Text(e.title)))
+                  .toList(),
+              onChanged: (value) => _onSelectPromotionType(value)),
+        ),
+        const SizedBox(height: 12),
+        if (widget.employee != null)
+          Row(
+            children: [
+              Checkbox(
+                  value: resetPassword,
+                  onChanged: (value) {
+                    setState(() {
+                      resetPassword = value!;
+                    });
+                  }),
+              const Text("Reset password")
+            ],
+          ),
+        const SizedBox(height: 12),
+        Align(
+          alignment: Alignment.centerRight,
+          child: MyElevatedButton(
+              onPressed: _onSubmit,
+              widget: Text(widget.employee == null ? "Add" : "Edit")),
+        )
+      ],
     );
   }
 
