@@ -175,8 +175,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                                   ),
                                                   ImagePickerWidget(
                                                     height:
-                                                        size.width * 0.1 * 1.3,
-                                                    width: size.width * 0.1,
+                                                        size.width * 0.35 * 1.4,
+                                                    width: size.width * 0.35,
                                                     image: state.imageSelected,
                                                     onTap: _addImage,
                                                   ),
@@ -187,10 +187,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                           height: 10,
                                         ),
                                         Responsive.isMobile(context)
-                                            ? Row(
+                                            ? Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.stretch,
                                                 children: [
                                                   MyElevatedButton(
                                                       onPressed: () =>

@@ -20,6 +20,7 @@ class ImagePickerWidget extends StatelessWidget {
       child: Container(
         height: height,
         width: width,
+        margin: const EdgeInsets.symmetric(vertical: 4),
         decoration: BoxDecoration(
             image: image != null
                 ? DecorationImage(

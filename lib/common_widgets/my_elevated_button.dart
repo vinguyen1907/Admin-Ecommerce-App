@@ -4,8 +4,11 @@ import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:flutter/material.dart';
 
 class MyElevatedButton extends StatelessWidget {
-  const MyElevatedButton(
-      {super.key, required this.onPressed, required this.widget});
+  const MyElevatedButton({
+    super.key,
+    required this.onPressed,
+    required this.widget,
+  });
   final VoidCallback onPressed;
   final Widget widget;
   @override
