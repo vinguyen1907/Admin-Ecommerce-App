@@ -78,7 +78,7 @@ class PromotionRepository {
           id: notificationDoc.id,
           userId: "",
           title: "New promotion",
-          content: "",
+          content: content,
           createdAt: DateTime.now(),
           type: NotificationType.promotion);
 

@@ -47,6 +47,12 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    navigatorKey.currentState!.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: context.read<NavigationBloc>().state.scaffoldKey,
