@@ -95,8 +95,8 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                                   style: AppStyles.headlineMedium,
                                 ),
                                 ImagePickerWidget(
-                                  height: size.width * 0.1 * 1.3,
-                                  width: size.width * 0.1,
+                                  height: size.width * 0.35 * 1.3,
+                                  width: size.width * 0.35,
                                   image: state.imageSelected,
                                   onTap: _addImage,
                                 ),
