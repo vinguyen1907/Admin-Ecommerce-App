@@ -27,6 +27,19 @@ class PromotionRepository {
     }
   }
 
+  Future<int> fetchTotalPromotionCount() async {
+    try {
+      final snapshot = await promotionsRef
+          .where("isDeleted", isEqualTo: false)
+          .count()
+          .get();
+      final count = snapshot.count;
+      return count;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   Future<PromotionsWithLastDoc> fetchMorePromotions(
       {required DocumentSnapshot lastDocument, required int limit}) async {
     try {
