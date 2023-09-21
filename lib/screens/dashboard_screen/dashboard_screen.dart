@@ -3,6 +3,7 @@ import 'package:admin_ecommerce_app/blocs/orders_bloc/orders_bloc.dart';
 import 'package:admin_ecommerce_app/common_widgets/screen_horizontal_padding_widget.dart';
 import 'package:admin_ecommerce_app/common_widgets/screen_name_section.dart';
 import 'package:admin_ecommerce_app/constants/app_assets.dart';
+import 'package:admin_ecommerce_app/extensions/double_extension.dart';
 import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/screens/dashboard_screen/widgets/dashboard_charts.dart';
 import 'package:admin_ecommerce_app/screens/dashboard_screen/widgets/dashboard_statistics_item.dart';
@@ -57,7 +58,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         children: [
                           DashboardStatisticsItem(
                             title: "Total Sales",
-                            value: state.totalSales,
+                            value: state.totalSales.toPriceString(),
                             iconAsset: AppAssets.icDollar,
                             iconInnerColor: Colors.orangeAccent,
                             iconOuterColor:
@@ -66,7 +67,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           const SizedBox(height: 20),
                           DashboardStatisticsItem(
                             title: "Total Orders",
-                            value: state.totalOrdersCount.toDouble(),
+                            value: state.totalOrdersCount.toString(),
                             iconAsset: AppAssets.icBagBold,
                             iconInnerColor: Colors.greenAccent,
                             iconOuterColor: Colors.greenAccent.withOpacity(0.3),
@@ -74,7 +75,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           const SizedBox(height: 20),
                           DashboardStatisticsItem(
                             title: "Total Products",
-                            value: state.productCount.toDouble(),
+                            value: state.productCount.toString(),
                             iconAsset: AppAssets.icBoxBold,
                             iconInnerColor: Colors.blueAccent,
                             iconOuterColor: Colors.blueAccent.withOpacity(0.3),
@@ -88,7 +89,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             Expanded(
                               child: DashboardStatisticsItem(
                                 title: "Total Sales",
-                                value: state.totalSales,
+                                value: state.totalSales.toPriceString(),
                                 iconAsset: AppAssets.icDollar,
                                 iconInnerColor: Colors.orangeAccent,
                                 iconOuterColor:
@@ -99,7 +100,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             Expanded(
                               child: DashboardStatisticsItem(
                                 title: "Total Orders",
-                                value: state.totalOrdersCount.toDouble(),
+                                value: state.totalOrdersCount.toString(),
                                 iconAsset: AppAssets.icBagBold,
                                 iconInnerColor: Colors.greenAccent,
                                 iconOuterColor:
@@ -110,7 +111,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             Expanded(
                               child: DashboardStatisticsItem(
                                 title: "Total Products",
-                                value: state.productCount.toDouble(),
+                                value: state.productCount.toString(),
                                 iconAsset: AppAssets.icBoxBold,
                                 iconInnerColor: Colors.blueAccent,
                                 iconOuterColor:
