@@ -48,6 +48,31 @@ class ProductScreenBloc extends Bloc<ProductScreenEvent, ProductScreenState> {
         currentPageIndex: 0));
   }
 
+  _onLoadProduct1(
+      ProductScreenEvent event, Emitter<ProductScreenState> emit) async {
+    emit(LoadingProducts(
+        products: state.products,
+        categories: state.categories,
+        categorySelected: state.categorySelected,
+        firstDocument: state.firstDocument,
+        lastDocument: state.lastDocument,
+        query: state.query,
+        productsCount: state.productsCount,
+        currentPageIndex: state.currentPageIndex));
+    List<Category> categories = await CategoryRepository().fetchCategories();
+    PageInfo pageInfo =
+        await ProductRepository().getPageInfo(categories.first, '');
+    emit(ProductScreenLoaded(
+        products: pageInfo.products,
+        categories: categories,
+        categorySelected: categories.first,
+        firstDocument: pageInfo.firstDocument,
+        lastDocument: pageInfo.lastDocument,
+        query: '',
+        productsCount: pageInfo.productsCount,
+        currentPageIndex: 0));
+  }
+
   _onSearchProduct(
       SearchProduct event, Emitter<ProductScreenState> emit) async {
     emit(SearchingProduct(
@@ -156,6 +181,6 @@ class ProductScreenBloc extends Bloc<ProductScreenEvent, ProductScreenState> {
       DeleteProduct event, Emitter<ProductScreenState> emit) async {
     await ProductRepository()
         .deleteProduct(event.id)
-        .whenComplete(() => _onLoadProducts(event, emit));
+        .whenComplete(() => _onLoadProduct1(event, emit));
   }
 }

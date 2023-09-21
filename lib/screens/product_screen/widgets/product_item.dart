@@ -10,84 +10,91 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({super.key, required this.product});
+
   final Product product;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: AppColors.greyColor, width: 1)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(product.imgUrl), fit: BoxFit.cover),
-                borderRadius: BorderRadius.circular(8),
+    return BlocBuilder<ProductScreenBloc, ProductScreenState>(
+      builder: (context, state) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: AppColors.greyColor, width: 1)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(product.imgUrl), fit: BoxFit.cover),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
               ),
-            ),
+              Text(
+                product.name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppStyles.labelMedium,
+              ),
+              Text(
+                product.price.toPriceString(),
+                style:
+                    AppStyles.bodyLarge.copyWith(color: AppColors.primaryColor),
+              ),
+              const SizedBox(
+                height: 6,
+              ),
+              MyOutlinedButton(
+                  onPressed: () => _navigateEditProductScreen(context),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.edit,
+                        size: 16,
+                        color: AppColors.primaryColor,
+                      ),
+                      Text(
+                        'Edit',
+                        style: AppStyles.bodySmall
+                            .copyWith(color: AppColors.primaryColor),
+                      ),
+                    ],
+                  )),
+              const SizedBox(
+                height: 6,
+              ),
+              MyOutlinedButton(
+                  onPressed: () {
+                    _deleteProduct(context, product.id);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.delete,
+                        size: 16,
+                        color: Colors.redAccent,
+                      ),
+                      Text(
+                        'Delete',
+                        style: AppStyles.bodySmall
+                            .copyWith(color: Colors.redAccent),
+                      ),
+                    ],
+                  )),
+              const SizedBox(
+                height: 12,
+              ),
+            ],
           ),
-          Text(
-            product.name,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: AppStyles.labelMedium,
-          ),
-          Text(
-            product.price.toPriceString(),
-            style: AppStyles.bodyLarge.copyWith(color: AppColors.primaryColor),
-          ),
-          const SizedBox(
-            height: 6,
-          ),
-          MyOutlinedButton(
-              onPressed: () => _navigateEditProductScreen(context),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.edit,
-                    size: 16,
-                    color: AppColors.primaryColor,
-                  ),
-                  Text(
-                    'Edit',
-                    style: AppStyles.bodySmall
-                        .copyWith(color: AppColors.primaryColor),
-                  ),
-                ],
-              )),
-          const SizedBox(
-            height: 6,
-          ),
-          MyOutlinedButton(
-              onPressed: () {
-                _deleteProduct(context, product.id);
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.delete,
-                    size: 16,
-                    color: Colors.redAccent,
-                  ),
-                  Text(
-                    'Delete',
-                    style:
-                        AppStyles.bodySmall.copyWith(color: Colors.redAccent),
-                  ),
-                ],
-              )),
-          const SizedBox(
-            height: 12,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
