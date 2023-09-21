@@ -142,3 +142,19 @@ class SearchingProduct extends ProductScreenState {
   @override
   List<Object> get props => [];
 }
+
+class UpdatingProduct extends ProductScreenState {
+  final String productId;
+  const UpdatingProduct(
+      {required super.products,
+      required this.productId,
+      required super.categories,
+      required super.categorySelected,
+      required super.firstDocument,
+      required super.lastDocument,
+      required super.query,
+      required super.productsCount,
+      required super.currentPageIndex});
+  @override
+  List<Object> get props => [];
+}

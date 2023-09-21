@@ -1,5 +1,6 @@
 import 'package:admin_ecommerce_app/common_widgets/color_dot.dart';
 import 'package:admin_ecommerce_app/common_widgets/custom_loading_widget.dart';
+import 'package:admin_ecommerce_app/common_widgets/my_datatable.dart';
 import 'package:admin_ecommerce_app/common_widgets/primary_background.dart';
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_dimensions.dart';
@@ -51,14 +52,7 @@ class _OrderItemsTableState extends State<OrderItemsTable> {
               final orderItems = snapshot.data!;
               return SizedBox(
                 width: double.infinity,
-                child: DataTable(
-                  horizontalMargin: Responsive.isDesktop(context) ? 10 : 0,
-                  headingTextStyle: AppStyles.tableColumnName.copyWith(
-                      fontSize: !Responsive.isDesktop(context) ? 12 : null),
-                  dataTextStyle: AppStyles.tableCell.copyWith(
-                      fontSize: !Responsive.isDesktop(context) ? 12 : null),
-                  dataRowMaxHeight: 60,
-                  columnSpacing: 10,
+                child: MyDataTable(
                   columns: const [
                     DataColumn(label: Text("#")),
                     DataColumn(label: Text("Product")),

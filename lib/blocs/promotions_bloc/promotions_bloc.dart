@@ -37,11 +37,13 @@ class PromotionsBloc extends Bloc<PromotionsEvent, PromotionsState> {
     ));
     try {
       final promotions = await PromotionRepository().fetchLatestPromotions();
+      final int totalPromotionsCount =
+          await PromotionRepository().fetchTotalPromotionCount();
       emit(PromotionsLoaded(
         promotions: promotions.promotions,
         displayPromotions: promotions.promotions,
         searchPromotions: state.searchPromotions,
-        totalPromotionsCount: state.totalPromotionsCount,
+        totalPromotionsCount: totalPromotionsCount,
         lastDocument: promotions.lastDocument,
         currentPageIndex: state.currentPageIndex,
       ));
@@ -91,6 +93,7 @@ class PromotionsBloc extends Bloc<PromotionsEvent, PromotionsState> {
   }
 
   _onNextPage(NextPage event, Emitter<PromotionsState> emit) async {
+    print("Next page in bloc");
     try {
       final List<Promotion> currentList = state.promotions;
       final int newPageIndex = state.currentPageIndex + 1;

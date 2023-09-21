@@ -1,5 +1,6 @@
 import 'package:admin_ecommerce_app/constants/app_colors.dart';
 import 'package:admin_ecommerce_app/constants/app_styles.dart';
+import 'package:admin_ecommerce_app/extensions/double_extension.dart';
 import 'package:admin_ecommerce_app/models/product.dart';
 import 'package:admin_ecommerce_app/responsive.dart';
 import 'package:admin_ecommerce_app/screens/dashboard_screen/widgets/pie_chart_indicator.dart';
@@ -73,6 +74,7 @@ class ProductPieChartState extends State<ProductsPieChart> {
           GridView.builder(
             shrinkWrap: true,
             itemCount: data.length,
+            physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 5,
@@ -98,11 +100,11 @@ class ProductPieChartState extends State<ProductsPieChart> {
       final tabletRadius = isTouched ? 30.0 : 10.0;
       final double radius =
           Responsive.isDesktop(context) ? desktopRadius : tabletRadius;
-      final value = data[i]["value"];
+      final double value = data[i]["value"];
       return PieChartSectionData(
           color: data[i]["color"],
           value: value.toDouble(),
-          title: '${value / widget.totalSoldCount * 100}%',
+          title: '${(value / widget.totalSoldCount * 100).toFixedString(2)}%',
           radius: radius,
           titleStyle: AppStyles.bodySmall.copyWith(
               fontSize: fontSize,

@@ -124,7 +124,6 @@ class _AddProductStockScreenState extends State<AddProductStockScreen> {
                                   controller: _stockController,
                                   hintText: 'Stock',
                                   label: 'Stock',
-                                  validator: ValidatorUtils.validateImport,
                                 ),
                                 MyTextFormField(
                                   controller: _importController,

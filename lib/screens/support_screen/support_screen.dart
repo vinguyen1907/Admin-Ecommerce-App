@@ -40,6 +40,9 @@ class _SupportScreenState extends State<SupportScreen> {
                 ),
             itemCount: snapshot.data!.length);
       }
+      if (snapshot.hasError) {
+        return Text(snapshot.error.toString());
+      }
       return const SizedBox();
     },
   );

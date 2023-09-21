@@ -48,9 +48,9 @@ class ProductScreenBloc extends Bloc<ProductScreenEvent, ProductScreenState> {
         currentPageIndex: 0));
   }
 
-  _onLoadProduct1(
-      ProductScreenEvent event, Emitter<ProductScreenState> emit) async {
-    emit(LoadingProducts(
+  _onLoadProduct1(DeleteProduct event, Emitter<ProductScreenState> emit) async {
+    emit(UpdatingProduct(
+        productId: event.id,
         products: state.products,
         categories: state.categories,
         categorySelected: state.categorySelected,
@@ -179,6 +179,7 @@ class ProductScreenBloc extends Bloc<ProductScreenEvent, ProductScreenState> {
 
   FutureOr<void> _onDeleteProduct(
       DeleteProduct event, Emitter<ProductScreenState> emit) async {
+    // emit(UpdatingProduct(products: state.products, categories: state.categories, categorySelected: state.categorySelected, firstDocument: state.firstDocument, lastDocument: state.lastDocument, query: state.query, productsCount: state.productsCount, currentPageIndex: state.currentPageIndex));
     await ProductRepository()
         .deleteProduct(event.id)
         .whenComplete(() => _onLoadProduct1(event, emit));

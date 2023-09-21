@@ -350,7 +350,9 @@ class _EditPromotionScreenState extends State<EditPromotionScreen> {
             widget.promotion!.minimumOrderValue.toString();
       }
       _discountAmountController.text = widget.promotion!.amount.toString();
-      _quantityController.text = widget.promotion!.quantity.toString();
+      _quantityController.text = widget.promotion!.quantity != null
+          ? widget.promotion!.quantity.toString()
+          : '';
     }
   }
 
