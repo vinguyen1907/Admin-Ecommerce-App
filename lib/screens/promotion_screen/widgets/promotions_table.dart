@@ -59,9 +59,12 @@ class PromotionsTable extends StatelessWidget {
                         promotion.code,
                         overflow: TextOverflow.ellipsis,
                       )),
-                      DataCell(Text(
-                        promotion.content,
-                        overflow: TextOverflow.ellipsis,
+                      DataCell(SizedBox(
+                        width: 180,
+                        child: Text(
+                          promotion.content,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       )),
                       DataCell(Text(
                         promotion.startTime.toDateTimeFormat(),
