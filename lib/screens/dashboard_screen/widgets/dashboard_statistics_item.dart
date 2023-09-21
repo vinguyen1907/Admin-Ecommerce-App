@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class DashboardStatisticsItem extends StatelessWidget {
   final String iconAsset;
   final String title;
-  final double value;
+  final String value;
   final Color iconInnerColor;
   final Color iconOuterColor;
 
@@ -56,7 +56,7 @@ class DashboardStatisticsItem extends StatelessWidget {
                 style: AppStyles.bodySmall,
               ),
               Text(
-                "\$$value",
+                value,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: AppStyles.labelLarge,
